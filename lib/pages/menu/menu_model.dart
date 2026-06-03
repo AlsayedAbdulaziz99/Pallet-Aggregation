@@ -1,5 +1,6 @@
 import '/backend/api_requests/api_calls.dart';
 import '/backend/sqlite/sqlite_manager.dart';
+import '/buttons/auto_pack/auto_pack_widget.dart';
 import '/buttons/check_printing/check_printing_widget.dart';
 import '/buttons/decomission/decomission_widget.dart';
 import '/buttons/packing/packing_widget.dart';
@@ -17,6 +18,8 @@ class MenuModel extends FlutterFlowModel<MenuWidget> {
 
   ///  State fields for stateful widgets in this page.
 
+  // Model for AutoPack component.
+  late AutoPackModel autoPackModel;
   // Model for Packing component.
   late PackingModel packingModel;
   // Model for Decomission component.
@@ -38,6 +41,7 @@ class MenuModel extends FlutterFlowModel<MenuWidget> {
 
   @override
   void initState(BuildContext context) {
+    autoPackModel = createModel(context, () => AutoPackModel());
     packingModel = createModel(context, () => PackingModel());
     decomissionModel = createModel(context, () => DecomissionModel());
     printSSCCModel = createModel(context, () => PrintSSCCModel());
@@ -47,6 +51,7 @@ class MenuModel extends FlutterFlowModel<MenuWidget> {
 
   @override
   void dispose() {
+    autoPackModel.dispose();
     packingModel.dispose();
     decomissionModel.dispose();
     printSSCCModel.dispose();

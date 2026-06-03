@@ -405,6 +405,7 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
                                               _model.palletsscc,
                                               FFAppState().DateFormat,
                                               FFAppState().companyName,
+                                              1,
                                             );
                                           } else {
                                             if (FFAppState()

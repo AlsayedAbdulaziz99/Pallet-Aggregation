@@ -2,11 +2,11 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'packing_model.dart';
-export 'packing_model.dart';
+import 'auto_pack_model.dart';
+export 'auto_pack_model.dart';
 
-class PackingWidget extends StatefulWidget {
-  const PackingWidget({
+class AutoPackWidget extends StatefulWidget {
+  const AutoPackWidget({
     super.key,
     this.icon,
     this.textbutton,
@@ -16,11 +16,11 @@ class PackingWidget extends StatefulWidget {
   final String? textbutton;
 
   @override
-  State<PackingWidget> createState() => _PackingWidgetState();
+  State<AutoPackWidget> createState() => _AutoPackWidgetState();
 }
 
-class _PackingWidgetState extends State<PackingWidget> {
-  late PackingModel _model;
+class _AutoPackWidgetState extends State<AutoPackWidget> {
+  late AutoPackModel _model;
 
   @override
   void setState(VoidCallback callback) {
@@ -31,7 +31,7 @@ class _PackingWidgetState extends State<PackingWidget> {
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => PackingModel());
+    _model = createModel(context, () => AutoPackModel());
   }
 
   @override
@@ -64,7 +64,7 @@ class _PackingWidgetState extends State<PackingWidget> {
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(5.0, 0.0, 0.0, 0.0),
               child: Text(
-                'Manual Packing',
+                'Automatic Packing',
                 style: FlutterFlowTheme.of(context).titleLarge.override(
                       font: GoogleFonts.outfit(
                         fontWeight:
@@ -87,7 +87,7 @@ class _PackingWidgetState extends State<PackingWidget> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image.asset(
-                    'assets/images/packing2.png',
+                    'assets/images/AutoPack.png',
                     width: 65.0,
                     height: 70.0,
                     fit: BoxFit.contain,

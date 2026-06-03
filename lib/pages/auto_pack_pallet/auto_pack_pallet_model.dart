@@ -3,10 +3,10 @@ import '/backend/sqlite/sqlite_manager.dart';
 import '/components/footer_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
-import 'pack_pallet_event_widget.dart' show PackPalletEventWidget;
+import 'auto_pack_pallet_widget.dart' show AutoPackPalletWidget;
 import 'package:flutter/material.dart';
 
-class PackPalletEventModel extends FlutterFlowModel<PackPalletEventWidget> {
+class AutoPackPalletModel extends FlutterFlowModel<AutoPackPalletWidget> {
   ///  Local state fields for this page.
 
   String palletsscc = '0000000000000';
@@ -36,14 +36,8 @@ class PackPalletEventModel extends FlutterFlowModel<PackPalletEventWidget> {
   FocusNode? ssccFocusNode;
   TextEditingController? ssccTextController;
   String? Function(BuildContext, String?)? ssccTextControllerValidator;
-  // Stores action output result for [Backend Call - SQLite (Read SSCC Counter)] action in Button widget.
-  List<ReadSSCCCounterRow>? readSsccCounterOutput;
-  // Stores action output result for [Backend Call - SQLite (Load Generated SSCCs)] action in Button widget.
-  List<LoadGeneratedSSCCsRow>? loadGeneratedSSCCsOutput;
   // Stores action output result for [Backend Call - SQLite (Load Generated SSCCs)] action in Button widget.
   List<LoadGeneratedSSCCsRow>? loadGeneratedSSCCsResponse2;
-  // Stores action output result for [Backend Call - SQLite (Load Generated SSCCs)] action in Button widget.
-  List<LoadGeneratedSSCCsRow>? loadGeneratedSSCCsResponse;
   // Model for footer component.
   late FooterModel footerModel;
 

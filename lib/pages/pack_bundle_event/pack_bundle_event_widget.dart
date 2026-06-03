@@ -943,57 +943,7 @@ class _PackBundleEventWidgetState extends State<PackBundleEventWidget> {
                                                 _model.palletsscc,
                                                 FFAppState().DateFormat,
                                                 FFAppState().companyName,
-                                              );
-                                              await Future.delayed(
-                                                Duration(
-                                                  milliseconds: 2500,
-                                                ),
-                                              );
-                                              await actions.printLable(
-                                                FFAppState().PrinterIP,
-                                                FFAppState().batchNumber,
-                                                FFAppState().recipe,
-                                                FFAppState().gtin,
-                                                FFAppState().MFG,
-                                                FFAppState().EXP,
-                                                FFAppState().Quantity,
-                                                _model.palletsscc,
-                                                FFAppState().DateFormat,
-                                                FFAppState().companyName,
-                                              );
-                                              await Future.delayed(
-                                                Duration(
-                                                  milliseconds: 2500,
-                                                ),
-                                              );
-                                              await actions.printLable(
-                                                FFAppState().PrinterIP,
-                                                FFAppState().batchNumber,
-                                                FFAppState().recipe,
-                                                FFAppState().gtin,
-                                                FFAppState().MFG,
-                                                FFAppState().EXP,
-                                                FFAppState().Quantity,
-                                                _model.palletsscc,
-                                                FFAppState().DateFormat,
-                                                FFAppState().companyName,
-                                              );
-                                              await Future.delayed(
-                                                Duration(
-                                                  milliseconds: 2500,
-                                                ),
-                                              );
-                                              await actions.printLable(
-                                                FFAppState().PrinterIP,
-                                                FFAppState().batchNumber,
-                                                FFAppState().recipe,
-                                                FFAppState().gtin,
-                                                FFAppState().MFG,
-                                                FFAppState().EXP,
-                                                FFAppState().Quantity,
-                                                _model.palletsscc,
-                                                FFAppState().DateFormat,
-                                                FFAppState().companyName,
+                                                1,
                                               );
                                               FFAppState().verify = true;
                                               safeSetState(() {});

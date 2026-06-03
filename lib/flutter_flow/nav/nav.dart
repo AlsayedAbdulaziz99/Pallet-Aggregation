@@ -159,6 +159,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ParamType.String,
             ),
           ),
+        ),
+        FFRoute(
+          name: AutoPackPalletWidget.routeName,
+          path: AutoPackPalletWidget.routePath,
+          builder: (context, params) => AutoPackPalletWidget(
+            gneratedSSCC: params.getParam(
+              'gneratedSSCC',
+              ParamType.String,
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

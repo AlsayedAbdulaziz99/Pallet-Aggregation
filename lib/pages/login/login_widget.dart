@@ -1,13 +1,11 @@
 import '/backend/api_requests/api_calls.dart';
-import '/backend/sqlite/sqlite_manager.dart';
 import '/components/footer_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/custom_code/actions/index.dart' as actions;
-import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'login_model.dart';
@@ -32,6 +30,12 @@ class _LoginWidgetState extends State<LoginWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => LoginModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.batchImported = false;
+      safeSetState(() {});
+    });
 
     _model.usernameTextController ??= TextEditingController();
     _model.usernameFocusNode ??= FocusNode();
@@ -437,65 +441,175 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   ),
                                 ),
                                 FFButtonWidget(
-                                  onPressed: () async {
-                                    var _shouldSetState = false;
-                                    if ((_model.usernameTextController
-                                                    .text !=
-                                                '') &&
-                                        (_model.passwordTextController
-                                                    .text !=
-                                                '')) {
-                                      if ((_model.usernameTextController.text ==
-                                              'admin') &&
-                                          (_model.passwordTextController.text ==
-                                              'M@nex')) {
-                                        context.pushNamed(
-                                            SettingsWidget.routeName);
-                                      } else {
-                                        if ((_model.usernameTextController
-                                                    .text ==
-                                                'all') &&
-                                            (_model.passwordTextController
-                                                    .text ==
-                                                'all')) {
-                                          context.pushNamed(
-                                              TestingWidget.routeName);
-                                        } else {
-                                          _model.encryptedPassword =
-                                              await actions.encryptPassword(
-                                            _model.passwordTextController.text,
-                                          );
-                                          _shouldSetState = true;
-                                          _model.validateUserOutput =
-                                              await SQLiteManager.instance
-                                                  .validateUser(
-                                            username: _model
-                                                .usernameTextController.text,
-                                            password: _model.encryptedPassword!,
-                                          );
-                                          _shouldSetState = true;
-                                          if (functions
-                                                  .getValidateUserQuerySize(
-                                                      _model.validateUserOutput
-                                                          ?.toList())
-                                                  .toString() !=
-                                              '0') {
-                                            FFAppState().userLevel = _model
-                                                .validateUserOutput!
-                                                .firstOrNull!
-                                                .level!;
-                                            safeSetState(() {});
+                                  onPressed: _model.batchImported
+                                      ? null
+                                      : () async {
+                                          var _shouldSetState = false;
+                                          if ((_model.usernameTextController
+                                                          .text !=
+                                                      '') &&
+                                              (_model.passwordTextController
+                                                          .text !=
+                                                      '')) {
+                                            if ((_model.usernameTextController
+                                                        .text ==
+                                                    'admin') &&
+                                                (_model.passwordTextController
+                                                        .text ==
+                                                    'M@nex')) {
+                                              context.pushNamed(
+                                                  SettingsWidget.routeName);
 
-                                            context.pushNamed(
-                                                MenuWidget.routeName);
+                                              if (_shouldSetState)
+                                                safeSetState(() {});
+                                              return;
+                                            } else {
+                                              if ((_model.usernameTextController
+                                                          .text ==
+                                                      'all') &&
+                                                  (_model.passwordTextController
+                                                          .text ==
+                                                      'all')) {
+                                                context.pushNamed(
+                                                    TestingWidget.routeName);
+
+                                                if (_shouldSetState)
+                                                  safeSetState(() {});
+                                                return;
+                                              } else {
+                                                _model.userLoginResponse =
+                                                    await UserloginCall.call(
+                                                  username: _model
+                                                      .usernameTextController
+                                                      .text,
+                                                  password: _model
+                                                      .passwordTextController
+                                                      .text,
+                                                );
+
+                                                _shouldSetState = true;
+                                                if ((_model.userLoginResponse
+                                                        ?.succeeded ??
+                                                    true)) {
+                                                  if (!UserloginCall
+                                                      .errorStatus(
+                                                    (_model.userLoginResponse
+                                                            ?.jsonBody ??
+                                                        ''),
+                                                  )!) {
+                                                    if (UserloginCall.status(
+                                                      (_model.userLoginResponse
+                                                              ?.jsonBody ??
+                                                          ''),
+                                                    )!) {
+                                                      FFAppState().userLevel =
+                                                          UserloginCall
+                                                              .userLevel(
+                                                        (_model.userLoginResponse
+                                                                ?.jsonBody ??
+                                                            ''),
+                                                      )!;
+                                                      safeSetState(() {});
+
+                                                      context.pushNamed(
+                                                          MenuWidget.routeName);
+
+                                                      if (_shouldSetState)
+                                                        safeSetState(() {});
+                                                      return;
+                                                    } else {
+                                                      await showDialog(
+                                                        context: context,
+                                                        builder:
+                                                            (alertDialogContext) {
+                                                          return AlertDialog(
+                                                            title:
+                                                                Text('Error'),
+                                                            content: Text(
+                                                                UserloginCall
+                                                                    .msg(
+                                                              (_model.userLoginResponse
+                                                                      ?.jsonBody ??
+                                                                  ''),
+                                                            )!),
+                                                            actions: [
+                                                              TextButton(
+                                                                onPressed: () =>
+                                                                    Navigator.pop(
+                                                                        alertDialogContext),
+                                                                child:
+                                                                    Text('Ok'),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
+                                                      );
+                                                      if (_shouldSetState)
+                                                        safeSetState(() {});
+                                                      return;
+                                                    }
+                                                  } else {
+                                                    await showDialog(
+                                                      context: context,
+                                                      builder:
+                                                          (alertDialogContext) {
+                                                        return AlertDialog(
+                                                          title: Text('Error'),
+                                                          content: Text(
+                                                              UserloginCall
+                                                                  .error(
+                                                            (_model.userLoginResponse
+                                                                    ?.jsonBody ??
+                                                                ''),
+                                                          ).toString()),
+                                                          actions: [
+                                                            TextButton(
+                                                              onPressed: () =>
+                                                                  Navigator.pop(
+                                                                      alertDialogContext),
+                                                              child: Text('Ok'),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
+                                                    if (_shouldSetState)
+                                                      safeSetState(() {});
+                                                    return;
+                                                  }
+                                                } else {
+                                                  await showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (alertDialogContext) {
+                                                      return AlertDialog(
+                                                        title: Text('Error'),
+                                                        content: Text(
+                                                            'Server Error Check WIFI Connection!'),
+                                                        actions: [
+                                                          TextButton(
+                                                            onPressed: () =>
+                                                                Navigator.pop(
+                                                                    alertDialogContext),
+                                                            child: Text('Ok'),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  );
+                                                  if (_shouldSetState)
+                                                    safeSetState(() {});
+                                                  return;
+                                                }
+                                              }
+                                            }
                                           } else {
                                             await showDialog(
                                               context: context,
                                               builder: (alertDialogContext) {
                                                 return AlertDialog(
-                                                  title: Text('Error'),
-                                                  content: Text(
-                                                      'Check username or password'),
+                                                  title: Text(
+                                                      'Empty Username or Password'),
                                                   actions: [
                                                     TextButton(
                                                       onPressed: () =>
@@ -507,32 +621,14 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                 );
                                               },
                                             );
+                                            if (_shouldSetState)
+                                              safeSetState(() {});
+                                            return;
                                           }
-                                        }
-                                      }
-                                    } else {
-                                      await showDialog(
-                                        context: context,
-                                        builder: (alertDialogContext) {
-                                          return AlertDialog(
-                                            title: Text(
-                                                'Empty Username or Password'),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () => Navigator.pop(
-                                                    alertDialogContext),
-                                                child: Text('Ok'),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                      if (_shouldSetState) safeSetState(() {});
-                                      return;
-                                    }
 
-                                    if (_shouldSetState) safeSetState(() {});
-                                  },
+                                          if (_shouldSetState)
+                                            safeSetState(() {});
+                                        },
                                   text: 'Login',
                                   icon: Icon(
                                     Icons.lock_person_sharp,
@@ -577,17 +673,17 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       width: 1.0,
                                     ),
                                     borderRadius: BorderRadius.circular(8.0),
+                                    disabledColor:
+                                        FlutterFlowTheme.of(context).alternate,
                                   ),
                                 ),
                                 FFButtonWidget(
                                   onPressed: () async {
-                                    var _shouldSetState = false;
                                     await Future.wait([
                                       Future(() async {
                                         _model.getBatchInfoResponse =
                                             await GetBatchInfoCall.call();
 
-                                        _shouldSetState = true;
                                         if ((_model.getBatchInfoResponse
                                                 ?.succeeded ??
                                             true)) {
@@ -641,16 +737,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                       .error,
                                             ),
                                           );
-                                          if (_shouldSetState)
-                                            safeSetState(() {});
-                                          return;
                                         }
                                       }),
                                       Future(() async {
                                         _model.getCompanyInfoResponse =
                                             await GetCompanyInfoCall.call();
 
-                                        _shouldSetState = true;
                                         if ((_model.getCompanyInfoResponse
                                                 ?.succeeded ??
                                             true)) {
@@ -698,9 +790,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                       .error,
                                             ),
                                           );
-                                          if (_shouldSetState)
-                                            safeSetState(() {});
-                                          return;
                                         }
                                       }),
                                     ]);
@@ -709,7 +798,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       recipeName: FFAppState().recipe,
                                     );
 
-                                    _shouldSetState = true;
                                     if ((_model.getGTINResponse?.succeeded ??
                                         true)) {
                                       FFAppState().gtin = GetGTINCall.gtin(
@@ -722,176 +810,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                                             ''),
                                       )!;
                                       safeSetState(() {});
-                                    }
-                                    await SQLiteManager.instance
-                                        .deleteAllBatchSerials();
-                                    await SQLiteManager.instance
-                                        .deleteAllUsers();
-                                    await SQLiteManager.instance
-                                        .deleteAllSsccData();
-                                    await SQLiteManager.instance
-                                        .deleteAggregationConfig();
-                                    await SQLiteManager.instance
-                                        .deleteBatchCartons();
-                                    _model.cartonPalletRelationResponse =
-                                        await CartonPalletRelationCall.call(
-                                      btachNumber: FFAppState().batchNumber,
-                                    );
-
-                                    _shouldSetState = true;
-                                    if ((_model.cartonPalletRelationResponse
-                                            ?.succeeded ??
-                                        true)) {
-                                      _model.loopCounter =
-                                          CartonPalletRelationCall.cartons(
-                                        (_model.cartonPalletRelationResponse
-                                                ?.jsonBody ??
-                                            ''),
-                                      )!
-                                              .length;
-                                      safeSetState(() {});
-                                      _model.loopCounter =
-                                          _model.loopCounter + -1;
-                                      safeSetState(() {});
-                                      while (_model.loopCounter >= 0) {
-                                        await SQLiteManager.instance
-                                            .updateSerialsAfterImporting(
-                                          shippersscc:
-                                              (CartonPalletRelationCall.cartons(
-                                            (_model.cartonPalletRelationResponse
-                                                    ?.jsonBody ??
-                                                ''),
-                                          )!
-                                                  .elementAtOrNull(
-                                                      _model.loopCounter))!,
-                                          palletsscc:
-                                              (CartonPalletRelationCall.pallets(
-                                            (_model.cartonPalletRelationResponse
-                                                    ?.jsonBody ??
-                                                ''),
-                                          )!
-                                                  .elementAtOrNull(
-                                                      _model.loopCounter))!,
-                                        );
-                                        _model.loopCounter =
-                                            _model.loopCounter + -1;
-                                        safeSetState(() {});
-                                      }
-                                      _model.loadBatchCartonsResponse =
-                                          await LoadBatchSerialsCall.call(
-                                        batchNumber: FFAppState().batchNumber,
-                                      );
-
-                                      _shouldSetState = true;
-                                      _model.loopCounter =
-                                          LoadBatchSerialsCall.batchCartons(
-                                                (_model.loadBatchCartonsResponse
-                                                        ?.jsonBody ??
-                                                    ''),
-                                              )!
-                                                  .length -
-                                              1;
-                                      safeSetState(() {});
-                                      while (_model.loopCounter >= 0) {
-                                        await SQLiteManager.instance
-                                            .insertBatchCartons(
-                                          cartonsscc: (LoadBatchSerialsCall
-                                                  .batchCartons(
-                                            (_model.loadBatchCartonsResponse
-                                                    ?.jsonBody ??
-                                                ''),
-                                          )!
-                                              .elementAtOrNull(
-                                                  _model.loopCounter))!,
-                                        );
-                                        _model.loopCounter =
-                                            _model.loopCounter + -1;
-                                        safeSetState(() {});
-                                      }
-                                      _model.loadUsersOutput =
-                                          await LoadUsersCall.call();
-
-                                      _shouldSetState = true;
-                                      if ((_model.loadUsersOutput?.succeeded ??
-                                          true)) {
-                                        _model.usersCount = LoadUsersCall.users(
-                                          (_model.loadUsersOutput?.jsonBody ??
-                                              ''),
-                                        )!
-                                            .length;
-                                        safeSetState(() {});
-                                        _model.usersCount =
-                                            _model.usersCount + -1;
-                                        safeSetState(() {});
-                                        while (_model.usersCount >= 0) {
-                                          await SQLiteManager.instance.addUsers(
-                                            username: (LoadUsersCall.users(
-                                              (_model.loadUsersOutput
-                                                      ?.jsonBody ??
-                                                  ''),
-                                            )!
-                                                .elementAtOrNull(
-                                                    _model.usersCount))!,
-                                            password: (LoadUsersCall.passwords(
-                                              (_model.loadUsersOutput
-                                                      ?.jsonBody ??
-                                                  ''),
-                                            )!
-                                                .elementAtOrNull(
-                                                    _model.usersCount))!,
-                                            level: (LoadUsersCall.levels(
-                                              (_model.loadUsersOutput
-                                                      ?.jsonBody ??
-                                                  ''),
-                                            )!
-                                                .elementAtOrNull(
-                                                    _model.usersCount))!,
-                                          );
-                                          _model.usersCount =
-                                              _model.usersCount + -1;
-                                          safeSetState(() {});
-                                        }
-                                        await SQLiteManager.instance
-                                            .insertAggregationConfig(
-                                          shipperCount:
-                                              int.parse(FFAppState().Quantity),
-                                          companyPrefix:
-                                              FFAppState().companyPrefix,
-                                          palletCounter:
-                                              FFAppState().palletCounter,
-                                          extensionDigit: int.parse(
-                                              FFAppState().extensionDigit),
-                                        );
-                                      } else {
-                                        if (_shouldSetState)
-                                          safeSetState(() {});
-                                        return;
-                                      }
-
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            'Batch Imported Sccessully',
-                                            style: TextStyle(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                            ),
-                                          ),
-                                          duration:
-                                              Duration(milliseconds: 4000),
-                                          backgroundColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .secondary,
-                                        ),
-                                      );
                                     } else {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
                                           content: Text(
-                                            'Data Didn\'t Import Successfully!',
+                                            'Server Error!',
                                             style: TextStyle(
                                               color:
                                                   FlutterFlowTheme.of(context)
@@ -899,7 +823,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                             ),
                                           ),
                                           duration:
-                                              Duration(milliseconds: 3000),
+                                              Duration(milliseconds: 2000),
                                           backgroundColor:
                                               FlutterFlowTheme.of(context)
                                                   .error,
@@ -907,7 +831,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       );
                                     }
 
-                                    if (_shouldSetState) safeSetState(() {});
+                                    _model.batchImported = true;
+                                    safeSetState(() {});
+
+                                    safeSetState(() {});
                                   },
                                   text: 'Import Machine Config',
                                   icon: Icon(
