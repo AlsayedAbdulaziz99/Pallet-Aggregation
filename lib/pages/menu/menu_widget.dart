@@ -1,6 +1,7 @@
 import '/backend/api_requests/api_calls.dart';
 import '/backend/schema/structs/index.dart';
 import '/backend/sqlite/sqlite_manager.dart';
+import '/buttons/auto_pack/auto_pack_widget.dart';
 import '/buttons/check_printing/check_printing_widget.dart';
 import '/buttons/decomission/decomission_widget.dart';
 import '/buttons/packing/packing_widget.dart';
@@ -9,6 +10,7 @@ import '/components/footer_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/flutter_flow/random_data_util.dart' as random_data;
 import '/index.dart';
@@ -110,6 +112,14 @@ class _MenuWidgetState extends State<MenuWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
+                    width: 100.0,
+                    height: 1.0,
+                    child: custom_widgets.Getscannerdatawidget(
+                      width: 100.0,
+                      height: 1.0,
+                    ),
+                  ),
+                  Container(
                     width: double.infinity,
                     height: 438.0,
                     decoration: BoxDecoration(
@@ -120,6 +130,11 @@ class _MenuWidgetState extends State<MenuWidget> {
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
+                          wrapWithModel(
+                            model: _model.autoPackModel,
+                            updateCallback: () => safeSetState(() {}),
+                            child: AutoPackWidget(),
+                          ),
                           InkWell(
                             splashColor: Colors.transparent,
                             focusColor: Colors.transparent,

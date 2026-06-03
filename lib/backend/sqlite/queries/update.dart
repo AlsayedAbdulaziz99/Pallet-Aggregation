@@ -224,7 +224,7 @@ Future performUpdateBatchSerials(
   String? cartonSSCC,
 }) {
   final query = '''
-UPDATE batch_serials SET pallet_sscc = "${palletSSCC}" WHERE shipper_sscc = "${cartonSSCC}";
+UPDATE batch_serials SET pallet_sscc = "${palletSSCC}" WHERE shipper_sscc IN (${cartonSSCC});
 ''';
   return database.rawQuery(query);
 }

@@ -4,11 +4,13 @@ import '/backend/sqlite/sqlite_manager.dart';
 import '/actions/actions.dart' as action_blocks;
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'index.dart'; // Imports other custom actions
+import '/custom_code/actions/index.dart'; // Imports other custom actions
 import '/flutter_flow/custom_functions.dart'; // Imports custom functions
 import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
+
+import 'index.dart'; // Imports other custom actions
 
 import 'index.dart'; // Imports other custom actions
 
@@ -26,25 +28,36 @@ Future printLable(
     String qty,
     String sscc,
     String dateFormat,
-    String companyName) async {
-  // Add your function code here!
+    String companyName,
+    int numberOfLabels) async {
   String zpl = formatZplCode(
       batchNo, recipe, gtin, mfg, exp, qty, sscc, dateFormat, companyName);
-  printZpl(printerIP, zpl);
+  await printZpl(printerIP, zpl, numberOfLabels);
 }
 
-Future<Map> printZpl(String printerIp, String zplCode) async {
+// Delay between labels (ms) — gives the printer time to finish one job before receiving the next.
+const int _delayBetweenLabelsMs = 2500;
+
+Future<Map> printZpl(String printerIp, String zplCode, int copies) async {
+  if (copies <= 0)
+    return {'result': null, 'message': 'numberOfLabels must be > 0'};
   try {
     return await Zebrautility.getPrinterInstance()
         .then((ZebraPrinter zebraPrinter) async {
       await zebraPrinter.connectToPrinter(printerIp);
-      return Future.delayed(const Duration(milliseconds: 500), () {
-        zebraPrinter.print(zplCode.toString());
-        Future.delayed(const Duration(milliseconds: 500), () {
-          zebraPrinter.disconnect();
-        });
-        return {'result': true, 'message': 'good'};
-      });
+      // Wait for the connection to stabilise before sending data.
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      for (int i = 0; i < copies; i++) {
+        zebraPrinter.print(zplCode);
+        // After the last label we still wait briefly before disconnecting
+        // so the printer has time to start processing the job.
+        await Future.delayed(Duration(
+            milliseconds: i < copies - 1 ? _delayBetweenLabelsMs : 800));
+      }
+
+      zebraPrinter.disconnect();
+      return {'result': true, 'message': 'Printed $copies label(s)'};
     });
   } catch (error) {
     return {'result': null, 'message': error.toString()};

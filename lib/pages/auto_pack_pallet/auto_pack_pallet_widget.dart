@@ -6,39 +6,38 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
-import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'pack_pallet_event_model.dart';
-export 'pack_pallet_event_model.dart';
+import 'auto_pack_pallet_model.dart';
+export 'auto_pack_pallet_model.dart';
 
-class PackPalletEventWidget extends StatefulWidget {
-  const PackPalletEventWidget({
+class AutoPackPalletWidget extends StatefulWidget {
+  const AutoPackPalletWidget({
     super.key,
     this.gneratedSSCC,
   });
 
   final String? gneratedSSCC;
 
-  static String routeName = 'Pack_Pallet_Event';
-  static String routePath = '/packPalletEvent';
+  static String routeName = 'Auto_Pack_Pallet';
+  static String routePath = '/autoPackPallet';
 
   @override
-  State<PackPalletEventWidget> createState() => _PackPalletEventWidgetState();
+  State<AutoPackPalletWidget> createState() => _AutoPackPalletWidgetState();
 }
 
-class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
-  late PackPalletEventModel _model;
+class _AutoPackPalletWidgetState extends State<AutoPackPalletWidget> {
+  late AutoPackPalletModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => PackPalletEventModel());
+    _model = createModel(context, () => AutoPackPalletModel());
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
@@ -316,64 +315,6 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                             .bodyMedium
                                             .fontStyle,
                                       ),
-                                ),
-                              ),
-                              Align(
-                                alignment: AlignmentDirectional(1.0, -1.0),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 10.0, 0.0),
-                                  child: FFButtonWidget(
-                                    onPressed: () async {
-                                      _model.scannedSSCCs = [];
-                                      safeSetState(() {});
-                                    },
-                                    text: 'Clear List',
-                                    icon: Icon(
-                                      Icons.delete_rounded,
-                                      size: 25.0,
-                                    ),
-                                    options: FFButtonOptions(
-                                      width: 114.0,
-                                      height: 40.0,
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          10.0, 0.0, 10.0, 0.0),
-                                      iconPadding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      color: FlutterFlowTheme.of(context).error,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleMedium
-                                          .override(
-                                            font: GoogleFonts.readexPro(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleMedium
-                                                      .fontStyle,
-                                            ),
-                                            fontSize: 16.0,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .titleMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .titleMedium
-                                                    .fontStyle,
-                                          ),
-                                      elevation: 3.0,
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                  ),
                                 ),
                               ),
                             ],
@@ -743,133 +684,6 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                     ),
                                   ),
                                 ),
-                                Align(
-                                  alignment: AlignmentDirectional(0.0, 0.0),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        5.0, 10.0, 0.0, 0.0),
-                                    child: FFButtonWidget(
-                                      onPressed: () async {
-                                        _model.readSsccCounterOutput =
-                                            await SQLiteManager.instance
-                                                .readSSCCCounter(
-                                          companyPrefix:
-                                              FFAppState().companyPrefix,
-                                        );
-                                        _model.palletsscc =
-                                            functions.ssccGenerator(
-                                                FFAppState().companyPrefix,
-                                                FFAppState().extensionDigit,
-                                                _model.readSsccCounterOutput!
-                                                    .firstOrNull!.palletCounter
-                                                    .toString());
-                                        _model.palletCounter = _model
-                                            .readSsccCounterOutput!
-                                            .firstOrNull!
-                                            .palletCounter;
-                                        safeSetState(() {});
-                                        _model.loadGeneratedSSCCsOutput =
-                                            await SQLiteManager.instance
-                                                .loadGeneratedSSCCs(
-                                          generatedSSCC: _model.palletsscc,
-                                        );
-                                        if (functions
-                                                .getGeneratedSSCCQuerySize(_model
-                                                    .loadGeneratedSSCCsOutput
-                                                    ?.toList())
-                                                .toString() !=
-                                            '0') {
-                                          _model.palletCounter =
-                                              _model.palletCounter + 1;
-                                          safeSetState(() {});
-                                          await SQLiteManager.instance
-                                              .updatePalletCounter(
-                                            palletCounter: _model.palletCounter,
-                                            companyPrefix:
-                                                FFAppState().companyPrefix,
-                                          );
-                                          await showDialog(
-                                            context: context,
-                                            builder: (alertDialogContext) {
-                                              return AlertDialog(
-                                                title: Text('Error'),
-                                                content:
-                                                    Text('Please Try Again'),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(
-                                                            alertDialogContext),
-                                                    child: Text('Ok'),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        } else {
-                                          safeSetState(() {
-                                            _model.ssccTextController?.text =
-                                                _model.palletsscc;
-                                          });
-                                          _model.palletCounter =
-                                              _model.palletCounter + 1;
-                                          safeSetState(() {});
-                                          await SQLiteManager.instance
-                                              .updatePalletCounter(
-                                            palletCounter: _model.palletCounter,
-                                            companyPrefix:
-                                                FFAppState().companyPrefix,
-                                          );
-                                        }
-
-                                        safeSetState(() {});
-                                      },
-                                      text: 'Generate SSCC',
-                                      icon: Icon(
-                                        Icons.downloading_rounded,
-                                        size: 20.0,
-                                      ),
-                                      options: FFButtonOptions(
-                                        width: 150.0,
-                                        height: 40.0,
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0.0, 0.0, 0.0, 0.0),
-                                        iconAlignment: IconAlignment.start,
-                                        iconPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                0.0, 0.0, 0.0, 0.0),
-                                        color: FlutterFlowTheme.of(context)
-                                            .success,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .titleSmall
-                                            .override(
-                                              font: GoogleFonts.readexPro(
-                                                fontWeight: FontWeight.normal,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleSmall
-                                                        .fontStyle,
-                                              ),
-                                              color: Colors.white,
-                                              fontSize: 18.0,
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.normal,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleSmall
-                                                      .fontStyle,
-                                            ),
-                                        elevation: 3.0,
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
                               ],
                             ),
                           ],
@@ -1008,196 +822,6 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                           ),
                                           color: Colors.white,
                                           fontSize: 15.0,
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.normal,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .titleSmall
-                                                  .fontStyle,
-                                        ),
-                                    elevation: 3.0,
-                                    borderSide: BorderSide(
-                                      color: Colors.transparent,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    disabledColor:
-                                        FlutterFlowTheme.of(context).alternate,
-                                  ),
-                                ),
-                              ),
-                              Align(
-                                alignment: AlignmentDirectional(0.0, 0.0),
-                                child: FFButtonWidget(
-                                  onPressed: (_model.scannedSSCCs.length !=
-                                          _model.maxPalletSize)
-                                      ? null
-                                      : () async {
-                                          var _shouldSetState = false;
-                                          if ((_model.ssccTextController
-                                                          .text !=
-                                                      '') &&
-                                              (FFAppState().PrinterIP !=
-                                                      '')) {
-                                            _model.loadGeneratedSSCCsResponse =
-                                                await SQLiteManager.instance
-                                                    .loadGeneratedSSCCs(
-                                              generatedSSCC: _model
-                                                  .ssccTextController.text,
-                                            );
-                                            _shouldSetState = true;
-                                            if (_model
-                                                    .loadGeneratedSSCCsResponse
-                                                    ?.length ==
-                                                0) {
-                                              ScaffoldMessenger.of(context)
-                                                  .clearSnackBars();
-                                              _model.loopCounter =
-                                                  FFAppState().scannedListSize -
-                                                      1;
-                                              FFAppState().CartonsToAggregate =
-                                                  FFAppState()
-                                                      .scannedatalist
-                                                      .toList()
-                                                      .cast<String>();
-                                              safeSetState(() {});
-                                              await actions.printLable(
-                                                FFAppState().PrinterIP,
-                                                FFAppState().batchNumber,
-                                                FFAppState().recipe,
-                                                FFAppState().gtin,
-                                                FFAppState().MFG,
-                                                FFAppState().EXP,
-                                                FFAppState().Quantity,
-                                                _model.palletsscc,
-                                                FFAppState().DateFormat,
-                                                FFAppState().companyName,
-                                                4,
-                                              );
-                                              FFAppState().verify = true;
-                                              safeSetState(() {});
-
-                                              context.goNamed(
-                                                MenuWidget.routeName,
-                                                queryParameters: {
-                                                  'palletSSCC': serializeParam(
-                                                    _model.ssccTextController
-                                                        .text,
-                                                    ParamType.String,
-                                                  ),
-                                                  'loopCounter': serializeParam(
-                                                    _model.loopCounter,
-                                                    ParamType.int,
-                                                  ),
-                                                  'cartonsList': serializeParam(
-                                                    FFAppState()
-                                                        .CartonsToAggregate,
-                                                    ParamType.String,
-                                                    isList: true,
-                                                  ),
-                                                }.withoutNulls,
-                                              );
-                                            } else {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    'Pallet SSCC Has Been Used, Generate Another One',
-                                                    style: TextStyle(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primaryText,
-                                                    ),
-                                                  ),
-                                                  duration: Duration(
-                                                      milliseconds: 2500),
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .error,
-                                                ),
-                                              );
-                                            }
-                                          } else {
-                                            if (FFAppState()
-                                                    .scannedatalist
-                                                    .length ==
-                                                0) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    'Please Scan Carton First',
-                                                    style: TextStyle(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primaryText,
-                                                    ),
-                                                  ),
-                                                  duration: Duration(
-                                                      milliseconds: 4000),
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondary,
-                                                ),
-                                              );
-                                            } else {
-                                              await showDialog(
-                                                context: context,
-                                                builder: (alertDialogContext) {
-                                                  return AlertDialog(
-                                                    title: Text('Error'),
-                                                    content: Text(
-                                                        'check sscc and printer ip'),
-                                                    actions: [
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                alertDialogContext),
-                                                        child: Text('Ok'),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              );
-                                            }
-
-                                            if (_shouldSetState)
-                                              safeSetState(() {});
-                                            return;
-                                          }
-
-                                          if (_shouldSetState)
-                                            safeSetState(() {});
-                                        },
-                                  text: 'Print Pallet',
-                                  icon: Icon(
-                                    Icons.print,
-                                    size: 20.0,
-                                  ),
-                                  options: FFButtonOptions(
-                                    width: 150.0,
-                                    height: 40.0,
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        24.0, 0.0, 24.0, 0.0),
-                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 0.0),
-                                    color: FlutterFlowTheme.of(context).success,
-                                    textStyle: FlutterFlowTheme.of(context)
-                                        .titleSmall
-                                        .override(
-                                          font: GoogleFonts.readexPro(
-                                            fontWeight: FontWeight.normal,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .titleSmall
-                                                    .fontStyle,
-                                          ),
-                                          color: Colors.white,
-                                          fontSize: 14.0,
                                           letterSpacing: 0.0,
                                           fontWeight: FontWeight.normal,
                                           fontStyle:

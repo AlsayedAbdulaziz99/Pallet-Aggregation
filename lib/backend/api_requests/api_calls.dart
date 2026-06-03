@@ -24,8 +24,7 @@ class UserloginCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Userlogin',
-      apiUrl:
-          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/Tatmeen_Backend/UAM/userlogin',
+      apiUrl: 'https://3d62-41-236-219-117.ngrok-free.app/RemoteAgg/user_login',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -40,10 +39,39 @@ class UserloginCall {
     );
   }
 
-  static dynamic loginstatus(dynamic response) => getJsonField(
+  static bool? status(dynamic response) => castToType<bool>(getJsonField(
         response,
-        r'''$.loginstatus''',
+        r'''$.status''',
+      ));
+  static String? msg(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.msg''',
+      ));
+  static dynamic error(dynamic response) => getJsonField(
+        response,
+        r'''$.error''',
       );
+  static bool? errorStatus(dynamic response) => castToType<bool>(getJsonField(
+        response,
+        r'''$.error.status''',
+      ));
+  static int? errorCode(dynamic response) => castToType<int>(getJsonField(
+        response,
+        r'''$.error.code''',
+      ));
+  static String? errorSource(dynamic response) =>
+      castToType<String>(getJsonField(
+        response,
+        r'''$.error.source''',
+      ));
+  static String? username(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.name''',
+      ));
+  static String? userLevel(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.role''',
+      ));
 }
 
 class ProductVerifyListCall {
@@ -507,6 +535,44 @@ class LoadBatchSerialsCall {
           .map((x) => castToType<String>(x))
           .withoutNulls
           .toList();
+}
+
+class CheckShipperStatusCall {
+  static Future<ApiCallResponse> call({
+    String? cartonSSCC = '',
+    String? batch = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "cartonSSCC": "${escapeStringForJson(cartonSSCC)}",
+  "batch": "${escapeStringForJson(batch)}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'CheckShipperStatus',
+      apiUrl:
+          'https://3d62-41-236-219-117.ngrok-free.app/RemoteAgg/Aggregation/CheckShipperStatus',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  static bool? status(dynamic response) => castToType<bool>(getJsonField(
+        response,
+        r'''$.carton_status''',
+      ));
+  static String? msg(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.MSG''',
+      ));
 }
 
 class ApiPagingParams {

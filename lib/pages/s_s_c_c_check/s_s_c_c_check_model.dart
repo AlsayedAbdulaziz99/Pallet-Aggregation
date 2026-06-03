@@ -1,6 +1,5 @@
 import '/components/footer_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/instant_timer.dart';
 import '/index.dart';
 import 's_s_c_c_check_widget.dart' show SSCCCheckWidget;
 import 'package:flutter/material.dart';
@@ -25,7 +24,6 @@ class SSCCCheckModel extends FlutterFlowModel<SSCCCheckWidget> {
 
   ///  State fields for stateful widgets in this page.
 
-  InstantTimer? instantTimer;
   // Model for footer component.
   late FooterModel footerModel;
 
@@ -36,7 +34,6 @@ class SSCCCheckModel extends FlutterFlowModel<SSCCCheckWidget> {
 
   @override
   void dispose() {
-    instantTimer?.cancel();
     footerModel.dispose();
   }
 }

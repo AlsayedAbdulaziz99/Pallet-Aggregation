@@ -4,8 +4,6 @@ import '/components/footer_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/flutter_flow/instant_timer.dart';
-import '/actions/actions.dart' as action_blocks;
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
@@ -57,14 +55,6 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
       _model.cartonsList = widget.cartonsList!.toList().cast<String>();
       _model.palletsscc = widget.gneratedSSCC!;
       safeSetState(() {});
-      _model.instantTimer = InstantTimer.periodic(
-        duration: Duration(milliseconds: 750),
-        callback: (timer) async {
-          await action_blocks.scannerdata(context);
-          safeSetState(() {});
-        },
-        startImmediately: true,
-      );
     });
   }
 
@@ -474,14 +464,14 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
                                     scanTimestamp:
                                         functions.getCurrentTimestamp(),
                                   );
+                                  await SQLiteManager.instance
+                                      .updateBatchSerials(
+                                    palletSSCC: _model.palletsscc,
+                                    cartonSSCC:
+                                        functions.assembleShippersString(
+                                            widget.cartonsList!.toList()),
+                                  );
                                   while (_model.loopCounter! >= 0) {
-                                    await SQLiteManager.instance
-                                        .updateBatchSerials(
-                                      palletSSCC: _model.palletsscc,
-                                      cartonSSCC: _model.cartonsList
-                                          .elementAtOrNull(
-                                              _model.loopCounter!)!,
-                                    );
                                     FFAppState().addToAggregatedPallet(
                                         AggregatedCartonStruct(
                                       cartonSSCC: widget.cartonsList
