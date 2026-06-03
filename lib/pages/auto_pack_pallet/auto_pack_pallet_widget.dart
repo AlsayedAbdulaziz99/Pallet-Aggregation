@@ -43,17 +43,15 @@ class _AutoPackPalletWidgetState extends State<AutoPackPalletWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       FFAppState().scannedatalist = [];
       FFAppState().ssccAS = '';
-      safeSetState(() {});
       _model.maxPalletSize = int.parse(FFAppState().Quantity);
       _model.loopCounter = 0;
       _model.palletsscc = '0000000000000';
       _model.palletCounter = 0;
       _model.scannerActive = true;
       _model.scannedSSCCs = [];
+      _model.ssccTextController?.clear();
+
       safeSetState(() {});
-      safeSetState(() {
-        _model.ssccTextController?.clear();
-      });
     });
 
     _model.ssccTextController ??= TextEditingController();
