@@ -130,10 +130,19 @@ class _MenuWidgetState extends State<MenuWidget> {
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          wrapWithModel(
-                            model: _model.autoPackModel,
-                            updateCallback: () => safeSetState(() {}),
-                            child: AutoPackWidget(),
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              context.pushNamed(AutoPackPalletWidget.routeName);
+                            },
+                            child: wrapWithModel(
+                              model: _model.autoPackModel,
+                              updateCallback: () => safeSetState(() {}),
+                              child: AutoPackWidget(),
+                            ),
                           ),
                           InkWell(
                             splashColor: Colors.transparent,
