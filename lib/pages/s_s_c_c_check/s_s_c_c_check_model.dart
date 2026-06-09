@@ -24,6 +24,8 @@ class SSCCCheckModel extends FlutterFlowModel<SSCCCheckWidget> {
 
   bool listenerActive = true;
 
+  bool manualAggregate = false;
+
   ///  State fields for stateful widgets in this page.
 
   // State field(s) for TextField widget.
