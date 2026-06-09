@@ -45,16 +45,11 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      FFAppState().scannedatalist = [];
-      FFAppState().ssccAS = '';
-      FFAppState().barcodelist = [];
-      FFAppState().scannedListSize = 0;
-      FFAppState().scannerdata = '';
-      safeSetState(() {});
       _model.loopCounter = widget.loopCounter;
       _model.cartonsList = widget.cartonsList!.toList().cast<String>();
       _model.palletsscc = widget.gneratedSSCC!;
       _model.listenerActive = true;
+      _model.manualAggregate = widget.manual;
       safeSetState(() {});
     });
 
@@ -310,12 +305,11 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
                                             .showSnackBar(
                                           SnackBar(
                                             content: Text(
-                                              CheckPalletStatusCall.status(
+                                              CheckPalletStatusCall.msg(
                                                 (_model.checkPalletStatusResponse
                                                         ?.jsonBody ??
                                                     ''),
-                                              )!
-                                                  .toString(),
+                                              )!,
                                               style: TextStyle(
                                                 color:
                                                     FlutterFlowTheme.of(context)
@@ -323,10 +317,10 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
                                               ),
                                             ),
                                             duration:
-                                                Duration(milliseconds: 4000),
+                                                Duration(milliseconds: 2000),
                                             backgroundColor:
                                                 FlutterFlowTheme.of(context)
-                                                    .secondary,
+                                                    .error,
                                           ),
                                         );
                                       }
@@ -341,34 +335,6 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
                                     if (_shouldSetState) safeSetState(() {});
                                   },
                                   OnScanCaseScan: (code) async {},
-                                ),
-                              ),
-                              Opacity(
-                                opacity: 0.0,
-                                child: Text(
-                                  FFAppState().scannerdata,
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        font: GoogleFonts.readexPro(
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
-                                        ),
-                                        fontSize: 2.0,
-                                        letterSpacing: 0.0,
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontStyle,
-                                      ),
                                 ),
                               ),
                             ],
@@ -389,6 +355,7 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
                                               .AggregatedPallet
                                               .toList()),
                                       batchNumber: FFAppState().batchNumber,
+                                      manual: _model.manualAggregate,
                                     );
 
                                     _shouldSetState = true;
@@ -401,7 +368,7 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
                                         batchNumber: FFAppState().batchNumber,
                                         palletCount: 0,
                                         companyName: FFAppState().companyName,
-                                        manual: widget.manual,
+                                        manual: _model.manualAggregate,
                                       );
 
                                       _shouldSetState = true;
