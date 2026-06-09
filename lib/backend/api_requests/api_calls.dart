@@ -450,7 +450,7 @@ class CheckPalletStatusCall {
   }) async {
     final ffApiRequestBody = '''
 {
-  "palletSSCC": "<cartonSSCC>",
+  "palletSSCC": "${escapeStringForJson(palletSSCC)}",
   "batch": "${escapeStringForJson(batch)}"
 }''';
     return ApiManager.instance.makeApiCall(
