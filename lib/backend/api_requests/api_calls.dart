@@ -24,7 +24,8 @@ class UserloginCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Userlogin',
-      apiUrl: 'https://3d62-41-236-219-117.ngrok-free.app/RemoteAgg/user_login',
+      apiUrl:
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/user_login',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -71,141 +72,6 @@ class UserloginCall {
   static String? userLevel(dynamic response) => castToType<String>(getJsonField(
         response,
         r'''$.role''',
-      ));
-}
-
-class ProductVerifyListCall {
-  static Future<ApiCallResponse> call({
-    List<String>? barcodeListList,
-  }) async {
-    final barcodeList = _serializeList(barcodeListList);
-
-    final ffApiRequestBody = '''
-{
-  "barcode": ${barcodeList}
- 
-}''';
-    return ApiManager.instance.makeApiCall(
-      callName: 'ProductVerifyList',
-      apiUrl:
-          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/Tatmeen_Backend/ProductVerifyList',
-      callType: ApiCallType.POST,
-      headers: {},
-      params: {},
-      body: ffApiRequestBody,
-      bodyType: BodyType.JSON,
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      isStreamingApi: false,
-      alwaysAllowBody: false,
-    );
-  }
-}
-
-class PackingEventCall {
-  static Future<ApiCallResponse> call({
-    List<String>? barcodeListList,
-    String? parent = '',
-    String? invoiceOrder = '',
-  }) async {
-    final barcodeList = _serializeList(barcodeListList);
-
-    final ffApiRequestBody = '''
-{
-  "Childs": ${barcodeList},
-  "Parent": "${parent}",
-  "ship": <Ship>,
-  "RecieverGLN": "<RecieverGLN>",
-  "ref_no": "${invoiceOrder}"
-}''';
-    return ApiManager.instance.makeApiCall(
-      callName: 'PackingEvent',
-      apiUrl:
-          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/Tatmeen_Backend/TatmeenEvents/PackingEvent',
-      callType: ApiCallType.POST,
-      headers: {},
-      params: {},
-      body: ffApiRequestBody,
-      bodyType: BodyType.JSON,
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      isStreamingApi: false,
-      alwaysAllowBody: false,
-    );
-  }
-
-  static String? tatmeenResponse(dynamic response) =>
-      castToType<String>(getJsonField(
-        response,
-        r'''$.response''',
-      ));
-}
-
-class PrinterListCall {
-  static Future<ApiCallResponse> call() async {
-    return ApiManager.instance.makeApiCall(
-      callName: 'PrinterList',
-      apiUrl:
-          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/Tatmeen_Backend/Settings/GetPrinterList',
-      callType: ApiCallType.POST,
-      headers: {},
-      params: {},
-      bodyType: BodyType.JSON,
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      isStreamingApi: false,
-      alwaysAllowBody: false,
-    );
-  }
-
-  static List<String>? printerlist(dynamic response) => (getJsonField(
-        response,
-        r'''$.printerlist''',
-        true,
-      ) as List?)
-          ?.withoutNulls
-          .map((x) => castToType<String>(x))
-          .withoutNulls
-          .toList();
-}
-
-class GenerateSSCCCall {
-  static Future<ApiCallResponse> call({
-    String? gln = '',
-    String? printer = '',
-  }) async {
-    final ffApiRequestBody = '''
-{
-  "receiver_gln": "${escapeStringForJson(gln)}",
-  "printer_ip": "${escapeStringForJson(printer)}"
-}''';
-    return ApiManager.instance.makeApiCall(
-      callName: 'generateSSCC',
-      apiUrl:
-          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/Tatmeen_Backend/TatmeenEvents/SSCCPrint',
-      callType: ApiCallType.POST,
-      headers: {},
-      params: {},
-      body: ffApiRequestBody,
-      bodyType: BodyType.JSON,
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      isStreamingApi: false,
-      alwaysAllowBody: false,
-    );
-  }
-
-  static String? sscc(dynamic response) => castToType<String>(getJsonField(
-        response,
-        r'''$.sscc''',
       ));
 }
 
@@ -377,22 +243,23 @@ class CartonPalletRelationCall {
 
 class AgregationdbSnapshotCall {
   static Future<ApiCallResponse> call({
-    List<String>? palletsList,
+    String? pallet = '',
     List<String>? cartonsList,
     String? batchNumber = '',
     int? palletCount,
     String? companyName = '',
+    bool? manual,
   }) async {
-    final pallets = _serializeList(palletsList);
     final cartons = _serializeList(cartonsList);
 
     final ffApiRequestBody = '''
 {
-  "Pallets": ${pallets},
+  "Pallets": "${escapeStringForJson(pallet)}",
   "Cartons": ${cartons},
   "BatchNumber": "${escapeStringForJson(batchNumber)}",
   "palletCounter": ${palletCount},
-  "companyName": "${escapeStringForJson(companyName)}"
+  "companyName": "${escapeStringForJson(companyName)}",
+  "manual": ${manual}
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'AgregationdbSnapshot',
@@ -468,18 +335,19 @@ class LoadUsersCall {
 
 class SerializationdbSnapshotCall {
   static Future<ApiCallResponse> call({
-    List<String>? palletsList,
+    String? pallets = '',
     List<String>? cartonsList,
     String? batchNumber = '',
+    bool? manual,
   }) async {
-    final pallets = _serializeList(palletsList);
     final cartons = _serializeList(cartonsList);
 
     final ffApiRequestBody = '''
 {
-  "Pallets": ${pallets},
+  "Pallets": "${escapeStringForJson(pallets)}",
   "Cartons": ${cartons},
-  "BatchNumber": "${escapeStringForJson(batchNumber)}"
+  "BatchNumber": "${escapeStringForJson(batchNumber)}",
+  "manual": ${manual}
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'SerializationdbSnapshot',
@@ -511,7 +379,7 @@ class LoadBatchSerialsCall {
     return ApiManager.instance.makeApiCall(
       callName: 'LoadBatchSerials',
       apiUrl:
-          'https://65be-197-53-170-79.ngrok-free.app/RemoteAgg/Aggregation/LoadBatchSerials',
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/Aggregation/LoadBatchSerials',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -550,7 +418,45 @@ class CheckShipperStatusCall {
     return ApiManager.instance.makeApiCall(
       callName: 'CheckShipperStatus',
       apiUrl:
-          'https://3d62-41-236-219-117.ngrok-free.app/RemoteAgg/Aggregation/CheckShipperStatus',
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/Aggregation/CheckShipperStatus',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  static bool? status(dynamic response) => castToType<bool>(getJsonField(
+        response,
+        r'''$.carton_status''',
+      ));
+  static String? msg(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.MSG''',
+      ));
+}
+
+class CheckPalletStatusCall {
+  static Future<ApiCallResponse> call({
+    String? palletSSCC = '',
+    String? batch = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "palletSSCC": "<cartonSSCC>",
+  "batch": "${escapeStringForJson(batch)}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'CheckPalletStatus',
+      apiUrl:
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/Aggregation/CheckPalletStatus',
       callType: ApiCallType.POST,
       headers: {},
       params: {},

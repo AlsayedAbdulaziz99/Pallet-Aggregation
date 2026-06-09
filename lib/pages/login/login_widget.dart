@@ -441,7 +441,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   ),
                                 ),
                                 FFButtonWidget(
-                                  onPressed: _model.batchImported
+                                  onPressed: !_model.batchImported
                                       ? null
                                       : () async {
                                           var _shouldSetState = false;

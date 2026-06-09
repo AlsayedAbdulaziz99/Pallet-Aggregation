@@ -10,3 +10,4 @@ export '/custom_code/functions/assemlbe_cartons_list.dart';
 export '/custom_code/functions/get_carton_pallet_relation_status.dart';
 export '/custom_code/functions/get_carton_in_batch_query_status.dart';
 export '/custom_code/functions/assemble_shippers_string.dart';
+export '/custom_code/functions/string_to_array.dart';

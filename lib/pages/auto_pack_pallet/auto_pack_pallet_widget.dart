@@ -4,6 +4,7 @@ import '/components/footer_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/instant_timer.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/index.dart';
@@ -52,6 +53,11 @@ class _AutoPackPalletWidgetState extends State<AutoPackPalletWidget> {
       _model.ssccTextController?.clear();
 
       safeSetState(() {});
+      _model.instantTimer = InstantTimer.periodic(
+        duration: Duration(milliseconds: 30000),
+        callback: (timer) async {},
+        startImmediately: true,
+      );
     });
 
     _model.ssccTextController ??= TextEditingController();
@@ -290,7 +296,7 @@ class _AutoPackPalletWidgetState extends State<AutoPackPalletWidget> {
                               Align(
                                 alignment: AlignmentDirectional(0.0, 0.0),
                                 child: Text(
-                                  FFAppState().scannedatalist.length.toString(),
+                                  _model.scannedSSCCs.length.toString(),
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
@@ -332,32 +338,58 @@ class _AutoPackPalletWidgetState extends State<AutoPackPalletWidget> {
                                 onPackPalletScan: (code) async {
                                   if ((code != '') &&
                                       !_model.scannedSSCCs.contains(code)) {
-                                    _model.checkShipperStatusResponse =
-                                        await CheckShipperStatusCall.call(
-                                      cartonSSCC: code,
-                                      batch: FFAppState().batchNumber,
-                                    );
+                                    if (_model.scannedSSCCs.length ==
+                                        _model.maxPalletSize) {
+                                      safeSetState(() {
+                                        _model.ssccTextController?.text = code;
+                                      });
+                                    } else {
+                                      _model.checkShipperStatusResponse =
+                                          await CheckShipperStatusCall.call(
+                                        cartonSSCC: code,
+                                        batch: FFAppState().batchNumber,
+                                      );
 
-                                    if ((_model.checkShipperStatusResponse
-                                            ?.succeeded ??
-                                        true)) {
-                                      if (CheckShipperStatusCall.status(
-                                        (_model.checkShipperStatusResponse
-                                                ?.jsonBody ??
-                                            ''),
-                                      )!) {
-                                        _model.addToScannedSSCCs(code);
-                                        safeSetState(() {});
+                                      if ((_model.checkShipperStatusResponse
+                                              ?.succeeded ??
+                                          true)) {
+                                        if (CheckShipperStatusCall.status(
+                                          (_model.checkShipperStatusResponse
+                                                  ?.jsonBody ??
+                                              ''),
+                                        )!) {
+                                          _model.addToScannedSSCCs(code);
+                                          safeSetState(() {});
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                CheckShipperStatusCall.msg(
+                                                  (_model.checkShipperStatusResponse
+                                                          ?.jsonBody ??
+                                                      ''),
+                                                )!,
+                                                style: TextStyle(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryText,
+                                                ),
+                                              ),
+                                              duration:
+                                                  Duration(milliseconds: 2500),
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                            ),
+                                          );
+                                        }
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           SnackBar(
                                             content: Text(
-                                              CheckShipperStatusCall.msg(
-                                                (_model.checkShipperStatusResponse
-                                                        ?.jsonBody ??
-                                                    ''),
-                                              )!,
+                                              'Server Error Check WIFI Connection!',
                                               style: TextStyle(
                                                 color:
                                                     FlutterFlowTheme.of(context)
@@ -365,32 +397,13 @@ class _AutoPackPalletWidgetState extends State<AutoPackPalletWidget> {
                                               ),
                                             ),
                                             duration:
-                                                Duration(milliseconds: 2500),
+                                                Duration(milliseconds: 2000),
                                             backgroundColor:
                                                 FlutterFlowTheme.of(context)
                                                     .error,
                                           ),
                                         );
                                       }
-                                    } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            'Server Error Check WIFI Connection!',
-                                            style: TextStyle(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                            ),
-                                          ),
-                                          duration:
-                                              Duration(milliseconds: 2000),
-                                          backgroundColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .error,
-                                        ),
-                                      );
                                     }
                                   }
 
@@ -584,7 +597,7 @@ class _AutoPackPalletWidgetState extends State<AutoPackPalletWidget> {
                                                       .labelMedium
                                                       .fontStyle,
                                             ),
-                                        hintText: 'sscc',
+                                        hintText: 'Pallet SSCC...',
                                         hintStyle: FlutterFlowTheme.of(context)
                                             .labelMedium
                                             .override(
@@ -795,9 +808,9 @@ class _AutoPackPalletWidgetState extends State<AutoPackPalletWidget> {
 
                                           safeSetState(() {});
                                         },
-                                  text: 'Print Partial Pallet',
+                                  text: 'Complete Pallet',
                                   icon: Icon(
-                                    Icons.print,
+                                    Icons.check_circle_outline_rounded,
                                     size: 20.0,
                                   ),
                                   options: FFButtonOptions(
@@ -837,6 +850,73 @@ class _AutoPackPalletWidgetState extends State<AutoPackPalletWidget> {
                                         FlutterFlowTheme.of(context).alternate,
                                   ),
                                 ),
+                              ),
+                              Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Text(
+                                    'Partial',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          font: GoogleFonts.readexPro(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                  ),
+                                  Theme(
+                                    data: ThemeData(
+                                      checkboxTheme: CheckboxThemeData(
+                                        visualDensity: VisualDensity.compact,
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(3.0),
+                                        ),
+                                      ),
+                                      unselectedWidgetColor:
+                                          FlutterFlowTheme.of(context)
+                                              .alternate,
+                                    ),
+                                    child: Checkbox(
+                                      value: _model.checkboxValue ??= true,
+                                      onChanged: (newValue) async {
+                                        safeSetState(() =>
+                                            _model.checkboxValue = newValue!);
+                                      },
+                                      side: (FlutterFlowTheme.of(context)
+                                                  .alternate !=
+                                              null)
+                                          ? BorderSide(
+                                              width: 2,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .alternate,
+                                            )
+                                          : null,
+                                      activeColor: Color(0xFFEE8B60),
+                                      checkColor:
+                                          FlutterFlowTheme.of(context).info,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),

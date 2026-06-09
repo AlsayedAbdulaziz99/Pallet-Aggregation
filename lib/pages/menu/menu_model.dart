@@ -1,4 +1,3 @@
-import '/backend/api_requests/api_calls.dart';
 import '/backend/sqlite/sqlite_manager.dart';
 import '/buttons/auto_pack/auto_pack_widget.dart';
 import '/buttons/check_printing/check_printing_widget.dart';
@@ -32,10 +31,6 @@ class MenuModel extends FlutterFlowModel<MenuWidget> {
   List<LoadBatchSerialsSnapShotRow>? generatedBatchSerials;
   // Stores action output result for [Backend Call - SQLite (Read SSCC Counter)] action in Button widget.
   List<ReadSSCCCounterRow>? readSSCCCounterResponse;
-  // Stores action output result for [Backend Call - API (AgregationdbSnapshot)] action in Button widget.
-  ApiCallResponse? dbSnapshotResopnse;
-  // Stores action output result for [Backend Call - API (SerializationdbSnapshot)] action in Button widget.
-  ApiCallResponse? apiResultk41;
   // Model for footer component.
   late FooterModel footerModel;
 
