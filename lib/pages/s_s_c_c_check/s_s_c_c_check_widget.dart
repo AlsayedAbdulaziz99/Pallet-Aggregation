@@ -1,12 +1,10 @@
-import '/backend/schema/structs/index.dart';
-import '/backend/sqlite/sqlite_manager.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/components/footer_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
-import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,12 +17,14 @@ class SSCCCheckWidget extends StatefulWidget {
     super.key,
     this.gneratedSSCC,
     this.loopCounter,
-    required this.cartonsList,
-  });
+    this.cartonsList,
+    bool? manual,
+  }) : this.manual = manual ?? false;
 
   final String? gneratedSSCC;
   final int? loopCounter;
   final List<String>? cartonsList;
+  final bool manual;
 
   static String routeName = 'SSCCCheck';
   static String routePath = '/sSCCCheck';
@@ -54,12 +54,22 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
       _model.loopCounter = widget.loopCounter;
       _model.cartonsList = widget.cartonsList!.toList().cast<String>();
       _model.palletsscc = widget.gneratedSSCC!;
+      _model.listenerActive = true;
       safeSetState(() {});
     });
+
+    _model.textController ??= TextEditingController();
+    _model.textFieldFocusNode ??= FocusNode();
   }
 
   @override
   void dispose() {
+    // On page dispose action.
+    () async {
+      _model.listenerActive = false;
+      safeSetState(() {});
+    }();
+
     _model.dispose();
 
     super.dispose();
@@ -116,7 +126,7 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   width: 416.0,
@@ -124,58 +134,219 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).secondaryBackground,
                   ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 5.0, 0.0, 0.0),
-                          child: Row(
+                  child: Align(
+                    alignment: AlignmentDirectional(0.0, 0.0),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
                             mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Align(
-                                alignment: AlignmentDirectional(-1.0, -1.0),
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 15.0, 0.0, 0.0),
                                 child: Container(
-                                  width: 127.0,
-                                  height: 28.0,
-                                  decoration: BoxDecoration(),
-                                  child: Align(
-                                    alignment: AlignmentDirectional(-1.0, -1.0),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          10.0, 0.0, 0.0, 0.0),
-                                      child: Text(
-                                        'Pallet List',
-                                        style: FlutterFlowTheme.of(context)
-                                            .titleLarge
-                                            .override(
-                                              font: GoogleFonts.outfit(
-                                                fontWeight: FontWeight.w500,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleLarge
-                                                        .fontStyle,
-                                              ),
-                                              fontSize: 20.0,
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.w500,
+                                  width: 250.0,
+                                  child: TextFormField(
+                                    controller: _model.textController,
+                                    focusNode: _model.textFieldFocusNode,
+                                    autofocus: false,
+                                    enabled: false,
+                                    obscureText: false,
+                                    decoration: InputDecoration(
+                                      isDense: true,
+                                      labelStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .override(
+                                            font: GoogleFonts.readexPro(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
                                               fontStyle:
                                                   FlutterFlowTheme.of(context)
-                                                      .titleLarge
+                                                      .labelMedium
                                                       .fontStyle,
                                             ),
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
+                                      hintText: 'Scan SSCC..',
+                                      hintStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .override(
+                                            font: GoogleFonts.readexPro(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryText,
+                                          width: 2.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
                                       ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0x00000000),
+                                          width: 2.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: FlutterFlowTheme.of(context)
+                                              .error,
+                                          width: 2.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                      focusedErrorBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: FlutterFlowTheme.of(context)
+                                              .error,
+                                          width: 2.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                      filled: true,
+                                      fillColor: FlutterFlowTheme.of(context)
+                                          .primaryBackground,
                                     ),
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          font: GoogleFonts.readexPro(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                    cursorColor: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    enableInteractiveSelection: true,
+                                    validator: _model.textControllerValidator
+                                        .asValidator(context),
                                   ),
                                 ),
                               ),
-                              Align(
-                                alignment: AlignmentDirectional(0.0, 0.0),
+                              Container(
+                                width: 250.0,
+                                height: 2.0,
+                                child: custom_widgets.ScannerListenerWidget(
+                                  width: 250.0,
+                                  height: 2.0,
+                                  currentTabIndex: 2,
+                                  isActive: _model.listenerActive,
+                                  onPackPalletScan: (code) async {},
+                                  onPackBundleScan: (code) async {},
+                                  onSSCCVerifyScan: (code) async {
+                                    var _shouldSetState = false;
+                                    _model.checkPalletStatusResponse =
+                                        await CheckPalletStatusCall.call(
+                                      palletSSCC: code,
+                                      batch: FFAppState().batchNumber,
+                                    );
+
+                                    _shouldSetState = true;
+                                    if ((_model.checkPalletStatusResponse
+                                            ?.succeeded ??
+                                        true)) {
+                                      if (CheckPalletStatusCall.status(
+                                        (_model.checkPalletStatusResponse
+                                                ?.jsonBody ??
+                                            ''),
+                                      )!) {
+                                        _model.textController?.text = code;
+
+                                        _model.palletsscc = code;
+                                        safeSetState(() {});
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              CheckPalletStatusCall.status(
+                                                (_model.checkPalletStatusResponse
+                                                        ?.jsonBody ??
+                                                    ''),
+                                              )!
+                                                  .toString(),
+                                              style: TextStyle(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                              ),
+                                            ),
+                                            duration:
+                                                Duration(milliseconds: 4000),
+                                            backgroundColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .secondary,
+                                          ),
+                                        );
+                                      }
+
+                                      if (_shouldSetState) safeSetState(() {});
+                                      return;
+                                    } else {
+                                      if (_shouldSetState) safeSetState(() {});
+                                      return;
+                                    }
+
+                                    if (_shouldSetState) safeSetState(() {});
+                                  },
+                                  OnScanCaseScan: (code) async {},
+                                ),
+                              ),
+                              Opacity(
+                                opacity: 0.0,
                                 child: Text(
-                                  FFAppState().scannedatalist.length.toString(),
+                                  FFAppState().scannerdata,
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
@@ -189,7 +360,7 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
                                                   .bodyMedium
                                                   .fontStyle,
                                         ),
-                                        color: Color(0xFFDA1111),
+                                        fontSize: 2.0,
                                         letterSpacing: 0.0,
                                         fontWeight: FlutterFlowTheme.of(context)
                                             .bodyMedium
@@ -200,344 +371,109 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
                                       ),
                                 ),
                               ),
-                              Align(
-                                alignment: AlignmentDirectional(1.0, -1.0),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 10.0, 0.0),
-                                  child: FFButtonWidget(
-                                    onPressed: () async {
-                                      FFAppState().scannedatalist = [];
-                                      FFAppState().scannedListSize = 0;
-                                      safeSetState(() {});
-                                    },
-                                    text: 'Clear List',
-                                    icon: Icon(
-                                      Icons.delete_rounded,
-                                      size: 25.0,
-                                    ),
-                                    options: FFButtonOptions(
-                                      width: 114.0,
-                                      height: 40.0,
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          10.0, 0.0, 10.0, 0.0),
-                                      iconPadding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      color: FlutterFlowTheme.of(context).error,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleMedium
-                                          .override(
-                                            font: GoogleFonts.readexPro(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleMedium
-                                                      .fontStyle,
-                                            ),
-                                            fontSize: 16.0,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .titleMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .titleMedium
-                                                    .fontStyle,
-                                          ),
-                                      elevation: 3.0,
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                  ),
-                                ),
-                              ),
                             ],
                           ),
-                        ),
-                        Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Opacity(
-                              opacity: 0.0,
-                              child: Align(
-                                alignment: AlignmentDirectional(0.0, -1.0),
-                                child: Container(
-                                  width: 400.0,
-                                  height: 1.0,
-                                  child: custom_widgets.Getscannerdatawidget(
-                                    width: 400.0,
-                                    height: 1.0,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Opacity(
-                              opacity: 0.0,
-                              child: Text(
-                                FFAppState().scannerdata,
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      font: GoogleFonts.readexPro(
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontStyle,
-                                      ),
-                                      fontSize: 2.0,
-                                      letterSpacing: 0.0,
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                              ),
-                            ),
-                            Container(
-                              width: 358.0,
-                              height: 169.2,
-                              decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context).accent4,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10.0),
-                                  topRight: Radius.circular(10.0),
-                                  bottomLeft: Radius.circular(10.0),
-                                  bottomRight: Radius.circular(10.0),
-                                ),
-                                border: Border.all(
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                ),
-                              ),
-                              child: ListView(
-                                padding: EdgeInsets.zero,
-                                shrinkWrap: true,
-                                scrollDirection: Axis.vertical,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 5.0, 0.0, 5.0),
-                                    child: Builder(
-                                      builder: (context) {
-                                        final barcodelistvar = FFAppState()
-                                            .scannedatalist
-                                            .unique((e) => e)
-                                            .toList();
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 20.0, 0.0, 0.0),
+                            child: FFButtonWidget(
+                              onPressed: () async {
+                                var _shouldSetState = false;
+                                await Future.wait([
+                                  Future(() async {
+                                    _model.apiResultk41 =
+                                        await SerializationdbSnapshotCall.call(
+                                      pallets: _model.palletsscc,
+                                      cartonsList: functions
+                                          .assemlbeCartonsList(FFAppState()
+                                              .AggregatedPallet
+                                              .toList()),
+                                      batchNumber: FFAppState().batchNumber,
+                                    );
 
-                                        return SingleChildScrollView(
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: List.generate(
-                                                barcodelistvar.length,
-                                                (barcodelistvarIndex) {
-                                              final barcodelistvarItem =
-                                                  barcodelistvar[
-                                                      barcodelistvarIndex];
-                                              return Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        5.0, 0.0, 5.0, 3.0),
-                                                child: Container(
-                                                  width: double.infinity,
-                                                  height: 50.0,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            0.0),
-                                                    border: Border.all(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .tertiary,
-                                                      width: 2.0,
-                                                    ),
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    children: [
-                                                      Expanded(
-                                                        child: Text(
-                                                          barcodelistvarItem,
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                font: GoogleFonts
-                                                                    .readexPro(
-                                                                  fontWeight: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .fontWeight,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .fontStyle,
-                                                                ),
-                                                                fontSize: 12.0,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .fontWeight,
-                                                                fontStyle: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .fontStyle,
-                                                              ),
-                                                        ),
-                                                      ),
-                                                      InkWell(
-                                                        splashColor:
-                                                            Colors.transparent,
-                                                        focusColor:
-                                                            Colors.transparent,
-                                                        hoverColor:
-                                                            Colors.transparent,
-                                                        highlightColor:
-                                                            Colors.transparent,
-                                                        onTap: () async {
-                                                          FFAppState()
-                                                              .removeFromScannedatalist(
-                                                                  barcodelistvarItem);
-                                                          FFAppState()
-                                                                  .scannedListSize =
-                                                              FFAppState()
-                                                                      .scannedListSize +
-                                                                  -1;
-                                                          safeSetState(() {});
-                                                        },
-                                                        child: Icon(
-                                                          Icons
-                                                              .delete_forever_sharp,
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .error,
-                                                          size: 40.0,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
+                                    _shouldSetState = true;
+                                    if ((_model.apiResultk41?.succeeded ??
+                                        true)) {
+                                      _model.dbSnapshotResopnse =
+                                          await AgregationdbSnapshotCall.call(
+                                        pallet: _model.palletsscc,
+                                        cartonsList: widget.cartonsList,
+                                        batchNumber: FFAppState().batchNumber,
+                                        palletCount: 0,
+                                        companyName: FFAppState().companyName,
+                                        manual: widget.manual,
+                                      );
+
+                                      _shouldSetState = true;
+                                      if (!(_model
+                                              .dbSnapshotResopnse?.succeeded ??
+                                          true)) {
+                                        await showDialog(
+                                          context: context,
+                                          builder: (alertDialogContext) {
+                                            return AlertDialog(
+                                              title: Text('Error'),
+                                              content: Text('Server Error'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          alertDialogContext),
+                                                  child: Text('Ok'),
                                                 ),
-                                              );
-                                            }),
-                                          ),
+                                              ],
+                                            );
+                                          },
                                         );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 20.0, 0.0, 0.0),
-                          child: FFButtonWidget(
-                            onPressed: () async {
-                              if (FFAppState().scannedatalist.isNotEmpty) {
-                                if (widget.gneratedSSCC ==
-                                    FFAppState().scannedatalist.firstOrNull) {
-                                  await SQLiteManager.instance
-                                      .addPalletToSSCCData(
-                                    palletSSCC: widget.gneratedSSCC!,
-                                    printTimestamp:
-                                        functions.getCurrentTimestamp(),
-                                  );
-                                  await SQLiteManager.instance
-                                      .updateSSCCDataScanTime(
-                                    palletSSCC: widget.gneratedSSCC!,
-                                    scanTimestamp:
-                                        functions.getCurrentTimestamp(),
-                                  );
-                                  await SQLiteManager.instance
-                                      .updateBatchSerials(
-                                    palletSSCC: _model.palletsscc,
-                                    cartonSSCC:
-                                        functions.assembleShippersString(
-                                            widget.cartonsList!.toList()),
-                                  );
-                                  while (_model.loopCounter! >= 0) {
-                                    FFAppState().addToAggregatedPallet(
-                                        AggregatedCartonStruct(
-                                      cartonSSCC: widget.cartonsList
-                                          ?.elementAtOrNull(
-                                              widget.loopCounter!),
-                                      palletSSCC: widget.gneratedSSCC,
-                                    ));
-                                    safeSetState(() {});
-                                    _model.loopCounter =
-                                        _model.loopCounter! + -1;
-                                    safeSetState(() {});
-                                  }
+                                        if (_shouldSetState)
+                                          safeSetState(() {});
+                                        return;
+                                      }
+                                    } else {
+                                      await showDialog(
+                                        context: context,
+                                        builder: (alertDialogContext) {
+                                          return AlertDialog(
+                                            title: Text('Error'),
+                                            content: Text('Server Error'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext),
+                                                child: Text('Ok'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                      if (_shouldSetState) safeSetState(() {});
+                                      return;
+                                    }
+                                  }),
+                                ]);
+                                if ((_model.dbSnapshotResopnse?.succeeded ??
+                                        true) ==
+                                    true) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
-                                        'Pallet Aggregated Successfully',
-                                        style: FlutterFlowTheme.of(context)
-                                            .titleMedium
-                                            .override(
-                                              font: GoogleFonts.readexPro(
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleMedium
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleMedium
-                                                        .fontStyle,
-                                              ),
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                              letterSpacing: 0.0,
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleMedium
-                                                      .fontStyle,
-                                            ),
+                                        'data exported successfully',
+                                        style: TextStyle(
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                        ),
                                       ),
-                                      duration: Duration(milliseconds: 1500),
+                                      duration: Duration(milliseconds: 3000),
                                       backgroundColor:
                                           FlutterFlowTheme.of(context)
                                               .secondary,
                                     ),
                                   );
-                                  FFAppState().scannedatalist = [];
-                                  FFAppState().scannedListSize = 0;
-                                  FFAppState().barcodelist = [];
-                                  FFAppState().CartonsToAggregate = [];
-                                  safeSetState(() {});
-                                  _model.palletsscc = '0000000000000';
-                                  _model.cartonsList = [];
-                                  safeSetState(() {});
-                                  FFAppState().verify = false;
-                                  safeSetState(() {});
-
-                                  context.goNamed(MenuWidget.routeName);
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
-                                        'Check Failed, Different SSCC',
+                                        'Failed To Export, Database Error',
                                         style: TextStyle(
                                           color: FlutterFlowTheme.of(context)
                                               .primaryText,
@@ -549,24 +485,34 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
                                     ),
                                   );
                                 }
-                              }
-                            },
-                            text: 'Verify Pallet SSCC',
-                            icon: Icon(
-                              Icons.verified,
-                              size: 25.0,
-                            ),
-                            options: FFButtonOptions(
-                              height: 40.0,
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  16.0, 0.0, 16.0, 0.0),
-                              iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 0.0, 0.0, 0.0),
-                              color: FlutterFlowTheme.of(context).tertiary,
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .titleSmall
-                                  .override(
-                                    font: GoogleFonts.readexPro(
+
+                                if (_shouldSetState) safeSetState(() {});
+                              },
+                              text: 'Verify Pallet SSCC',
+                              icon: Icon(
+                                Icons.verified,
+                                size: 25.0,
+                              ),
+                              options: FFButtonOptions(
+                                height: 40.0,
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    16.0, 0.0, 16.0, 0.0),
+                                iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 0.0, 0.0),
+                                color: FlutterFlowTheme.of(context).tertiary,
+                                textStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .override(
+                                      font: GoogleFonts.readexPro(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
+                                      color: Colors.white,
+                                      letterSpacing: 0.0,
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .titleSmall
                                           .fontWeight,
@@ -574,21 +520,13 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
                                           .titleSmall
                                           .fontStyle,
                                     ),
-                                    color: Colors.white,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .titleSmall
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .titleSmall
-                                        .fontStyle,
-                                  ),
-                              elevation: 0.0,
-                              borderRadius: BorderRadius.circular(8.0),
+                                elevation: 0.0,
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

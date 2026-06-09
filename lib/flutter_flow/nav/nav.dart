@@ -123,6 +123,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ParamType.String,
               isList: true,
             ),
+            manual: params.getParam(
+              'manual',
+              ParamType.bool,
+            ),
           ),
         ),
         FFRoute(

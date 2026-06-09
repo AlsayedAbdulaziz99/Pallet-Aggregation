@@ -932,9 +932,13 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                                 SSCCCheckWidget.routeName,
                                                 queryParameters: {
                                                   'cartonsList': serializeParam(
-                                                    [],
+                                                    _model.scannedSSCCs,
                                                     ParamType.String,
                                                     isList: true,
+                                                  ),
+                                                  'manual': serializeParam(
+                                                    true,
+                                                    ParamType.bool,
                                                   ),
                                                 }.withoutNulls,
                                               );
@@ -1078,20 +1082,14 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                               safeSetState(() {});
 
                                               context.goNamed(
-                                                MenuWidget.routeName,
+                                                SSCCCheckWidget.routeName,
                                                 queryParameters: {
-                                                  'palletSSCC': serializeParam(
-                                                    _model.ssccTextController
-                                                        .text,
-                                                    ParamType.String,
-                                                  ),
-                                                  'loopCounter': serializeParam(
-                                                    _model.loopCounter,
-                                                    ParamType.int,
+                                                  'manual': serializeParam(
+                                                    true,
+                                                    ParamType.bool,
                                                   ),
                                                   'cartonsList': serializeParam(
-                                                    FFAppState()
-                                                        .CartonsToAggregate,
+                                                    _model.scannedSSCCs,
                                                     ParamType.String,
                                                     isList: true,
                                                   ),

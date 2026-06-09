@@ -1,6 +1,6 @@
+import '/backend/api_requests/api_calls.dart';
 import '/components/footer_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/index.dart';
 import 's_s_c_c_check_widget.dart' show SSCCCheckWidget;
 import 'package:flutter/material.dart';
 
@@ -22,8 +22,20 @@ class SSCCCheckModel extends FlutterFlowModel<SSCCCheckWidget> {
   void updateCartonsListAtIndex(int index, Function(String) updateFn) =>
       cartonsList[index] = updateFn(cartonsList[index]);
 
+  bool listenerActive = true;
+
   ///  State fields for stateful widgets in this page.
 
+  // State field(s) for TextField widget.
+  FocusNode? textFieldFocusNode;
+  TextEditingController? textController;
+  String? Function(BuildContext, String?)? textControllerValidator;
+  // Stores action output result for [Backend Call - API (CheckPalletStatus)] action in ScannerListenerWidget widget.
+  ApiCallResponse? checkPalletStatusResponse;
+  // Stores action output result for [Backend Call - API (SerializationdbSnapshot)] action in Button widget.
+  ApiCallResponse? apiResultk41;
+  // Stores action output result for [Backend Call - API (AgregationdbSnapshot)] action in Button widget.
+  ApiCallResponse? dbSnapshotResopnse;
   // Model for footer component.
   late FooterModel footerModel;
 
@@ -34,6 +46,9 @@ class SSCCCheckModel extends FlutterFlowModel<SSCCCheckWidget> {
 
   @override
   void dispose() {
+    textFieldFocusNode?.dispose();
+    textController?.dispose();
+
     footerModel.dispose();
   }
 }

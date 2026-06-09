@@ -11,15 +11,9 @@ import 'package:flutter/material.dart';
 // Begin custom widget code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-import 'index.dart'; // Imports other custom widgets
-
-import '/custom_code/widgets/barcodetypes.dart';
-import 'index.dart'; // Imports other custom widgets
-
-import 'package:gs1_barcode_parser/gs1_barcode_parser.dart';
-
-import 'package:honeywell_scanner/honeywell_scanner.dart';
-import 'package:gs1_barcode_parser/gs1_barcode_parser.dart';
+import 'package:flutter_datawedge/flutter_datawedge.dart';
+import 'dart:async';
+import '/app_state.dart';
 
 class Getscannerdatawidget extends StatefulWidget {
   const Getscannerdatawidget({
@@ -36,100 +30,120 @@ class Getscannerdatawidget extends StatefulWidget {
 }
 
 class _GetscannerdatawidgetState extends State<Getscannerdatawidget>
-    implements ScannerCallback {
-  List<Map> barCodes = [];
-  Map errorResult = {};
-  List<Map> aggregatedList = [];
-  //String? eventReason = shippingReturnsReasonsList.first;
+    with WidgetsBindingObserver {
+  final FlutterDataWedge _dw = FlutterDataWedge();
+  StreamSubscription<ScanResult>? _scanSubscription;
+  StreamSubscription<ActionResult>? _eventSubscription;
 
-  HoneywellScanner honeywellScanner = HoneywellScanner();
-  ScannedData? scannedData;
-  String? errorMessage;
-  String? result2;
-
-  bool scannerEnabled = true;
-  bool scan1DFormats = true;
-  bool scan2DFormats = true;
   bool isDeviceSupported = false;
+  bool _scannerInitialized = false;
+  String? _lastScannedCode;
+  String? errorMessage;
 
-  bool enableFastScan = false;
+  // debounce fields
+  String _lastCode = '';
+  DateTime _lastScanTime = DateTime(0);
 
-  // selected items list
-  List selectedItems = [];
-
-  String printerName = '';
-
-  List orderItems = [];
-  int viewIndex = 0;
   @override
   void initState() {
     super.initState();
-    honeywellScanner.startScanner();
-    honeywellScanner.scannerCallback = this;
+    WidgetsBinding.instance.addObserver(this);
+    _init();
+  }
+
+  Future<void> _init() async {
+    if (_scannerInitialized) return;
+    try {
+      await _dw.initialize();
+      await _dw.createDefaultProfile(profileName: 'PalletAggregation');
+      isDeviceSupported = true;
+      _scannerInitialized = true;
+      _scanSubscription = _dw.onScanResult.listen(_onScanResult);
+      _eventSubscription = _dw.onScannerEvent.listen(_onScannerEvent);
+    } catch (e) {
+      isDeviceSupported = false;
+      errorMessage = e.toString();
+    }
+    if (mounted) setState(() {});
+  }
+
+  void _onScanResult(ScanResult result) {
+    final code = result.data ?? '';
+    if (code.isEmpty) return;
+
+    final now = DateTime.now();
+    if (code == _lastCode &&
+        now.difference(_lastScanTime).inMilliseconds < 1000) {
+      return;
+    }
+    _lastCode = code;
+    _lastScanTime = now;
+
+    setState(() {
+      _lastScannedCode = code;
+    });
+
+    FFAppState().scannerdata = code;
+    scannerDataNotifier.value = code;
+  }
+
+  void _onScannerEvent(ActionResult result) {
+    // ActionResult carries DataWedge command acknowledgments.
+    // No action needed — errors surface via initialize() failure.
   }
 
   @override
-  void onDecoded(ScannedData? scannedData) {
-    String? barcodeData = scannedData?.code;
-    if (mounted) {
-      setState(() {
-        Map result = parseGs1Code(
-            barcodeData!, getSelectedLastEpc(barCodes, selectedItems));
-
-        // if item is correct and not repeated and no items selected to add info
-        if ((result != idErrorMap) &&
-            !(checkDuplication(barCodes, result)) &&
-            selectedItems.isEmpty) {
-          setState(() {
-            barCodes.insert(0, result);
-          });
-        }
-        // if item selected to add info
-        else {
-          // if item is correct and item selected to add info
-          if ((result != idErrorMap) && selectedItems.isNotEmpty) {
-            if (barCodes[selectedItems[0]]['id'] == result['id']) {
-              setState(() {
-                barCodes[selectedItems[0]] = result;
-                selectedItems.clear();
-              });
-            }
-          }
-        }
-      });
-
-      setState(() {
-        //aggregatedList = gtinAggregatedView(barCodes, []);
-        FFAppState().scannerdata = barCodes[0]['SSCC'].toString();
-        barCodes = [];
-      });
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (!isDeviceSupported) return;
+    switch (state) {
+      case AppLifecycleState.resumed:
+        _dw.enableScanner(true);
+        break;
+      case AppLifecycleState.paused:
+        _dw.enableScanner(false);
+        break;
+      default:
+        break;
     }
   }
 
   @override
-  void onError(Exception error) {
-    setState(() {
-      errorMessage = error.toString();
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
+    return SizedBox(
+      width: widget.width,
+      height: widget.height,
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (!isDeviceSupported)
               Text(
-                'code:${FFAppState().scannerdata}',
+                'Device not supported',
+                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                      fontFamily: 'Readex Pro',
+                      color: Colors.orange,
+                      letterSpacing: 0,
+                    ),
+              )
+            else
+              Text(
+                'Code: ${_lastScannedCode ?? 'Waiting for scan...'}',
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                       fontFamily: 'Readex Pro',
                       letterSpacing: 0,
                     ),
               ),
-            ],
-          ),
+            if (errorMessage != null)
+              Text(
+                'Error: $errorMessage',
+                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                      fontFamily: 'Readex Pro',
+                      color: Colors.red,
+                      letterSpacing: 0,
+                    ),
+              ),
+          ],
         ),
       ),
     );
@@ -137,7 +151,9 @@ class _GetscannerdatawidgetState extends State<Getscannerdatawidget>
 
   @override
   void dispose() {
-    honeywellScanner.stopScanner();
+    _scanSubscription?.cancel();
+    _eventSubscription?.cancel();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 }
