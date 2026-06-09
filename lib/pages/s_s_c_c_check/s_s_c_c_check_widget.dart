@@ -45,9 +45,6 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.loopCounter = widget.loopCounter;
-      _model.cartonsList = widget.cartonsList!.toList().cast<String>();
-      _model.palletsscc = widget.gneratedSSCC!;
       _model.listenerActive = true;
       _model.manualAggregate = widget.manual;
       safeSetState(() {});
