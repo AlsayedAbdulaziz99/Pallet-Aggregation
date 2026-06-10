@@ -129,24 +129,21 @@ class _MenuWidgetState extends State<MenuWidget> {
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          if (false)
-                            wrapWithModel(
-                              model: _model.autoPackModel,
-                              updateCallback: () => safeSetState(() {}),
-                              child: AutoPackWidget(),
-                            ),
-                          if (false)
-                            wrapWithModel(
-                              model: _model.packingModel,
-                              updateCallback: () => safeSetState(() {}),
-                              child: PackingWidget(),
-                            ),
-                          if (false)
-                            wrapWithModel(
-                              model: _model.decomissionModel,
-                              updateCallback: () => safeSetState(() {}),
-                              child: DecomissionWidget(),
-                            ),
+                          wrapWithModel(
+                            model: _model.autoPackModel,
+                            updateCallback: () => safeSetState(() {}),
+                            child: AutoPackWidget(),
+                          ),
+                          wrapWithModel(
+                            model: _model.packingModel,
+                            updateCallback: () => safeSetState(() {}),
+                            child: PackingWidget(),
+                          ),
+                          wrapWithModel(
+                            model: _model.decomissionModel,
+                            updateCallback: () => safeSetState(() {}),
+                            child: DecomissionWidget(),
+                          ),
                           InkWell(
                             splashColor: Colors.transparent,
                             focusColor: Colors.transparent,
@@ -191,21 +188,20 @@ class _MenuWidgetState extends State<MenuWidget> {
                               child: DamagedWidget(),
                             ),
                           ),
-                          if (false)
-                            InkWell(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () async {
-                                context.pushNamed(SSCCPrintWidget.routeName);
-                              },
-                              child: wrapWithModel(
-                                model: _model.printSSCCModel,
-                                updateCallback: () => safeSetState(() {}),
-                                child: PrintSSCCWidget(),
-                              ),
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              context.pushNamed(SSCCPrintWidget.routeName);
+                            },
+                            child: wrapWithModel(
+                              model: _model.printSSCCModel,
+                              updateCallback: () => safeSetState(() {}),
+                              child: PrintSSCCWidget(),
                             ),
+                          ),
                           InkWell(
                             splashColor: Colors.transparent,
                             focusColor: Colors.transparent,
