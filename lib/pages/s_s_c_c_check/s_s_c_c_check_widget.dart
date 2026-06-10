@@ -145,7 +145,7 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
                                     controller: _model.textController,
                                     focusNode: _model.textFieldFocusNode,
                                     autofocus: false,
-                                    enabled: false,
+                                    enabled: true,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       isDense: true,
@@ -198,8 +198,7 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
                                           ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryText,
+                                          color: Color(0x00000000),
                                           width: 2.0,
                                         ),
                                         borderRadius:
@@ -418,6 +417,9 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
                                 if ((_model.dbSnapshotResopnse?.succeeded ??
                                         true) ==
                                     true) {
+                                  safeSetState(() {
+                                    _model.textController?.clear();
+                                  });
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
