@@ -588,7 +588,7 @@ class CartonActionCall {
     return ApiManager.instance.makeApiCall(
       callName: 'cartonAction',
       apiUrl:
-          'https://5de3-41-238-46-193.ngrok-free.app/RemoteAgg/Serialization/UpdateCartonStatus',
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/Serialization/UpdateCartonStatus',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
