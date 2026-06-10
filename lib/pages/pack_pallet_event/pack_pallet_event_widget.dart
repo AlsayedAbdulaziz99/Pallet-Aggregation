@@ -6,7 +6,6 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
-import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -750,75 +749,47 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                         5.0, 10.0, 0.0, 0.0),
                                     child: FFButtonWidget(
                                       onPressed: () async {
-                                        _model.readSsccCounterOutput =
-                                            await SQLiteManager.instance
-                                                .readSSCCCounter(
-                                          companyPrefix:
-                                              FFAppState().companyPrefix,
+                                        _model.generateSSCCResponse =
+                                            await GenerateSSCCCall.call(
+                                          batch: FFAppState().batchNumber,
                                         );
-                                        _model.palletsscc =
-                                            functions.ssccGenerator(
-                                                FFAppState().companyPrefix,
-                                                FFAppState().extensionDigit,
-                                                _model.readSsccCounterOutput!
-                                                    .firstOrNull!.palletCounter
-                                                    .toString());
-                                        _model.palletCounter = _model
-                                            .readSsccCounterOutput!
-                                            .firstOrNull!
-                                            .palletCounter;
-                                        safeSetState(() {});
-                                        _model.loadGeneratedSSCCsOutput =
-                                            await SQLiteManager.instance
-                                                .loadGeneratedSSCCs(
-                                          generatedSSCC: _model.palletsscc,
-                                        );
-                                        if (functions
-                                                .getGeneratedSSCCQuerySize(_model
-                                                    .loadGeneratedSSCCsOutput
-                                                    ?.toList())
-                                                .toString() !=
-                                            '0') {
-                                          _model.palletCounter =
-                                              _model.palletCounter + 1;
+
+                                        if ((_model.generateSSCCResponse
+                                                ?.succeeded ??
+                                            true)) {
+                                          _model.palletsscc =
+                                              GenerateSSCCCall.sscc(
+                                            (_model.generateSSCCResponse
+                                                    ?.jsonBody ??
+                                                ''),
+                                          )!;
                                           safeSetState(() {});
-                                          await SQLiteManager.instance
-                                              .updatePalletCounter(
-                                            palletCounter: _model.palletCounter,
-                                            companyPrefix:
-                                                FFAppState().companyPrefix,
-                                          );
-                                          await showDialog(
-                                            context: context,
-                                            builder: (alertDialogContext) {
-                                              return AlertDialog(
-                                                title: Text('Error'),
-                                                content:
-                                                    Text('Please Try Again'),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(
-                                                            alertDialogContext),
-                                                    child: Text('Ok'),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        } else {
                                           safeSetState(() {
                                             _model.ssccTextController?.text =
-                                                _model.palletsscc;
+                                                GenerateSSCCCall.sscc(
+                                              (_model.generateSSCCResponse
+                                                      ?.jsonBody ??
+                                                  ''),
+                                            )!;
                                           });
-                                          _model.palletCounter =
-                                              _model.palletCounter + 1;
-                                          safeSetState(() {});
-                                          await SQLiteManager.instance
-                                              .updatePalletCounter(
-                                            palletCounter: _model.palletCounter,
-                                            companyPrefix:
-                                                FFAppState().companyPrefix,
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Server Error Check WIFI Connection!',
+                                                style: TextStyle(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryText,
+                                                ),
+                                              ),
+                                              duration:
+                                                  Duration(milliseconds: 2000),
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                            ),
                                           );
                                         }
 

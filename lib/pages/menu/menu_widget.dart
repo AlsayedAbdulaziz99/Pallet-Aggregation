@@ -128,81 +128,22 @@ class _MenuWidgetState extends State<MenuWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           if (false)
-                            InkWell(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () async {
-                                context
-                                    .pushNamed(AutoPackPalletWidget.routeName);
-                              },
-                              child: wrapWithModel(
-                                model: _model.autoPackModel,
-                                updateCallback: () => safeSetState(() {}),
-                                child: AutoPackWidget(),
-                              ),
+                            wrapWithModel(
+                              model: _model.autoPackModel,
+                              updateCallback: () => safeSetState(() {}),
+                              child: AutoPackWidget(),
                             ),
                           if (false)
-                            InkWell(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () async {
-                                if (FFAppState().verify) {
-                                  await showDialog(
-                                    context: context,
-                                    builder: (alertDialogContext) {
-                                      return AlertDialog(
-                                        title: Text('Alarm'),
-                                        content: Text(
-                                            'Please Vefiry Aggregated Pallet First'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () => Navigator.pop(
-                                                alertDialogContext),
-                                            child: Text('Ok'),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                } else {
-                                  FFAppState().tatmeenButton = 'Pack Event';
-                                  safeSetState(() {});
-
-                                  context.pushNamed(
-                                      PackPalletEventWidget.routeName);
-                                }
-                              },
-                              onLongPress: () async {
-                                FFAppState().tatmeenButton = 'Pack Event';
-                                safeSetState(() {});
-
-                                context
-                                    .pushNamed(PackPalletEventWidget.routeName);
-                              },
-                              child: wrapWithModel(
-                                model: _model.packingModel,
-                                updateCallback: () => safeSetState(() {}),
-                                child: PackingWidget(),
-                              ),
+                            wrapWithModel(
+                              model: _model.packingModel,
+                              updateCallback: () => safeSetState(() {}),
+                              child: PackingWidget(),
                             ),
                           if (false)
-                            InkWell(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () async {
-                                context.pushNamed(DecommissionWidget.routeName);
-                              },
-                              child: wrapWithModel(
-                                model: _model.decomissionModel,
-                                updateCallback: () => safeSetState(() {}),
-                                child: DecomissionWidget(),
-                              ),
+                            wrapWithModel(
+                              model: _model.decomissionModel,
+                              updateCallback: () => safeSetState(() {}),
+                              child: DecomissionWidget(),
                             ),
                           if (false)
                             InkWell(

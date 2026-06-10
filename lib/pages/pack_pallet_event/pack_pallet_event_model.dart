@@ -36,10 +36,8 @@ class PackPalletEventModel extends FlutterFlowModel<PackPalletEventWidget> {
   FocusNode? ssccFocusNode;
   TextEditingController? ssccTextController;
   String? Function(BuildContext, String?)? ssccTextControllerValidator;
-  // Stores action output result for [Backend Call - SQLite (Read SSCC Counter)] action in Button widget.
-  List<ReadSSCCCounterRow>? readSsccCounterOutput;
-  // Stores action output result for [Backend Call - SQLite (Load Generated SSCCs)] action in Button widget.
-  List<LoadGeneratedSSCCsRow>? loadGeneratedSSCCsOutput;
+  // Stores action output result for [Backend Call - API (GenerateSSCC)] action in Button widget.
+  ApiCallResponse? generateSSCCResponse;
   // Stores action output result for [Backend Call - SQLite (Load Generated SSCCs)] action in Button widget.
   List<LoadGeneratedSSCCsRow>? loadGeneratedSSCCsResponse2;
   // Stores action output result for [Backend Call - SQLite (Load Generated SSCCs)] action in Button widget.

@@ -1,36 +1,42 @@
-import '/backend/sqlite/sqlite_manager.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/components/footer_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/instant_timer.dart';
 import 's_s_c_c_print_widget.dart' show SSCCPrintWidget;
 import 'package:flutter/material.dart';
 
 class SSCCPrintModel extends FlutterFlowModel<SSCCPrintWidget> {
   ///  Local state fields for this page.
 
-  String palletsscc = '0000000000000';
-
-  int palletCounter = 0;
-
-  int maxPalletSize = 0;
-
-  int loopCounter = 0;
+  String cartonsscc = '0000000000000';
 
   int quantity = 0;
 
+  bool scannerActive = true;
+
+  String palletSSCC = '-';
+
+  String mfg = '-';
+
+  String exp = '-';
+
+  String gtin = '-';
+
+  String recipe = '-';
+
+  String dateFormat = '-';
+
   ///  State fields for stateful widgets in this page.
 
-  InstantTimer? instantTimer;
-  // Stores action output result for [Backend Call - SQLite (Check Carton Parent Relation)] action in SSCC_Print widget.
-  List<CheckCartonParentRelationRow>? parentChildQueryResult;
-  // Stores action output result for [Backend Call - SQLite (CheckIfCarton In Batch)] action in SSCC_Print widget.
-  List<CheckIfCartonInBatchRow>? cartoninBatchResponse;
   // State field(s) for SSCC widget.
-  FocusNode? ssccFocusNode;
-  TextEditingController? ssccTextController;
-  String? Function(BuildContext, String?)? ssccTextControllerValidator;
-  // Stores action output result for [Backend Call - SQLite (Read Cartons In Pallets Count)] action in SSCC widget.
-  List<ReadCartonsInPalletsCountRow>? cartonsInPalletCountResponse;
+  FocusNode? ssccFocusNode1;
+  TextEditingController? ssccTextController1;
+  String? Function(BuildContext, String?)? ssccTextController1Validator;
+  // State field(s) for SSCC widget.
+  FocusNode? ssccFocusNode2;
+  TextEditingController? ssccTextController2;
+  String? Function(BuildContext, String?)? ssccTextController2Validator;
+  // Stores action output result for [Backend Call - API (GetCartonParent)] action in IconButton widget.
+  ApiCallResponse? getCartonParentResponse;
   // Model for footer component.
   late FooterModel footerModel;
 
@@ -41,9 +47,11 @@ class SSCCPrintModel extends FlutterFlowModel<SSCCPrintWidget> {
 
   @override
   void dispose() {
-    instantTimer?.cancel();
-    ssccFocusNode?.dispose();
-    ssccTextController?.dispose();
+    ssccFocusNode1?.dispose();
+    ssccTextController1?.dispose();
+
+    ssccFocusNode2?.dispose();
+    ssccTextController2?.dispose();
 
     footerModel.dispose();
   }
