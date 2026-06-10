@@ -138,7 +138,7 @@ class _ProductActionPageWidgetState extends State<ProductActionPageWidget> {
                       _model.cartonsscc = _model.parsedDM!;
                       safeSetState(() {});
                       safeSetState(() {
-                        _model.ssccTextController?.text = code;
+                        _model.ssccTextController?.text = _model.parsedDM!;
                       });
 
                       safeSetState(() {});
