@@ -23,10 +23,14 @@ class ProductActionPageModel extends FlutterFlowModel<ProductActionPageWidget> {
 
   String action = '-';
 
+  String batch = '-';
+
   ///  State fields for stateful widgets in this page.
 
   // Stores action output result for [Custom Action - parseBarcode] action in ScannerListenerWidget widget.
-  String? parsedDM;
+  String? parsedDMSerial;
+  // Stores action output result for [Custom Action - parseBarcode] action in ScannerListenerWidget widget.
+  String? parsedDMbatch;
   // State field(s) for SSCC widget.
   FocusNode? ssccFocusNode;
   TextEditingController? ssccTextController;

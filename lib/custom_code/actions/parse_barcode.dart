@@ -12,12 +12,19 @@ import 'package:flutter/material.dart';
 
 import 'package:gs1_barcode_parser/gs1_barcode_parser.dart';
 
-Future<String> parseBarcode(String dm) async {
+Future<String> parseBarcode(String dm, bool getserial) async {
   // Add your function code here!
   try {
     final parser = GS1BarcodeParser.defaultParser();
     final result = parser.parse(dm);
     final serial = result.getAIRawData('21');
+    final batch = result.getAIRawData('10');
+    final String? output;
+    if (getserial) {
+      output = serial;
+    } else {
+      output = batch;
+    }
     return serial ?? '';
   } catch (_) {
     return '';

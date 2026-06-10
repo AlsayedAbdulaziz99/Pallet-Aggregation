@@ -576,11 +576,13 @@ class GetCartonParentCall {
 class CartonActionCall {
   static Future<ApiCallResponse> call({
     String? action = '',
-    String? cartonDm = '',
+    String? serial = '',
+    String? batch = '',
   }) async {
     final ffApiRequestBody = '''
 {
-  "carton_dm": "${escapeStringForJson(cartonDm)}",
+  "carton_dm": "${escapeStringForJson(serial)}",
+  "batch" : "${escapeStringForJson(batch)}",
   "action": "${escapeStringForJson(action)}"
 }''';
     return ApiManager.instance.makeApiCall(
