@@ -23,13 +23,11 @@ export 'menu_model.dart';
 class MenuWidget extends StatefulWidget {
   const MenuWidget({
     super.key,
-    this.icon,
     this.palletSSCC,
     this.loopCounter,
     this.cartonsList,
   });
 
-  final FFUploadedFile? icon;
   final String? palletSSCC;
   final int? loopCounter;
   final List<String>? cartonsList;
@@ -129,93 +127,98 @@ class _MenuWidgetState extends State<MenuWidget> {
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          InkWell(
-                            splashColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () async {
-                              context.pushNamed(AutoPackPalletWidget.routeName);
-                            },
-                            child: wrapWithModel(
-                              model: _model.autoPackModel,
-                              updateCallback: () => safeSetState(() {}),
-                              child: AutoPackWidget(),
+                          if (false)
+                            InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                context
+                                    .pushNamed(AutoPackPalletWidget.routeName);
+                              },
+                              child: wrapWithModel(
+                                model: _model.autoPackModel,
+                                updateCallback: () => safeSetState(() {}),
+                                child: AutoPackWidget(),
+                              ),
                             ),
-                          ),
-                          InkWell(
-                            splashColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () async {
-                              if (FFAppState().verify) {
-                                await showDialog(
-                                  context: context,
-                                  builder: (alertDialogContext) {
-                                    return AlertDialog(
-                                      title: Text('Alarm'),
-                                      content: Text(
-                                          'Please Vefiry Aggregated Pallet First'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(alertDialogContext),
-                                          child: Text('Ok'),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              } else {
+                          if (false)
+                            InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                if (FFAppState().verify) {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (alertDialogContext) {
+                                      return AlertDialog(
+                                        title: Text('Alarm'),
+                                        content: Text(
+                                            'Please Vefiry Aggregated Pallet First'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(
+                                                alertDialogContext),
+                                            child: Text('Ok'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  FFAppState().tatmeenButton = 'Pack Event';
+                                  safeSetState(() {});
+
+                                  context.pushNamed(
+                                      PackPalletEventWidget.routeName);
+                                }
+                              },
+                              onLongPress: () async {
                                 FFAppState().tatmeenButton = 'Pack Event';
                                 safeSetState(() {});
 
                                 context
                                     .pushNamed(PackPalletEventWidget.routeName);
-                              }
-                            },
-                            onLongPress: () async {
-                              FFAppState().tatmeenButton = 'Pack Event';
-                              safeSetState(() {});
-
-                              context
-                                  .pushNamed(PackPalletEventWidget.routeName);
-                            },
-                            child: wrapWithModel(
-                              model: _model.packingModel,
-                              updateCallback: () => safeSetState(() {}),
-                              child: PackingWidget(),
+                              },
+                              child: wrapWithModel(
+                                model: _model.packingModel,
+                                updateCallback: () => safeSetState(() {}),
+                                child: PackingWidget(),
+                              ),
                             ),
-                          ),
-                          InkWell(
-                            splashColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () async {
-                              context.pushNamed(DecommissionWidget.routeName);
-                            },
-                            child: wrapWithModel(
-                              model: _model.decomissionModel,
-                              updateCallback: () => safeSetState(() {}),
-                              child: DecomissionWidget(),
+                          if (false)
+                            InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                context.pushNamed(DecommissionWidget.routeName);
+                              },
+                              child: wrapWithModel(
+                                model: _model.decomissionModel,
+                                updateCallback: () => safeSetState(() {}),
+                                child: DecomissionWidget(),
+                              ),
                             ),
-                          ),
-                          InkWell(
-                            splashColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () async {
-                              context.pushNamed(SSCCPrintWidget.routeName);
-                            },
-                            child: wrapWithModel(
-                              model: _model.printSSCCModel,
-                              updateCallback: () => safeSetState(() {}),
-                              child: PrintSSCCWidget(),
+                          if (false)
+                            InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                context.pushNamed(SSCCPrintWidget.routeName);
+                              },
+                              child: wrapWithModel(
+                                model: _model.printSSCCModel,
+                                updateCallback: () => safeSetState(() {}),
+                                child: PrintSSCCWidget(),
+                              ),
                             ),
-                          ),
                           InkWell(
                             splashColor: Colors.transparent,
                             focusColor: Colors.transparent,
@@ -251,59 +254,70 @@ class _MenuWidgetState extends State<MenuWidget> {
                               child: CheckPrintingWidget(),
                             ),
                           ),
-                          FFButtonWidget(
-                            onPressed: () async {
-                              _model.generatedBatchSerials = await SQLiteManager
-                                  .instance
-                                  .loadBatchSerialsSnapShot();
-                              FFAppState().AggregatedPallet = functions
-                                  .assembleSnapShotCall(
-                                      List.generate(
-                                          random_data.randomInteger(1, 8),
-                                          (index) => random_data.randomString(
-                                                1,
-                                                8,
-                                                true,
-                                                false,
-                                                false,
-                                              )).toList(),
-                                      List.generate(
-                                          random_data.randomInteger(1, 8),
-                                          (index) => random_data.randomString(
-                                                1,
-                                                8,
-                                                true,
-                                                false,
-                                                false,
-                                              )).toList(),
-                                      _model.generatedBatchSerials!.toList())!
-                                  .toList()
-                                  .cast<AggregatedCartonStruct>();
-                              safeSetState(() {});
-                              _model.readSSCCCounterResponse =
-                                  await SQLiteManager.instance.readSSCCCounter(
-                                companyPrefix: FFAppState().companyPrefix,
-                              );
+                          if (false)
+                            FFButtonWidget(
+                              onPressed: () async {
+                                _model.generatedBatchSerials =
+                                    await SQLiteManager.instance
+                                        .loadBatchSerialsSnapShot();
+                                FFAppState().AggregatedPallet = functions
+                                    .assembleSnapShotCall(
+                                        List.generate(
+                                            random_data.randomInteger(1, 8),
+                                            (index) => random_data.randomString(
+                                                  1,
+                                                  8,
+                                                  true,
+                                                  false,
+                                                  false,
+                                                )).toList(),
+                                        List.generate(
+                                            random_data.randomInteger(1, 8),
+                                            (index) => random_data.randomString(
+                                                  1,
+                                                  8,
+                                                  true,
+                                                  false,
+                                                  false,
+                                                )).toList(),
+                                        _model.generatedBatchSerials!.toList())!
+                                    .toList()
+                                    .cast<AggregatedCartonStruct>();
+                                safeSetState(() {});
+                                _model.readSSCCCounterResponse =
+                                    await SQLiteManager.instance
+                                        .readSSCCCounter(
+                                  companyPrefix: FFAppState().companyPrefix,
+                                );
 
-                              safeSetState(() {});
-                            },
-                            text: 'Export Aggregation Config',
-                            icon: Icon(
-                              Icons.upload,
-                              size: 20.0,
-                            ),
-                            options: FFButtonOptions(
-                              width: 300.0,
-                              height: 45.0,
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  16.0, 0.0, 16.0, 0.0),
-                              iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 0.0, 0.0, 0.0),
-                              color: FlutterFlowTheme.of(context).tertiary,
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .titleSmall
-                                  .override(
-                                    font: GoogleFonts.readexPro(
+                                safeSetState(() {});
+                              },
+                              text: 'Export Aggregation Config',
+                              icon: Icon(
+                                Icons.upload,
+                                size: 20.0,
+                              ),
+                              options: FFButtonOptions(
+                                width: 300.0,
+                                height: 45.0,
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    16.0, 0.0, 16.0, 0.0),
+                                iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 0.0, 0.0),
+                                color: FlutterFlowTheme.of(context).tertiary,
+                                textStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .override(
+                                      font: GoogleFonts.readexPro(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
+                                      color: Colors.white,
+                                      letterSpacing: 0.0,
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .titleSmall
                                           .fontWeight,
@@ -311,19 +325,10 @@ class _MenuWidgetState extends State<MenuWidget> {
                                           .titleSmall
                                           .fontStyle,
                                     ),
-                                    color: Colors.white,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .titleSmall
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .titleSmall
-                                        .fontStyle,
-                                  ),
-                              elevation: 0.0,
-                              borderRadius: BorderRadius.circular(8.0),
+                                elevation: 0.0,
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
                             ),
-                          ),
                         ]
                             .divide(SizedBox(height: 20.0))
                             .addToStart(SizedBox(height: 50.0))
