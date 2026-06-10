@@ -132,13 +132,20 @@ class _ProductActionPageWidgetState extends State<ProductActionPageWidget> {
                       });
                     },
                     onCartonActionScan: (code) async {
-                      _model.parsedDM = await actions.parseBarcode(
+                      _model.parsedDMSerial = await actions.parseBarcode(
                         code,
+                        true,
                       );
-                      _model.cartonsscc = _model.parsedDM!;
+                      _model.parsedDMbatch = await actions.parseBarcode(
+                        code,
+                        false,
+                      );
+                      _model.cartonsscc = _model.parsedDMSerial!;
+                      _model.batch = _model.parsedDMbatch!;
                       safeSetState(() {});
                       safeSetState(() {
-                        _model.ssccTextController?.text = _model.parsedDM!;
+                        _model.ssccTextController?.text =
+                            _model.parsedDMSerial!;
                       });
 
                       safeSetState(() {});
@@ -344,8 +351,9 @@ class _ProductActionPageWidgetState extends State<ProductActionPageWidget> {
                                             _model.cartonActionResponse =
                                                 await CartonActionCall.call(
                                               action: widget.action,
-                                              cartonDm: _model
+                                              serial: _model
                                                   .ssccTextController.text,
+                                              batch: _model.batch,
                                             );
 
                                             _shouldSetState = true;
@@ -563,6 +571,73 @@ class _ProductActionPageWidgetState extends State<ProductActionPageWidget> {
                                         ),
                                         Text(
                                           _model.recipe,
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                font: GoogleFonts.readexPro(
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
+                                                letterSpacing: 0.0,
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Container(
+                                          width: 110.0,
+                                          decoration: BoxDecoration(),
+                                          child: Text(
+                                            'Batch : ',
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  font: GoogleFonts.readexPro(
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
+                                                  letterSpacing: 0.0,
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
+                                          ),
+                                        ),
+                                        Text(
+                                          _model.batch,
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
