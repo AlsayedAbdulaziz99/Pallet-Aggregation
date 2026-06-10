@@ -25,6 +25,8 @@ class ProductActionPageModel extends FlutterFlowModel<ProductActionPageWidget> {
 
   ///  State fields for stateful widgets in this page.
 
+  // Stores action output result for [Custom Action - parseBarcode] action in ScannerListenerWidget widget.
+  String? parsedDM;
   // State field(s) for SSCC widget.
   FocusNode? ssccFocusNode;
   TextEditingController? ssccTextController;
