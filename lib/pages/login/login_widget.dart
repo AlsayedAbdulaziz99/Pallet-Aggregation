@@ -87,24 +87,30 @@ class _LoginWidgetState extends State<LoginWidget> {
           ),
           body: SafeArea(
             top: true,
-            child: Stack(
-              children: [
-                Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Batch In Proggress : ',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  font: GoogleFonts.readexPro(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Batch In Proggress : ',
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    font: GoogleFonts.readexPro(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    letterSpacing: 0.0,
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontWeight,
@@ -112,21 +118,20 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         .bodyMedium
                                         .fontStyle,
                                   ),
-                                  letterSpacing: 0.0,
-                                  fontWeight: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontWeight,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontStyle,
-                                ),
-                          ),
-                          Text(
-                            FFAppState().batchNumber,
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  font: GoogleFonts.readexPro(
+                        ),
+                        Text(
+                          FFAppState().batchNumber,
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    font: GoogleFonts.readexPro(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    letterSpacing: 0.0,
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontWeight,
@@ -134,51 +139,163 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         .bodyMedium
                                         .fontStyle,
                                   ),
-                                  letterSpacing: 0.0,
-                                  fontWeight: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontWeight,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontStyle,
-                                ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    Align(
-                      alignment: AlignmentDirectional(0.0, 0.0),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            15.0, 10.0, 15.0, 10.0),
-                        child: Container(
-                          width: double.infinity,
-                          height: 300.0,
-                          decoration: BoxDecoration(
-                            color:
-                                FlutterFlowTheme.of(context).primaryBackground,
-                            borderRadius: BorderRadius.circular(5.0),
-                            border: Border.all(
-                              color: FlutterFlowTheme.of(context).secondaryText,
-                            ),
+                  ),
+                  Align(
+                    alignment: AlignmentDirectional(0.0, 0.0),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(
+                          15.0, 10.0, 15.0, 10.0),
+                      child: Container(
+                        width: double.infinity,
+                        height: 300.0,
+                        decoration: BoxDecoration(
+                          color: FlutterFlowTheme.of(context).primaryBackground,
+                          borderRadius: BorderRadius.circular(5.0),
+                          border: Border.all(
+                            color: FlutterFlowTheme.of(context).secondaryText,
                           ),
-                          child: Align(
-                            alignment: AlignmentDirectional(0.0, 0.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
+                        ),
+                        child: Align(
+                          alignment: AlignmentDirectional(0.0, 0.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    40.0, 0.0, 40.0, 0.0),
+                                child: TextFormField(
+                                  controller: _model.usernameTextController,
+                                  focusNode: _model.usernameFocusNode,
+                                  autofocus: false,
+                                  obscureText: false,
+                                  decoration: InputDecoration(
+                                    labelText: 'Username',
+                                    labelStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .override(
+                                          font: GoogleFonts.readexPro(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontStyle,
+                                        ),
+                                    hintStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .override(
+                                          font: GoogleFonts.readexPro(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontStyle,
+                                        ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: FlutterFlowTheme.of(context)
+                                            .alternate,
+                                        width: 2.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        width: 2.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color:
+                                            FlutterFlowTheme.of(context).error,
+                                        width: 2.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color:
+                                            FlutterFlowTheme.of(context).error,
+                                        width: 2.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    filled: true,
+                                    prefixIcon: Icon(
+                                      Icons.person,
+                                    ),
+                                  ),
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        font: GoogleFonts.readexPro(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                        letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                  validator: _model
+                                      .usernameTextControllerValidator
+                                      .asValidator(context),
+                                ),
+                              ),
+                              Align(
+                                alignment: AlignmentDirectional(0.0, 0.0),
+                                child: Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       40.0, 0.0, 40.0, 0.0),
                                   child: TextFormField(
-                                    controller: _model.usernameTextController,
-                                    focusNode: _model.usernameFocusNode,
+                                    controller: _model.passwordTextController,
+                                    focusNode: _model.passwordFocusNode,
                                     autofocus: false,
-                                    obscureText: false,
+                                    obscureText: !_model.passwordVisibility,
                                     decoration: InputDecoration(
-                                      labelText: 'Username',
+                                      labelText: 'Password',
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
@@ -225,7 +342,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                     .labelMedium
                                                     .fontStyle,
                                           ),
-                                      enabledBorder: OutlineInputBorder(
+                                      enabledBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
                                               .alternate,
@@ -234,7 +351,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         borderRadius:
                                             BorderRadius.circular(8.0),
                                       ),
-                                      focusedBorder: OutlineInputBorder(
+                                      focusedBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
                                               .primary,
@@ -243,7 +360,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         borderRadius:
                                             BorderRadius.circular(8.0),
                                       ),
-                                      errorBorder: OutlineInputBorder(
+                                      errorBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
                                               .error,
@@ -252,7 +369,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         borderRadius:
                                             BorderRadius.circular(8.0),
                                       ),
-                                      focusedErrorBorder: OutlineInputBorder(
+                                      focusedErrorBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
                                               .error,
@@ -263,7 +380,22 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       ),
                                       filled: true,
                                       prefixIcon: Icon(
-                                        Icons.person,
+                                        Icons.password_sharp,
+                                      ),
+                                      suffixIcon: InkWell(
+                                        onTap: () async {
+                                          safeSetState(() =>
+                                              _model.passwordVisibility =
+                                                  !_model.passwordVisibility);
+                                        },
+                                        focusNode:
+                                            FocusNode(skipTraversal: true),
+                                        child: Icon(
+                                          _model.passwordVisibility
+                                              ? Icons.visibility_outlined
+                                              : Icons.visibility_off_outlined,
+                                          size: 22,
+                                        ),
                                       ),
                                     ),
                                     style: FlutterFlowTheme.of(context)
@@ -289,265 +421,88 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                   .bodyMedium
                                                   .fontStyle,
                                         ),
+                                    keyboardType: TextInputType.visiblePassword,
                                     validator: _model
-                                        .usernameTextControllerValidator
+                                        .passwordTextControllerValidator
                                         .asValidator(context),
                                   ),
                                 ),
-                                Align(
-                                  alignment: AlignmentDirectional(0.0, 0.0),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        40.0, 0.0, 40.0, 0.0),
-                                    child: TextFormField(
-                                      controller: _model.passwordTextController,
-                                      focusNode: _model.passwordFocusNode,
-                                      autofocus: false,
-                                      obscureText: !_model.passwordVisibility,
-                                      decoration: InputDecoration(
-                                        labelText: 'Password',
-                                        labelStyle: FlutterFlowTheme.of(context)
-                                            .labelMedium
-                                            .override(
-                                              font: GoogleFonts.readexPro(
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelMedium
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelMedium
-                                                        .fontStyle,
-                                              ),
-                                              letterSpacing: 0.0,
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMedium
-                                                      .fontStyle,
-                                            ),
-                                        hintStyle: FlutterFlowTheme.of(context)
-                                            .labelMedium
-                                            .override(
-                                              font: GoogleFonts.readexPro(
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelMedium
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelMedium
-                                                        .fontStyle,
-                                              ),
-                                              letterSpacing: 0.0,
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMedium
-                                                      .fontStyle,
-                                            ),
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: FlutterFlowTheme.of(context)
-                                                .alternate,
-                                            width: 2.0,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
-                                            width: 2.0,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                        ),
-                                        errorBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: FlutterFlowTheme.of(context)
-                                                .error,
-                                            width: 2.0,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                        ),
-                                        focusedErrorBorder:
-                                            UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: FlutterFlowTheme.of(context)
-                                                .error,
-                                            width: 2.0,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                        ),
-                                        filled: true,
-                                        prefixIcon: Icon(
-                                          Icons.password_sharp,
-                                        ),
-                                        suffixIcon: InkWell(
-                                          onTap: () async {
-                                            safeSetState(() =>
-                                                _model.passwordVisibility =
-                                                    !_model.passwordVisibility);
-                                          },
-                                          focusNode:
-                                              FocusNode(skipTraversal: true),
-                                          child: Icon(
-                                            _model.passwordVisibility
-                                                ? Icons.visibility_outlined
-                                                : Icons.visibility_off_outlined,
-                                            size: 22,
-                                          ),
-                                        ),
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.readexPro(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                      keyboardType:
-                                          TextInputType.visiblePassword,
-                                      validator: _model
-                                          .passwordTextControllerValidator
-                                          .asValidator(context),
-                                    ),
-                                  ),
-                                ),
-                                FFButtonWidget(
-                                  onPressed: !_model.batchImported
-                                      ? null
-                                      : () async {
-                                          var _shouldSetState = false;
+                              ),
+                              FFButtonWidget(
+                                onPressed: !_model.batchImported
+                                    ? null
+                                    : () async {
+                                        var _shouldSetState = false;
+                                        if ((_model.usernameTextController
+                                                        .text !=
+                                                    '') &&
+                                            (_model.passwordTextController
+                                                        .text !=
+                                                    '')) {
                                           if ((_model.usernameTextController
-                                                          .text !=
-                                                      '') &&
+                                                      .text ==
+                                                  'admin') &&
                                               (_model.passwordTextController
-                                                          .text !=
-                                                      '')) {
+                                                      .text ==
+                                                  'M@nex')) {
+                                            context.pushNamed(
+                                                SettingsWidget.routeName);
+
+                                            if (_shouldSetState)
+                                              safeSetState(() {});
+                                            return;
+                                          } else {
                                             if ((_model.usernameTextController
                                                         .text ==
-                                                    'admin') &&
+                                                    'all') &&
                                                 (_model.passwordTextController
                                                         .text ==
-                                                    'M@nex')) {
+                                                    'all')) {
                                               context.pushNamed(
-                                                  SettingsWidget.routeName);
+                                                  TestingWidget.routeName);
 
                                               if (_shouldSetState)
                                                 safeSetState(() {});
                                               return;
                                             } else {
-                                              if ((_model.usernameTextController
-                                                          .text ==
-                                                      'all') &&
-                                                  (_model.passwordTextController
-                                                          .text ==
-                                                      'all')) {
-                                                context.pushNamed(
-                                                    TestingWidget.routeName);
+                                              _model.userLoginResponse =
+                                                  await UserloginCall.call(
+                                                username: _model
+                                                    .usernameTextController
+                                                    .text,
+                                                password: _model
+                                                    .passwordTextController
+                                                    .text,
+                                              );
 
-                                                if (_shouldSetState)
-                                                  safeSetState(() {});
-                                                return;
-                                              } else {
-                                                _model.userLoginResponse =
-                                                    await UserloginCall.call(
-                                                  username: _model
-                                                      .usernameTextController
-                                                      .text,
-                                                  password: _model
-                                                      .passwordTextController
-                                                      .text,
-                                                );
-
-                                                _shouldSetState = true;
-                                                if ((_model.userLoginResponse
-                                                        ?.succeeded ??
-                                                    true)) {
-                                                  if (!UserloginCall
-                                                      .errorStatus(
+                                              _shouldSetState = true;
+                                              if ((_model.userLoginResponse
+                                                      ?.succeeded ??
+                                                  true)) {
+                                                if (!UserloginCall.errorStatus(
+                                                  (_model.userLoginResponse
+                                                          ?.jsonBody ??
+                                                      ''),
+                                                )!) {
+                                                  if (UserloginCall.status(
                                                     (_model.userLoginResponse
                                                             ?.jsonBody ??
                                                         ''),
                                                   )!) {
-                                                    if (UserloginCall.status(
+                                                    FFAppState().userLevel =
+                                                        UserloginCall.userLevel(
                                                       (_model.userLoginResponse
                                                               ?.jsonBody ??
                                                           ''),
-                                                    )!) {
-                                                      FFAppState().userLevel =
-                                                          UserloginCall
-                                                              .userLevel(
-                                                        (_model.userLoginResponse
-                                                                ?.jsonBody ??
-                                                            ''),
-                                                      )!;
+                                                    )!;
+                                                    safeSetState(() {});
+
+                                                    context.pushNamed(
+                                                        MenuWidget.routeName);
+
+                                                    if (_shouldSetState)
                                                       safeSetState(() {});
-
-                                                      context.pushNamed(
-                                                          MenuWidget.routeName);
-
-                                                      if (_shouldSetState)
-                                                        safeSetState(() {});
-                                                      return;
-                                                    } else {
-                                                      await showDialog(
-                                                        context: context,
-                                                        builder:
-                                                            (alertDialogContext) {
-                                                          return AlertDialog(
-                                                            title:
-                                                                Text('Error'),
-                                                            content: Text(
-                                                                UserloginCall
-                                                                    .msg(
-                                                              (_model.userLoginResponse
-                                                                      ?.jsonBody ??
-                                                                  ''),
-                                                            )!),
-                                                            actions: [
-                                                              TextButton(
-                                                                onPressed: () =>
-                                                                    Navigator.pop(
-                                                                        alertDialogContext),
-                                                                child:
-                                                                    Text('Ok'),
-                                                              ),
-                                                            ],
-                                                          );
-                                                        },
-                                                      );
-                                                      if (_shouldSetState)
-                                                        safeSetState(() {});
-                                                      return;
-                                                    }
+                                                    return;
                                                   } else {
                                                     await showDialog(
                                                       context: context,
@@ -556,12 +511,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                         return AlertDialog(
                                                           title: Text('Error'),
                                                           content: Text(
-                                                              UserloginCall
-                                                                  .error(
+                                                              UserloginCall.msg(
                                                             (_model.userLoginResponse
                                                                     ?.jsonBody ??
                                                                 ''),
-                                                          ).toString()),
+                                                          )!),
                                                           actions: [
                                                             TextButton(
                                                               onPressed: () =>
@@ -585,7 +539,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                       return AlertDialog(
                                                         title: Text('Error'),
                                                         content: Text(
-                                                            'Server Error Check WIFI Connection!'),
+                                                            UserloginCall.error(
+                                                          (_model.userLoginResponse
+                                                                  ?.jsonBody ??
+                                                              ''),
+                                                        ).toString()),
                                                         actions: [
                                                           TextButton(
                                                             onPressed: () =>
@@ -601,63 +559,75 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                     safeSetState(() {});
                                                   return;
                                                 }
+                                              } else {
+                                                await showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (alertDialogContext) {
+                                                    return AlertDialog(
+                                                      title: Text('Error'),
+                                                      content: Text(
+                                                          'Server Error Check WIFI Connection!'),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  alertDialogContext),
+                                                          child: Text('Ok'),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                                if (_shouldSetState)
+                                                  safeSetState(() {});
+                                                return;
                                               }
                                             }
-                                          } else {
-                                            await showDialog(
-                                              context: context,
-                                              builder: (alertDialogContext) {
-                                                return AlertDialog(
-                                                  title: Text(
-                                                      'Empty Username or Password'),
-                                                  actions: [
-                                                    TextButton(
-                                                      onPressed: () =>
-                                                          Navigator.pop(
-                                                              alertDialogContext),
-                                                      child: Text('Ok'),
-                                                    ),
-                                                  ],
-                                                );
-                                              },
-                                            );
-                                            if (_shouldSetState)
-                                              safeSetState(() {});
-                                            return;
                                           }
-
+                                        } else {
+                                          await showDialog(
+                                            context: context,
+                                            builder: (alertDialogContext) {
+                                              return AlertDialog(
+                                                title: Text(
+                                                    'Empty Username or Password'),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            alertDialogContext),
+                                                    child: Text('Ok'),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
                                           if (_shouldSetState)
                                             safeSetState(() {});
-                                        },
-                                  text: 'Login',
-                                  icon: Icon(
-                                    Icons.lock_person_sharp,
-                                    size: 15.0,
-                                  ),
-                                  options: FFButtonOptions(
-                                    width: 250.0,
-                                    height: 54.0,
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        24.0, 0.0, 24.0, 0.0),
-                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 0.0),
-                                    color:
-                                        FlutterFlowTheme.of(context).tertiary,
-                                    textStyle: FlutterFlowTheme.of(context)
-                                        .titleSmall
-                                        .override(
-                                          font: GoogleFonts.readexPro(
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .titleSmall
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .titleSmall
-                                                    .fontStyle,
-                                          ),
-                                          color: Colors.white,
-                                          letterSpacing: 0.0,
+                                          return;
+                                        }
+
+                                        if (_shouldSetState)
+                                          safeSetState(() {});
+                                      },
+                                text: 'Login',
+                                icon: Icon(
+                                  Icons.lock_person_sharp,
+                                  size: 15.0,
+                                ),
+                                options: FFButtonOptions(
+                                  width: 250.0,
+                                  height: 54.0,
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      24.0, 0.0, 24.0, 0.0),
+                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 0.0),
+                                  color: FlutterFlowTheme.of(context).tertiary,
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .override(
+                                        font: GoogleFonts.readexPro(
                                           fontWeight:
                                               FlutterFlowTheme.of(context)
                                                   .titleSmall
@@ -667,204 +637,193 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                   .titleSmall
                                                   .fontStyle,
                                         ),
-                                    elevation: 3.0,
-                                    borderSide: BorderSide(
-                                      color: Colors.transparent,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    disabledColor:
-                                        FlutterFlowTheme.of(context).alternate,
+                                        color: Colors.white,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
+                                  elevation: 3.0,
+                                  borderSide: BorderSide(
+                                    color: Colors.transparent,
+                                    width: 1.0,
                                   ),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  disabledColor:
+                                      FlutterFlowTheme.of(context).alternate,
                                 ),
-                                FFButtonWidget(
-                                  onPressed: () async {
-                                    await Future.wait([
-                                      Future(() async {
-                                        _model.getBatchInfoResponse =
-                                            await GetBatchInfoCall.call();
+                              ),
+                              FFButtonWidget(
+                                onPressed: () async {
+                                  await Future.wait([
+                                    Future(() async {
+                                      _model.getBatchInfoResponse =
+                                          await GetBatchInfoCall.call();
 
-                                        if ((_model.getBatchInfoResponse
-                                                ?.succeeded ??
-                                            true)) {
-                                          FFAppState().batchNumber =
-                                              GetBatchInfoCall.batchNumber(
-                                            (_model.getBatchInfoResponse
-                                                    ?.jsonBody ??
-                                                ''),
-                                          )!;
-                                          FFAppState().EXP =
-                                              GetBatchInfoCall.exp(
-                                            (_model.getBatchInfoResponse
-                                                    ?.jsonBody ??
-                                                ''),
-                                          )!;
-                                          FFAppState().MFG =
-                                              GetBatchInfoCall.mfg(
-                                            (_model.getBatchInfoResponse
-                                                    ?.jsonBody ??
-                                                ''),
-                                          )!;
-                                          FFAppState().recipe =
-                                              GetBatchInfoCall.productName(
-                                            (_model.getBatchInfoResponse
-                                                    ?.jsonBody ??
-                                                ''),
-                                          )!;
-                                          FFAppState().DateFormat =
-                                              GetBatchInfoCall.dateFormat(
-                                            (_model.getBatchInfoResponse
-                                                    ?.jsonBody ??
-                                                ''),
-                                          )!;
-                                          safeSetState(() {});
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                'Server Error',
-                                                style: TextStyle(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryText,
-                                                ),
+                                      if ((_model.getBatchInfoResponse
+                                              ?.succeeded ??
+                                          true)) {
+                                        FFAppState().batchNumber =
+                                            GetBatchInfoCall.batchNumber(
+                                          (_model.getBatchInfoResponse
+                                                  ?.jsonBody ??
+                                              ''),
+                                        )!;
+                                        FFAppState().EXP = GetBatchInfoCall.exp(
+                                          (_model.getBatchInfoResponse
+                                                  ?.jsonBody ??
+                                              ''),
+                                        )!;
+                                        FFAppState().MFG = GetBatchInfoCall.mfg(
+                                          (_model.getBatchInfoResponse
+                                                  ?.jsonBody ??
+                                              ''),
+                                        )!;
+                                        FFAppState().recipe =
+                                            GetBatchInfoCall.productName(
+                                          (_model.getBatchInfoResponse
+                                                  ?.jsonBody ??
+                                              ''),
+                                        )!;
+                                        FFAppState().DateFormat =
+                                            GetBatchInfoCall.dateFormat(
+                                          (_model.getBatchInfoResponse
+                                                  ?.jsonBody ??
+                                              ''),
+                                        )!;
+                                        safeSetState(() {});
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Server Error',
+                                              style: TextStyle(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
                                               ),
-                                              duration:
-                                                  Duration(milliseconds: 3000),
-                                              backgroundColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .error,
                                             ),
-                                          );
-                                        }
-                                      }),
-                                      Future(() async {
-                                        _model.getCompanyInfoResponse =
-                                            await GetCompanyInfoCall.call();
+                                            duration:
+                                                Duration(milliseconds: 3000),
+                                            backgroundColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .error,
+                                          ),
+                                        );
+                                      }
+                                    }),
+                                    Future(() async {
+                                      _model.getCompanyInfoResponse =
+                                          await GetCompanyInfoCall.call();
 
-                                        if ((_model.getCompanyInfoResponse
-                                                ?.succeeded ??
-                                            true)) {
-                                          FFAppState().companyName =
-                                              GetCompanyInfoCall.companyName(
-                                            (_model.getCompanyInfoResponse
-                                                    ?.jsonBody ??
-                                                ''),
-                                          )!;
-                                          FFAppState().companyPrefix =
-                                              GetCompanyInfoCall.companyPrefix(
-                                            (_model.getCompanyInfoResponse
-                                                    ?.jsonBody ??
-                                                ''),
-                                          )!;
-                                          FFAppState().extensionDigit =
-                                              GetCompanyInfoCall.extensionDigit(
-                                            (_model.getCompanyInfoResponse
-                                                    ?.jsonBody ??
-                                                ''),
-                                          )!;
-                                          FFAppState().palletCounter =
-                                              GetCompanyInfoCall.palletCounter(
-                                            (_model.getCompanyInfoResponse
-                                                    ?.jsonBody ??
-                                                ''),
-                                          )!;
-                                          safeSetState(() {});
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                'Server Error',
-                                                style: TextStyle(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryText,
-                                                ),
+                                      if ((_model.getCompanyInfoResponse
+                                              ?.succeeded ??
+                                          true)) {
+                                        FFAppState().companyName =
+                                            GetCompanyInfoCall.companyName(
+                                          (_model.getCompanyInfoResponse
+                                                  ?.jsonBody ??
+                                              ''),
+                                        )!;
+                                        FFAppState().companyPrefix =
+                                            GetCompanyInfoCall.companyPrefix(
+                                          (_model.getCompanyInfoResponse
+                                                  ?.jsonBody ??
+                                              ''),
+                                        )!;
+                                        FFAppState().extensionDigit =
+                                            GetCompanyInfoCall.extensionDigit(
+                                          (_model.getCompanyInfoResponse
+                                                  ?.jsonBody ??
+                                              ''),
+                                        )!;
+                                        FFAppState().palletCounter =
+                                            GetCompanyInfoCall.palletCounter(
+                                          (_model.getCompanyInfoResponse
+                                                  ?.jsonBody ??
+                                              ''),
+                                        )!;
+                                        safeSetState(() {});
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Server Error',
+                                              style: TextStyle(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
                                               ),
-                                              duration:
-                                                  Duration(milliseconds: 3000),
-                                              backgroundColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .error,
                                             ),
-                                          );
-                                        }
-                                      }),
-                                    ]);
-                                    _model.getGTINResponse =
-                                        await GetGTINCall.call(
-                                      recipeName: FFAppState().recipe,
+                                            duration:
+                                                Duration(milliseconds: 3000),
+                                            backgroundColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .error,
+                                          ),
+                                        );
+                                      }
+                                    }),
+                                  ]);
+                                  _model.getGTINResponse =
+                                      await GetGTINCall.call(
+                                    recipeName: FFAppState().recipe,
+                                  );
+
+                                  if ((_model.getGTINResponse?.succeeded ??
+                                      true)) {
+                                    FFAppState().gtin = GetGTINCall.gtin(
+                                      (_model.getGTINResponse?.jsonBody ?? ''),
+                                    )!;
+                                    FFAppState().Quantity =
+                                        GetGTINCall.quantity(
+                                      (_model.getGTINResponse?.jsonBody ?? ''),
+                                    )!;
+                                    safeSetState(() {});
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Server Error!',
+                                          style: TextStyle(
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                          ),
+                                        ),
+                                        duration: Duration(milliseconds: 2000),
+                                        backgroundColor:
+                                            FlutterFlowTheme.of(context).error,
+                                      ),
                                     );
+                                  }
 
-                                    if ((_model.getGTINResponse?.succeeded ??
-                                        true)) {
-                                      FFAppState().gtin = GetGTINCall.gtin(
-                                        (_model.getGTINResponse?.jsonBody ??
-                                            ''),
-                                      )!;
-                                      FFAppState().Quantity =
-                                          GetGTINCall.quantity(
-                                        (_model.getGTINResponse?.jsonBody ??
-                                            ''),
-                                      )!;
-                                      safeSetState(() {});
-                                    } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            'Server Error!',
-                                            style: TextStyle(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                            ),
-                                          ),
-                                          duration:
-                                              Duration(milliseconds: 2000),
-                                          backgroundColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .error,
-                                        ),
-                                      );
-                                    }
+                                  _model.batchImported = true;
+                                  safeSetState(() {});
 
-                                    _model.batchImported = true;
-                                    safeSetState(() {});
-
-                                    safeSetState(() {});
-                                  },
-                                  text: 'Import Machine Config',
-                                  icon: Icon(
-                                    Icons.download,
-                                    size: 15.0,
-                                  ),
-                                  options: FFButtonOptions(
-                                    width: 250.0,
-                                    height: 54.0,
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        16.0, 0.0, 16.0, 0.0),
-                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 0.0),
-                                    color:
-                                        FlutterFlowTheme.of(context).tertiary,
-                                    textStyle: FlutterFlowTheme.of(context)
-                                        .titleSmall
-                                        .override(
-                                          font: GoogleFonts.readexPro(
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .titleSmall
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .titleSmall
-                                                    .fontStyle,
-                                          ),
-                                          color: Colors.white,
-                                          letterSpacing: 0.0,
+                                  safeSetState(() {});
+                                },
+                                text: 'Import Machine Config',
+                                icon: Icon(
+                                  Icons.download,
+                                  size: 15.0,
+                                ),
+                                options: FFButtonOptions(
+                                  width: 250.0,
+                                  height: 54.0,
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      16.0, 0.0, 16.0, 0.0),
+                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 0.0),
+                                  color: FlutterFlowTheme.of(context).tertiary,
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .override(
+                                        font: GoogleFonts.readexPro(
                                           fontWeight:
                                               FlutterFlowTheme.of(context)
                                                   .titleSmall
@@ -874,30 +833,38 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                   .titleSmall
                                                   .fontStyle,
                                         ),
-                                    elevation: 0.0,
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
+                                        color: Colors.white,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
+                                  elevation: 0.0,
+                                  borderRadius: BorderRadius.circular(8.0),
                                 ),
-                              ]
-                                  .divide(SizedBox(height: 15.0))
-                                  .around(SizedBox(height: 15.0)),
-                            ),
+                              ),
+                            ]
+                                .divide(SizedBox(height: 15.0))
+                                .around(SizedBox(height: 15.0)),
                           ),
                         ),
                       ),
                     ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
-                      child: wrapWithModel(
-                        model: _model.footerModel,
-                        updateCallback: () => safeSetState(() {}),
-                        child: FooterWidget(),
-                      ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
+                    child: wrapWithModel(
+                      model: _model.footerModel,
+                      updateCallback: () => safeSetState(() {}),
+                      child: FooterWidget(),
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

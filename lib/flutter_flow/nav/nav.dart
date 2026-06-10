@@ -72,10 +72,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: MenuWidget.routeName,
           path: MenuWidget.routePath,
           builder: (context, params) => MenuWidget(
-            icon: params.getParam(
-              'icon',
-              ParamType.FFUploadedFile,
-            ),
             palletSSCC: params.getParam(
               'palletSSCC',
               ParamType.String,
