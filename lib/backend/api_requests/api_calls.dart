@@ -573,6 +573,44 @@ class GetCartonParentCall {
       ));
 }
 
+class CartonActionCall {
+  static Future<ApiCallResponse> call({
+    String? action = '',
+    String? cartonDm = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "carton_dm": "${escapeStringForJson(cartonDm)}",
+  "action": "${escapeStringForJson(action)}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'cartonAction',
+      apiUrl:
+          'https://5de3-41-238-46-193.ngrok-free.app/RemoteAgg/Serialization/UpdateCartonStatus',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  static dynamic msg(dynamic response) => getJsonField(
+        response,
+        r'''$.MSG''',
+      );
+  static dynamic status(dynamic response) => getJsonField(
+        response,
+        r'''$.status''',
+      );
+}
+
 class ApiPagingParams {
   int nextPageNumber = 0;
   int numItems = 0;

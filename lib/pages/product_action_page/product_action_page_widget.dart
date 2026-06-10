@@ -1,54 +1,51 @@
 import '/backend/api_requests/api_calls.dart';
 import '/components/footer_widget.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 's_s_c_c_print_model.dart';
-export 's_s_c_c_print_model.dart';
+import 'product_action_page_model.dart';
+export 'product_action_page_model.dart';
 
-class SSCCPrintWidget extends StatefulWidget {
-  const SSCCPrintWidget({
+class ProductActionPageWidget extends StatefulWidget {
+  const ProductActionPageWidget({
     super.key,
-    this.gneratedSSCC,
-  });
+    String? action,
+  }) : this.action = action ?? '-';
 
-  final String? gneratedSSCC;
+  final String action;
 
-  static String routeName = 'SSCC_Print';
-  static String routePath = '/sSCCPrint';
+  static String routeName = 'ProductActionPage';
+  static String routePath = '/productActionPage';
 
   @override
-  State<SSCCPrintWidget> createState() => _SSCCPrintWidgetState();
+  State<ProductActionPageWidget> createState() =>
+      _ProductActionPageWidgetState();
 }
 
-class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
-  late SSCCPrintModel _model;
+class _ProductActionPageWidgetState extends State<ProductActionPageWidget> {
+  late ProductActionPageModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => SSCCPrintModel());
+    _model = createModel(context, () => ProductActionPageModel());
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       _model.scannerActive = true;
+      _model.action = widget.action;
       safeSetState(() {});
     });
 
-    _model.ssccTextController1 ??= TextEditingController();
-    _model.ssccFocusNode1 ??= FocusNode();
-
-    _model.ssccTextController2 ??= TextEditingController();
-    _model.ssccFocusNode2 ??= FocusNode();
+    _model.ssccTextController ??= TextEditingController();
+    _model.ssccFocusNode ??= FocusNode();
   }
 
   @override
@@ -123,17 +120,23 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
                   child: custom_widgets.ScannerListenerWidget(
                     width: 300.0,
                     height: 2.0,
-                    currentTabIndex: 3,
+                    currentTabIndex: 4,
                     isActive: _model.scannerActive,
                     onPackPalletScan: (code) async {},
                     onPackBundleScan: (code) async {},
                     onSSCCVerifyScan: (code) async {},
                     OnScanCaseScan: (code) async {
                       safeSetState(() {
-                        _model.ssccTextController1?.text = code;
+                        _model.ssccTextController?.text = code;
                       });
                     },
-                    onCartonActionScan: (code) async {},
+                    onCartonActionScan: (code) async {
+                      _model.cartonsscc = code;
+                      safeSetState(() {});
+                      safeSetState(() {
+                        _model.ssccTextController?.text = code;
+                      });
+                    },
                   ),
                 ),
                 Container(
@@ -165,8 +168,8 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
                                     child: Container(
                                       width: 200.0,
                                       child: TextFormField(
-                                        controller: _model.ssccTextController1,
-                                        focusNode: _model.ssccFocusNode1,
+                                        controller: _model.ssccTextController,
+                                        focusNode: _model.ssccFocusNode,
                                         autofocus: false,
                                         obscureText: false,
                                         decoration: InputDecoration(
@@ -303,264 +306,10 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
                                             FlutterFlowTheme.of(context)
                                                 .primaryText,
                                         validator: _model
-                                            .ssccTextController1Validator
+                                            .ssccTextControllerValidator
                                             .asValidator(context),
                                       ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 10.0, 0.0, 0.0),
-                                    child: Container(
-                                      width: 100.0,
-                                      child: TextFormField(
-                                        controller: _model.ssccTextController2,
-                                        focusNode: _model.ssccFocusNode2,
-                                        autofocus: false,
-                                        obscureText: false,
-                                        decoration: InputDecoration(
-                                          isDense: true,
-                                          labelStyle: FlutterFlowTheme.of(
-                                                  context)
-                                              .labelMedium
-                                              .override(
-                                                font: GoogleFonts.readexPro(
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .labelMedium
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .labelMedium
-                                                          .fontStyle,
-                                                ),
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryText,
-                                                fontSize: 13.0,
-                                                letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelMedium
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelMedium
-                                                        .fontStyle,
-                                              ),
-                                          hintText: 'Batch Num..',
-                                          hintStyle: FlutterFlowTheme.of(
-                                                  context)
-                                              .labelMedium
-                                              .override(
-                                                font: GoogleFonts.readexPro(
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .labelMedium
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .labelMedium
-                                                          .fontStyle,
-                                                ),
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryText,
-                                                letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelMedium
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelMedium
-                                                        .fontStyle,
-                                              ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondaryText,
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0x00000000),
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          errorBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .error,
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          focusedErrorBorder:
-                                              OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .error,
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          filled: true,
-                                          fillColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .secondaryBackground,
-                                        ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              font: GoogleFonts.readexPro(
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                              ),
-                                              letterSpacing: 0.0,
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                        textAlign: TextAlign.center,
-                                        cursorColor:
-                                            FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                        validator: _model
-                                            .ssccTextController2Validator
-                                            .asValidator(context),
-                                      ),
-                                    ),
-                                  ),
-                                  FlutterFlowIconButton(
-                                    borderRadius: 15.0,
-                                    buttonSize: 35.0,
-                                    fillColor:
-                                        FlutterFlowTheme.of(context).tertiary,
-                                    icon: Icon(
-                                      Icons.search_sharp,
-                                      color: FlutterFlowTheme.of(context).info,
-                                      size: 20.0,
-                                    ),
-                                    onPressed: () async {
-                                      if ((_model.ssccTextController1.text !=
-                                                  '') &&
-                                          (_model.ssccTextController2.text !=
-                                                  '')) {
-                                        _model.getCartonParentResponse =
-                                            await GetCartonParentCall.call(
-                                          batchNumber:
-                                              _model.ssccTextController2.text,
-                                          cartonSscc:
-                                              _model.ssccTextController1.text,
-                                        );
-
-                                        if ((_model.getCartonParentResponse
-                                                ?.succeeded ??
-                                            true)) {
-                                          _model.quantity = int.parse(
-                                              (GetCartonParentCall.quantity(
-                                            (_model.getCartonParentResponse
-                                                    ?.jsonBody ??
-                                                ''),
-                                          )!));
-                                          _model.palletSSCC =
-                                              GetCartonParentCall.palletsscc(
-                                            (_model.getCartonParentResponse
-                                                    ?.jsonBody ??
-                                                ''),
-                                          )!;
-                                          _model.mfg = GetCartonParentCall.mfg(
-                                            (_model.getCartonParentResponse
-                                                    ?.jsonBody ??
-                                                ''),
-                                          )!;
-                                          _model.exp = GetCartonParentCall.exp(
-                                            (_model.getCartonParentResponse
-                                                    ?.jsonBody ??
-                                                ''),
-                                          )!;
-                                          _model.recipe =
-                                              GetCartonParentCall.recipe(
-                                            (_model.getCartonParentResponse
-                                                    ?.jsonBody ??
-                                                ''),
-                                          )!;
-                                          _model.dateFormat =
-                                              GetCartonParentCall.dateFormat(
-                                            (_model.getCartonParentResponse
-                                                    ?.jsonBody ??
-                                                ''),
-                                          )!;
-                                          safeSetState(() {});
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                'Server Error, Check WIFI Connection!',
-                                                style: TextStyle(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryText,
-                                                ),
-                                              ),
-                                              duration:
-                                                  Duration(milliseconds: 2000),
-                                              backgroundColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .error,
-                                            ),
-                                          );
-                                        }
-                                      } else {
-                                        await showDialog(
-                                          context: context,
-                                          builder: (alertDialogContext) {
-                                            return AlertDialog(
-                                              title: Text('Warning'),
-                                              content: Text(
-                                                  'Please Fill All Required Fileds!'),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(
-                                                          alertDialogContext),
-                                                  child: Text('Ok'),
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
-                                      }
-
-                                      safeSetState(() {});
-                                    },
                                   ),
                                 ],
                               ),
@@ -577,30 +326,77 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
                               Align(
                                 alignment: AlignmentDirectional(0.0, 0.0),
                                 child: FFButtonWidget(
-                                  onPressed: ((_model.ssccTextController1.text ==
-                                                  '') &&
-                                          (_model.ssccTextController2.text !=
-                                                  ''))
+                                  onPressed: (_model.ssccTextController.text == '')
                                       ? null
                                       : () async {
-                                          if ((_model.ssccTextController1
+                                          var _shouldSetState = false;
+                                          if ((_model.ssccTextController
                                                           .text !=
                                                       '') &&
                                               (FFAppState().PrinterIP !=
                                                       '')) {
-                                            await actions.printLable(
-                                              FFAppState().PrinterIP,
-                                              _model.ssccTextController2.text,
-                                              _model.recipe,
-                                              _model.gtin,
-                                              _model.mfg,
-                                              _model.exp,
-                                              _model.quantity.toString(),
-                                              _model.palletSSCC,
-                                              _model.dateFormat,
-                                              FFAppState().companyName,
-                                              1,
+                                            _model.cartonActionResponse =
+                                                await CartonActionCall.call(
+                                              action: widget.action,
+                                              cartonDm: _model
+                                                  .ssccTextController.text,
                                             );
+
+                                            _shouldSetState = true;
+                                            if ((_model.cartonActionResponse
+                                                    ?.succeeded ??
+                                                true)) {
+                                              if (CartonActionCall.status(
+                                                (_model.cartonActionResponse
+                                                        ?.jsonBody ??
+                                                    ''),
+                                              )) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      'Success!',
+                                                      style: TextStyle(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primaryText,
+                                                      ),
+                                                    ),
+                                                    duration: Duration(
+                                                        milliseconds: 2000),
+                                                    backgroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .secondary,
+                                                  ),
+                                                );
+                                              } else {
+                                                await showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (alertDialogContext) {
+                                                    return AlertDialog(
+                                                      title: Text('Error'),
+                                                      content: Text(
+                                                          CartonActionCall.msg(
+                                                        (_model.cartonActionResponse
+                                                                ?.jsonBody ??
+                                                            ''),
+                                                      ).toString()),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  alertDialogContext),
+                                                          child: Text('Ok'),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                              }
+                                            }
                                           } else {
                                             if (FFAppState()
                                                     .scannedatalist
@@ -647,12 +443,17 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
                                               );
                                             }
 
+                                            if (_shouldSetState)
+                                              safeSetState(() {});
                                             return;
                                           }
+
+                                          if (_shouldSetState)
+                                            safeSetState(() {});
                                         },
-                                  text: 'Print Pallet',
+                                  text: 'Confirm ${_model.action}',
                                   icon: Icon(
-                                    Icons.print,
+                                    Icons.check,
                                     size: 20.0,
                                   ),
                                   options: FFButtonOptions(
@@ -717,73 +518,6 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Container(
-                                          width: 110.0,
-                                          decoration: BoxDecoration(),
-                                          child: Text(
-                                            'Pallet SSCC : ',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  font: GoogleFonts.readexPro(
-                                                    fontWeight:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontWeight,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontStyle,
-                                                  ),
-                                                  letterSpacing: 0.0,
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
-                                          ),
-                                        ),
-                                        Text(
-                                          _model.palletSSCC,
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                font: GoogleFonts.readexPro(
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
-                                                letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                              ),
-                                        ),
-                                      ],
-                                    ),
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -1024,73 +758,6 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
                                         ),
                                         Text(
                                           _model.exp,
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                font: GoogleFonts.readexPro(
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
-                                                letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                              ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Container(
-                                          width: 110.0,
-                                          decoration: BoxDecoration(),
-                                          child: Text(
-                                            'Quantity : ',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  font: GoogleFonts.readexPro(
-                                                    fontWeight:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontWeight,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontStyle,
-                                                  ),
-                                                  letterSpacing: 0.0,
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
-                                          ),
-                                        ),
-                                        Text(
-                                          _model.quantity.toString(),
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(

@@ -169,6 +169,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ParamType.String,
             ),
           ),
+        ),
+        FFRoute(
+          name: ProductActionPageWidget.routeName,
+          path: ProductActionPageWidget.routePath,
+          builder: (context, params) => ProductActionPageWidget(
+            action: params.getParam(
+              'action',
+              ParamType.String,
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

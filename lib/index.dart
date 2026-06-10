@@ -12,3 +12,5 @@ export '/pages/pack_bundle_event/pack_bundle_event_widget.dart'
     show PackBundleEventWidget;
 export '/pages/auto_pack_pallet/auto_pack_pallet_widget.dart'
     show AutoPackPalletWidget;
+export '/pages/product_action_page/product_action_page_widget.dart'
+    show ProductActionPageWidget;

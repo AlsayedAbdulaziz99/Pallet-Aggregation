@@ -1,9 +1,11 @@
 import '/backend/sqlite/sqlite_manager.dart';
 import '/buttons/auto_pack/auto_pack_widget.dart';
 import '/buttons/check_printing/check_printing_widget.dart';
+import '/buttons/damaged/damaged_widget.dart';
 import '/buttons/decomission/decomission_widget.dart';
 import '/buttons/packing/packing_widget.dart';
 import '/buttons/print_s_s_c_c/print_s_s_c_c_widget.dart';
+import '/buttons/sample/sample_widget.dart';
 import '/components/footer_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
@@ -23,6 +25,10 @@ class MenuModel extends FlutterFlowModel<MenuWidget> {
   late PackingModel packingModel;
   // Model for Decomission component.
   late DecomissionModel decomissionModel;
+  // Model for Sample component.
+  late SampleModel sampleModel;
+  // Model for Damaged component.
+  late DamagedModel damagedModel;
   // Model for PrintSSCC component.
   late PrintSSCCModel printSSCCModel;
   // Model for CheckPrinting component.
@@ -39,6 +45,8 @@ class MenuModel extends FlutterFlowModel<MenuWidget> {
     autoPackModel = createModel(context, () => AutoPackModel());
     packingModel = createModel(context, () => PackingModel());
     decomissionModel = createModel(context, () => DecomissionModel());
+    sampleModel = createModel(context, () => SampleModel());
+    damagedModel = createModel(context, () => DamagedModel());
     printSSCCModel = createModel(context, () => PrintSSCCModel());
     checkPrintingModel = createModel(context, () => CheckPrintingModel());
     footerModel = createModel(context, () => FooterModel());
@@ -49,6 +57,8 @@ class MenuModel extends FlutterFlowModel<MenuWidget> {
     autoPackModel.dispose();
     packingModel.dispose();
     decomissionModel.dispose();
+    sampleModel.dispose();
+    damagedModel.dispose();
     printSSCCModel.dispose();
     checkPrintingModel.dispose();
     footerModel.dispose();

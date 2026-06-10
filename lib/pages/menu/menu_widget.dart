@@ -2,9 +2,11 @@ import '/backend/schema/structs/index.dart';
 import '/backend/sqlite/sqlite_manager.dart';
 import '/buttons/auto_pack/auto_pack_widget.dart';
 import '/buttons/check_printing/check_printing_widget.dart';
+import '/buttons/damaged/damaged_widget.dart';
 import '/buttons/decomission/decomission_widget.dart';
 import '/buttons/packing/packing_widget.dart';
 import '/buttons/print_s_s_c_c/print_s_s_c_c_widget.dart';
+import '/buttons/sample/sample_widget.dart';
 import '/components/footer_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -118,7 +120,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                   ),
                   Container(
                     width: double.infinity,
-                    height: 438.0,
+                    height: 550.0,
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.of(context).secondaryBackground,
                     ),
@@ -145,6 +147,50 @@ class _MenuWidgetState extends State<MenuWidget> {
                               updateCallback: () => safeSetState(() {}),
                               child: DecomissionWidget(),
                             ),
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              context.pushNamed(
+                                ProductActionPageWidget.routeName,
+                                queryParameters: {
+                                  'action': serializeParam(
+                                    'sample',
+                                    ParamType.String,
+                                  ),
+                                }.withoutNulls,
+                              );
+                            },
+                            child: wrapWithModel(
+                              model: _model.sampleModel,
+                              updateCallback: () => safeSetState(() {}),
+                              child: SampleWidget(),
+                            ),
+                          ),
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              context.pushNamed(
+                                ProductActionPageWidget.routeName,
+                                queryParameters: {
+                                  'action': serializeParam(
+                                    'damaged',
+                                    ParamType.String,
+                                  ),
+                                }.withoutNulls,
+                              );
+                            },
+                            child: wrapWithModel(
+                              model: _model.damagedModel,
+                              updateCallback: () => safeSetState(() {}),
+                              child: DamagedWidget(),
+                            ),
+                          ),
                           if (false)
                             InkWell(
                               splashColor: Colors.transparent,
