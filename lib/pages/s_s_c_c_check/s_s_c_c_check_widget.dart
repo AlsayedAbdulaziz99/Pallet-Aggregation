@@ -331,6 +331,7 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
                                     if (_shouldSetState) safeSetState(() {});
                                   },
                                   OnScanCaseScan: (code) async {},
+                                  onCartonActionScan: (code) async {},
                                 ),
                               ),
                             ],

@@ -459,6 +459,7 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                 onPackBundleScan: (code) async {},
                                 onSSCCVerifyScan: (code) async {},
                                 OnScanCaseScan: (code) async {},
+                                onCartonActionScan: (code) async {},
                               ),
                             ),
                             Opacity(
