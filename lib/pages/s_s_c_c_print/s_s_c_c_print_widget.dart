@@ -1,12 +1,11 @@
-import '/backend/sqlite/sqlite_manager.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/components/footer_widget.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/flutter_flow/instant_timer.dart';
-import '/actions/actions.dart' as action_blocks;
 import '/custom_code/actions/index.dart' as actions;
-import '/flutter_flow/custom_functions.dart' as functions;
+import '/custom_code/widgets/index.dart' as custom_widgets;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -41,88 +40,25 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      FFAppState().scannedatalist = [];
-      FFAppState().ssccAS = '';
+      _model.scannerActive = true;
       safeSetState(() {});
-      _model.maxPalletSize = int.parse(FFAppState().Quantity);
-      _model.loopCounter = 0;
-      _model.palletsscc = '0000000000000';
-      _model.palletCounter = 0;
-      safeSetState(() {});
-      safeSetState(() {
-        _model.ssccTextController?.clear();
-      });
-      await Future.wait([]);
-      _model.instantTimer = InstantTimer.periodic(
-        duration: Duration(milliseconds: 750),
-        callback: (timer) async {
-          await action_blocks.scannerdata(context);
-          safeSetState(() {});
-          if (FFAppState().scannedatalist.length > 0) {
-            _model.parentChildQueryResult =
-                await SQLiteManager.instance.checkCartonParentRelation(
-              cartonSSCC: FFAppState().scannedatalist.lastOrNull!,
-            );
-            if (functions.getCartonPalletRelationStatus(
-                FFAppState().scannedatalist.lastOrNull,
-                _model.parentChildQueryResult?.firstOrNull)) {
-              FFAppState().removeFromScannedatalist(
-                  FFAppState().scannedatalist.lastOrNull!);
-              FFAppState().scannerdata = '';
-              FFAppState().scannedListSize = FFAppState().scannedListSize + -1;
-              safeSetState(() {});
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    'carton has been added to another pallet',
-                    style: TextStyle(
-                      color: FlutterFlowTheme.of(context).primaryText,
-                    ),
-                  ),
-                  duration: Duration(milliseconds: 2500),
-                  backgroundColor: FlutterFlowTheme.of(context).error,
-                ),
-              );
-            } else {
-              _model.cartoninBatchResponse =
-                  await SQLiteManager.instance.checkIfCartonInBatch(
-                cartonsscc: FFAppState().scannedatalist.lastOrNull!,
-              );
-              if (!functions.getCartonInBatchQueryStatus(
-                  _model.cartoninBatchResponse?.firstOrNull,
-                  FFAppState().scannedatalist.lastOrNull)) {
-                FFAppState().removeFromScannedatalist(
-                    FFAppState().scannedatalist.lastOrNull!);
-                FFAppState().scannerdata = '';
-                FFAppState().scannedListSize =
-                    FFAppState().scannedListSize + -1;
-                safeSetState(() {});
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      'Serial Is Not In Batch',
-                      style: TextStyle(
-                        color: FlutterFlowTheme.of(context).primaryText,
-                      ),
-                    ),
-                    duration: Duration(milliseconds: 2500),
-                    backgroundColor: FlutterFlowTheme.of(context).error,
-                  ),
-                );
-              }
-            }
-          }
-        },
-        startImmediately: true,
-      );
     });
 
-    _model.ssccTextController ??= TextEditingController();
-    _model.ssccFocusNode ??= FocusNode();
+    _model.ssccTextController1 ??= TextEditingController();
+    _model.ssccFocusNode1 ??= FocusNode();
+
+    _model.ssccTextController2 ??= TextEditingController();
+    _model.ssccFocusNode2 ??= FocusNode();
   }
 
   @override
   void dispose() {
+    // On page dispose action.
+    () async {
+      _model.scannerActive = false;
+      safeSetState(() {});
+    }();
+
     _model.dispose();
 
     super.dispose();
@@ -182,6 +118,24 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
+                  width: 300.0,
+                  height: 2.0,
+                  child: custom_widgets.ScannerListenerWidget(
+                    width: 300.0,
+                    height: 2.0,
+                    currentTabIndex: 3,
+                    isActive: _model.scannerActive,
+                    onPackPalletScan: (code) async {},
+                    onPackBundleScan: (code) async {},
+                    onSSCCVerifyScan: (code) async {},
+                    OnScanCaseScan: (code) async {
+                      safeSetState(() {
+                        _model.ssccTextController1?.text = code;
+                      });
+                    },
+                  ),
+                ),
+                Container(
                   width: 416.0,
                   height: 520.0,
                   decoration: BoxDecoration(
@@ -202,6 +156,7 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
@@ -209,24 +164,8 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
                                     child: Container(
                                       width: 200.0,
                                       child: TextFormField(
-                                        controller: _model.ssccTextController,
-                                        focusNode: _model.ssccFocusNode,
-                                        onFieldSubmitted: (_) async {
-                                          _model.cartonsInPalletCountResponse =
-                                              await SQLiteManager.instance
-                                                  .readCartonsInPalletsCount(
-                                            palletSSCC:
-                                                _model.ssccTextController.text,
-                                          );
-                                          _model.quantity = _model
-                                              .cartonsInPalletCountResponse!
-                                              .length;
-                                          _model.palletsscc =
-                                              _model.ssccTextController.text;
-                                          safeSetState(() {});
-
-                                          safeSetState(() {});
-                                        },
+                                        controller: _model.ssccTextController1,
+                                        focusNode: _model.ssccFocusNode1,
                                         autofocus: false,
                                         obscureText: false,
                                         decoration: InputDecoration(
@@ -363,10 +302,264 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
                                             FlutterFlowTheme.of(context)
                                                 .primaryText,
                                         validator: _model
-                                            .ssccTextControllerValidator
+                                            .ssccTextController1Validator
                                             .asValidator(context),
                                       ),
                                     ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 10.0, 0.0, 0.0),
+                                    child: Container(
+                                      width: 100.0,
+                                      child: TextFormField(
+                                        controller: _model.ssccTextController2,
+                                        focusNode: _model.ssccFocusNode2,
+                                        autofocus: false,
+                                        obscureText: false,
+                                        decoration: InputDecoration(
+                                          isDense: true,
+                                          labelStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .labelMedium
+                                              .override(
+                                                font: GoogleFonts.readexPro(
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .labelMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .labelMedium
+                                                          .fontStyle,
+                                                ),
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                                fontSize: 13.0,
+                                                letterSpacing: 0.0,
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontStyle,
+                                              ),
+                                          hintText: 'Batch Num..',
+                                          hintStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .labelMedium
+                                              .override(
+                                                font: GoogleFonts.readexPro(
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .labelMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .labelMedium
+                                                          .fontStyle,
+                                                ),
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                                letterSpacing: 0.0,
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontStyle,
+                                              ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryText,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0x00000000),
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          errorBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          focusedErrorBorder:
+                                              OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          filled: true,
+                                          fillColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .secondaryBackground,
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              font: GoogleFonts.readexPro(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                              letterSpacing: 0.0,
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
+                                        textAlign: TextAlign.center,
+                                        cursorColor:
+                                            FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                        validator: _model
+                                            .ssccTextController2Validator
+                                            .asValidator(context),
+                                      ),
+                                    ),
+                                  ),
+                                  FlutterFlowIconButton(
+                                    borderRadius: 15.0,
+                                    buttonSize: 35.0,
+                                    fillColor:
+                                        FlutterFlowTheme.of(context).tertiary,
+                                    icon: Icon(
+                                      Icons.search_sharp,
+                                      color: FlutterFlowTheme.of(context).info,
+                                      size: 20.0,
+                                    ),
+                                    onPressed: () async {
+                                      if ((_model.ssccTextController1.text !=
+                                                  '') &&
+                                          (_model.ssccTextController2.text !=
+                                                  '')) {
+                                        _model.getCartonParentResponse =
+                                            await GetCartonParentCall.call(
+                                          batchNumber:
+                                              _model.ssccTextController2.text,
+                                          cartonSscc:
+                                              _model.ssccTextController1.text,
+                                        );
+
+                                        if ((_model.getCartonParentResponse
+                                                ?.succeeded ??
+                                            true)) {
+                                          _model.quantity = int.parse(
+                                              (GetCartonParentCall.quantity(
+                                            (_model.getCartonParentResponse
+                                                    ?.jsonBody ??
+                                                ''),
+                                          )!));
+                                          _model.palletSSCC =
+                                              GetCartonParentCall.palletsscc(
+                                            (_model.getCartonParentResponse
+                                                    ?.jsonBody ??
+                                                ''),
+                                          )!;
+                                          _model.mfg = GetCartonParentCall.mfg(
+                                            (_model.getCartonParentResponse
+                                                    ?.jsonBody ??
+                                                ''),
+                                          )!;
+                                          _model.exp = GetCartonParentCall.exp(
+                                            (_model.getCartonParentResponse
+                                                    ?.jsonBody ??
+                                                ''),
+                                          )!;
+                                          _model.recipe =
+                                              GetCartonParentCall.recipe(
+                                            (_model.getCartonParentResponse
+                                                    ?.jsonBody ??
+                                                ''),
+                                          )!;
+                                          _model.dateFormat =
+                                              GetCartonParentCall.dateFormat(
+                                            (_model.getCartonParentResponse
+                                                    ?.jsonBody ??
+                                                ''),
+                                          )!;
+                                          safeSetState(() {});
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Server Error, Check WIFI Connection!',
+                                                style: TextStyle(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryText,
+                                                ),
+                                              ),
+                                              duration:
+                                                  Duration(milliseconds: 2000),
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                            ),
+                                          );
+                                        }
+                                      } else {
+                                        await showDialog(
+                                          context: context,
+                                          builder: (alertDialogContext) {
+                                            return AlertDialog(
+                                              title: Text('Warning'),
+                                              content: Text(
+                                                  'Please Fill All Required Fileds!'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          alertDialogContext),
+                                                  child: Text('Ok'),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      }
+
+                                      safeSetState(() {});
+                                    },
                                   ),
                                 ],
                               ),
@@ -383,27 +576,27 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
                               Align(
                                 alignment: AlignmentDirectional(0.0, 0.0),
                                 child: FFButtonWidget(
-                                  onPressed: (_model.ssccTextController.text == '')
+                                  onPressed: ((_model.ssccTextController1.text ==
+                                                  '') &&
+                                          (_model.ssccTextController2.text !=
+                                                  ''))
                                       ? null
                                       : () async {
-                                          if ((_model.ssccTextController
+                                          if ((_model.ssccTextController1
                                                           .text !=
                                                       '') &&
                                               (FFAppState().PrinterIP !=
                                                       '')) {
-                                            _model.loopCounter =
-                                                FFAppState().scannedListSize -
-                                                    1;
                                             await actions.printLable(
                                               FFAppState().PrinterIP,
-                                              FFAppState().batchNumber,
-                                              FFAppState().recipe,
-                                              FFAppState().gtin,
-                                              FFAppState().MFG,
-                                              FFAppState().EXP,
+                                              _model.ssccTextController2.text,
+                                              _model.recipe,
+                                              _model.gtin,
+                                              _model.mfg,
+                                              _model.exp,
                                               _model.quantity.toString(),
-                                              _model.palletsscc,
-                                              FFAppState().DateFormat,
+                                              _model.palletSSCC,
+                                              _model.dateFormat,
                                               FFAppState().companyName,
                                               1,
                                             );
@@ -530,7 +723,7 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
                                           width: 110.0,
                                           decoration: BoxDecoration(),
                                           child: Text(
-                                            'Batch Number : ',
+                                            'Pallet SSCC : ',
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
@@ -561,7 +754,7 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
                                           ),
                                         ),
                                         Text(
-                                          FFAppState().batchNumber,
+                                          _model.palletSSCC,
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
@@ -628,7 +821,7 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
                                           ),
                                         ),
                                         Text(
-                                          FFAppState().recipe,
+                                          _model.recipe,
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
@@ -695,7 +888,7 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
                                           ),
                                         ),
                                         Text(
-                                          FFAppState().gtin,
+                                          _model.gtin,
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
@@ -762,7 +955,7 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
                                           ),
                                         ),
                                         Text(
-                                          FFAppState().MFG,
+                                          _model.mfg,
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
@@ -829,7 +1022,7 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
                                           ),
                                         ),
                                         Text(
-                                          FFAppState().EXP,
+                                          _model.exp,
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(

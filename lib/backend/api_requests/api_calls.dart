@@ -481,6 +481,98 @@ class CheckPalletStatusCall {
       ));
 }
 
+class GenerateSSCCCall {
+  static Future<ApiCallResponse> call({
+    String? batch = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "batch": "${escapeStringForJson(batch)}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'GenerateSSCC',
+      apiUrl:
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/Aggregation/GetPalletSSCCFromPool',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  static String? sscc(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.sscc''',
+      ));
+}
+
+class GetCartonParentCall {
+  static Future<ApiCallResponse> call({
+    String? batchNumber = '',
+    String? cartonSscc = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "batch_number": "${escapeStringForJson(batchNumber)}",
+  "carton_sscc": "${escapeStringForJson(cartonSscc)}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'GetCartonParent',
+      apiUrl:
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/Aggregation/GetCartonParent',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  static String? palletsscc(dynamic response) =>
+      castToType<String>(getJsonField(
+        response,
+        r'''$.pallet_sscc''',
+      ));
+  static String? recipe(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.Recipe''',
+      ));
+  static String? gtin(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.GTIN''',
+      ));
+  static String? mfg(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.MFG''',
+      ));
+  static String? exp(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.EXP''',
+      ));
+  static String? quantity(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.Quantity''',
+      ));
+  static String? dateFormat(dynamic response) =>
+      castToType<String>(getJsonField(
+        response,
+        r'''$.date_format''',
+      ));
+}
+
 class ApiPagingParams {
   int nextPageNumber = 0;
   int numItems = 0;
