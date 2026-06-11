@@ -31,6 +31,12 @@ class ProductActionPageModel extends FlutterFlowModel<ProductActionPageWidget> {
   String? parsedDMSerial;
   // Stores action output result for [Custom Action - parseBarcode] action in ScannerListenerWidget widget.
   String? parsedDMbatch;
+  // Stores action output result for [Custom Action - parseBarcode] action in ScannerListenerWidget widget.
+  String? parsedDMmfg;
+  // Stores action output result for [Custom Action - parseBarcode] action in ScannerListenerWidget widget.
+  String? parsedDMexp;
+  // Stores action output result for [Custom Action - parseBarcode] action in ScannerListenerWidget widget.
+  String? parsedDMgtin;
   // State field(s) for SSCC widget.
   FocusNode? ssccFocusNode;
   TextEditingController? ssccTextController;
