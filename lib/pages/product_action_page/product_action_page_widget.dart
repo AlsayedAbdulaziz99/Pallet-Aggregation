@@ -151,7 +151,7 @@ class _ProductActionPageWidgetState extends State<ProductActionPageWidget> {
                       );
                       _model.parsedDMgtin = await actions.parseBarcode(
                         code,
-                        GS1AIs.batch,
+                        GS1AIs.gtin,
                       );
                       _model.cartonsscc = _model.parsedDMSerial!;
                       _model.batch = _model.parsedDMbatch!;

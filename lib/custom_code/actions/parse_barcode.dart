@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
+import 'package:gs1_barcode_parser/gs1_barcode_parser.dart';
+
 Future<String> parseBarcode(
   String dm,
   GS1AIs ai,
@@ -25,23 +27,27 @@ Future<String> parseBarcode(
     final exp = result.getAIRawData('17');
     final String? output;
     switch (ai) {
-      case gtin:
+      case GS1AIs.gtin:
         output = gtin;
         break;
 
-      case mfg:
+      case GS1AIs.mfg:
         output = mfg;
         break;
 
-      case exp:
+      case GS1AIs.exp:
         output = exp;
         break;
 
-      case batch:
+      case GS1AIs.batch:
         output = batch;
         break;
+
+      case GS1AIs.serial:
+        output = serial;
+        break;
     }
-    return serial ?? '';
+    return output ?? '';
   } catch (_) {
     return '';
   }
