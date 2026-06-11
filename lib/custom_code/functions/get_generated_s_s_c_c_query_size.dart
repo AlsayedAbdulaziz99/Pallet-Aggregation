@@ -10,6 +10,7 @@ import '/flutter_flow/lat_lng.dart';
 import '/flutter_flow/place.dart';
 import '/flutter_flow/uploaded_file.dart';
 import '/backend/schema/structs/index.dart';
+import '/backend/schema/enums/enums.dart';
 import '/backend/sqlite/sqlite_manager.dart';
 
 int getGeneratedSSCCQuerySize(List<LoadGeneratedSSCCsRow>? queryOutput) {

@@ -1,4 +1,5 @@
 import '/backend/api_requests/api_calls.dart';
+import '/backend/schema/enums/enums.dart';
 import '/components/footer_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -134,14 +135,29 @@ class _ProductActionPageWidgetState extends State<ProductActionPageWidget> {
                     onCartonActionScan: (code) async {
                       _model.parsedDMSerial = await actions.parseBarcode(
                         code,
-                        true,
+                        GS1AIs.serial,
                       );
                       _model.parsedDMbatch = await actions.parseBarcode(
                         code,
-                        false,
+                        GS1AIs.batch,
+                      );
+                      _model.parsedDMmfg = await actions.parseBarcode(
+                        code,
+                        GS1AIs.mfg,
+                      );
+                      _model.parsedDMexp = await actions.parseBarcode(
+                        code,
+                        GS1AIs.exp,
+                      );
+                      _model.parsedDMgtin = await actions.parseBarcode(
+                        code,
+                        GS1AIs.batch,
                       );
                       _model.cartonsscc = _model.parsedDMSerial!;
                       _model.batch = _model.parsedDMbatch!;
+                      _model.mfg = _model.parsedDMmfg!;
+                      _model.exp = _model.parsedDMexp!;
+                      _model.gtin = _model.parsedDMgtin!;
                       safeSetState(() {});
                       safeSetState(() {
                         _model.ssccTextController?.text =
@@ -217,7 +233,7 @@ class _ProductActionPageWidgetState extends State<ProductActionPageWidget> {
                                                         .labelMedium
                                                         .fontStyle,
                                               ),
-                                          hintText: 'sscc',
+                                          hintText: 'serial',
                                           hintStyle: FlutterFlowTheme.of(
                                                   context)
                                               .labelMedium
@@ -531,15 +547,50 @@ class _ProductActionPageWidgetState extends State<ProductActionPageWidget> {
                               child: SingleChildScrollView(
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Container(
-                                          width: 110.0,
-                                          decoration: BoxDecoration(),
-                                          child: Text(
-                                            'Recipe : ',
+                                    if (false)
+                                      Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Container(
+                                            width: 110.0,
+                                            decoration: BoxDecoration(),
+                                            child: Text(
+                                              'Recipe : ',
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    font: GoogleFonts.readexPro(
+                                                      fontWeight:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontWeight,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
+                                                    letterSpacing: 0.0,
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
+                                            ),
+                                          ),
+                                          Text(
+                                            _model.recipe,
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
@@ -568,37 +619,8 @@ class _ProductActionPageWidgetState extends State<ProductActionPageWidget> {
                                                           .fontStyle,
                                                 ),
                                           ),
-                                        ),
-                                        Text(
-                                          _model.recipe,
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                font: GoogleFonts.readexPro(
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
-                                                letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                              ),
-                                        ),
-                                      ],
-                                    ),
+                                        ],
+                                      ),
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [

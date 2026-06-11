@@ -1,5 +1,6 @@
 // Automatic FlutterFlow imports
 import '/backend/schema/structs/index.dart';
+import '/backend/schema/enums/enums.dart';
 import '/backend/sqlite/sqlite_manager.dart';
 import '/actions/actions.dart' as action_blocks;
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -10,20 +11,35 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-import 'package:gs1_barcode_parser/gs1_barcode_parser.dart';
-
-Future<String> parseBarcode(String dm, bool getserial) async {
-  // Add your function code here!
+Future<String> parseBarcode(
+  String dm,
+  GS1AIs ai,
+) async {
   try {
     final parser = GS1BarcodeParser.defaultParser();
     final result = parser.parse(dm);
     final serial = result.getAIRawData('21');
     final batch = result.getAIRawData('10');
+    final gtin = result.getAIRawData('01');
+    final mfg = result.getAIRawData('11');
+    final exp = result.getAIRawData('17');
     final String? output;
-    if (getserial) {
-      output = serial;
-    } else {
-      output = batch;
+    switch (ai) {
+      case gtin:
+        output = gtin;
+        break;
+
+      case mfg:
+        output = mfg;
+        break;
+
+      case exp:
+        output = exp;
+        break;
+
+      case batch:
+        output = batch;
+        break;
     }
     return serial ?? '';
   } catch (_) {
