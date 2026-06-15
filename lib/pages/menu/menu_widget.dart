@@ -154,7 +154,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                                 ProductActionPageWidget.routeName,
                                 queryParameters: {
                                   'action': serializeParam(
-                                    'sample',
+                                    'Sample',
                                     ParamType.String,
                                   ),
                                 }.withoutNulls,
@@ -176,7 +176,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                                 ProductActionPageWidget.routeName,
                                 queryParameters: {
                                   'action': serializeParam(
-                                    'damaged',
+                                    'Damaged',
                                     ParamType.String,
                                   ),
                                 }.withoutNulls,
