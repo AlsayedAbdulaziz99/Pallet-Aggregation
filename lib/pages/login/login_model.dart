@@ -29,10 +29,6 @@ class LoginModel extends FlutterFlowModel<LoginWidget> {
   ApiCallResponse? userLoginResponse;
   // Stores action output result for [Backend Call - API (GetBatchInfo)] action in Button widget.
   ApiCallResponse? getBatchInfoResponse;
-  // Stores action output result for [Backend Call - API (GetCompanyInfo)] action in Button widget.
-  ApiCallResponse? getCompanyInfoResponse;
-  // Stores action output result for [Backend Call - API (GetGTIN)] action in Button widget.
-  ApiCallResponse? getGTINResponse;
   // Model for footer component.
   late FooterModel footerModel;
 

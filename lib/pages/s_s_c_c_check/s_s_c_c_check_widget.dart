@@ -345,9 +345,8 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
                                 await Future.wait([
                                   Future(() async {
                                     if (_model.textController.text != '') {
-                                      _model.apiResultk41 =
-                                          await SerializationdbSnapshotCall
-                                              .call(
+                                      _model.aggregatePalletResponse =
+                                          await AggregatePalletCall.call(
                                         pallets: _model.palletsscc,
                                         cartonsList: functions
                                             .assemlbeCartonsList(FFAppState()
@@ -358,94 +357,33 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
                                       );
 
                                       _shouldSetState = true;
-                                      if ((_model.apiResultk41?.succeeded ??
+                                      if ((_model.aggregatePalletResponse
+                                              ?.succeeded ??
                                           true)) {
-                                        _model.dbSnapshotResopnse =
-                                            await AgregationdbSnapshotCall.call(
-                                          pallet: _model.palletsscc,
-                                          cartonsList: widget.cartonsList,
-                                          batchNumber: FFAppState().batchNumber,
-                                          palletCount: 0,
-                                          companyName: FFAppState().companyName,
-                                          manual: _model.manualAggregate,
+                                        safeSetState(() {
+                                          _model.textController?.clear();
+                                        });
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'data exported successfully',
+                                              style: TextStyle(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                              ),
+                                            ),
+                                            duration:
+                                                Duration(milliseconds: 3000),
+                                            backgroundColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .secondary,
+                                          ),
                                         );
-
-                                        _shouldSetState = true;
-                                        if (!(_model.dbSnapshotResopnse
-                                                ?.succeeded ??
-                                            true)) {
-                                          await showDialog(
-                                            context: context,
-                                            builder: (alertDialogContext) {
-                                              return AlertDialog(
-                                                title: Text('Error'),
-                                                content: Text('Server Error'),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(
-                                                            alertDialogContext),
-                                                    child: Text('Ok'),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                          if (_shouldSetState)
-                                            safeSetState(() {});
-                                          return;
-                                        }
-                                        if ((_model.dbSnapshotResopnse
-                                                    ?.succeeded ??
-                                                true) ==
-                                            true) {
-                                          safeSetState(() {
-                                            _model.textController?.clear();
-                                          });
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                'data exported successfully',
-                                                style: TextStyle(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryText,
-                                                ),
-                                              ),
-                                              duration:
-                                                  Duration(milliseconds: 3000),
-                                              backgroundColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondary,
-                                            ),
-                                          );
-                                          if (_shouldSetState)
-                                            safeSetState(() {});
-                                          return;
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                'Failed To Export, Database Error',
-                                                style: TextStyle(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryText,
-                                                ),
-                                              ),
-                                              duration:
-                                                  Duration(milliseconds: 4000),
-                                              backgroundColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .error,
-                                            ),
-                                          );
-                                          if (_shouldSetState)
-                                            safeSetState(() {});
-                                          return;
-                                        }
+                                        if (_shouldSetState)
+                                          safeSetState(() {});
+                                        return;
                                       } else {
                                         await showDialog(
                                           context: context,

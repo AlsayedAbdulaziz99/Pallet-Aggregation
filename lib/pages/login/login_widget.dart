@@ -694,6 +694,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                   ?.jsonBody ??
                                               ''),
                                         )!;
+                                        FFAppState().gtin =
+                                            GetBatchInfoCall.gtin(
+                                          (_model.getBatchInfoResponse
+                                                  ?.jsonBody ??
+                                              ''),
+                                        ).toString();
                                         safeSetState(() {});
                                       } else {
                                         ScaffoldMessenger.of(context)
@@ -715,95 +721,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                                           ),
                                         );
                                       }
-                                    }),
-                                    Future(() async {
-                                      _model.getCompanyInfoResponse =
-                                          await GetCompanyInfoCall.call();
 
-                                      if ((_model.getCompanyInfoResponse
-                                              ?.succeeded ??
-                                          true)) {
-                                        FFAppState().companyName =
-                                            GetCompanyInfoCall.companyName(
-                                          (_model.getCompanyInfoResponse
-                                                  ?.jsonBody ??
-                                              ''),
-                                        )!;
-                                        FFAppState().companyPrefix =
-                                            GetCompanyInfoCall.companyPrefix(
-                                          (_model.getCompanyInfoResponse
-                                                  ?.jsonBody ??
-                                              ''),
-                                        )!;
-                                        FFAppState().extensionDigit =
-                                            GetCompanyInfoCall.extensionDigit(
-                                          (_model.getCompanyInfoResponse
-                                                  ?.jsonBody ??
-                                              ''),
-                                        )!;
-                                        FFAppState().palletCounter =
-                                            GetCompanyInfoCall.palletCounter(
-                                          (_model.getCompanyInfoResponse
-                                                  ?.jsonBody ??
-                                              ''),
-                                        )!;
-                                        safeSetState(() {});
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              'Server Error',
-                                              style: TextStyle(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryText,
-                                              ),
-                                            ),
-                                            duration:
-                                                Duration(milliseconds: 3000),
-                                            backgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .error,
-                                          ),
-                                        );
-                                      }
+                                      _model.batchImported = true;
+                                      safeSetState(() {});
                                     }),
                                   ]);
-                                  _model.getGTINResponse =
-                                      await GetGTINCall.call(
-                                    recipeName: FFAppState().recipe,
-                                  );
-
-                                  if ((_model.getGTINResponse?.succeeded ??
-                                      true)) {
-                                    FFAppState().gtin = GetGTINCall.gtin(
-                                      (_model.getGTINResponse?.jsonBody ?? ''),
-                                    )!;
-                                    FFAppState().Quantity =
-                                        GetGTINCall.quantity(
-                                      (_model.getGTINResponse?.jsonBody ?? ''),
-                                    )!;
-                                    safeSetState(() {});
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          'Server Error!',
-                                          style: TextStyle(
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                          ),
-                                        ),
-                                        duration: Duration(milliseconds: 2000),
-                                        backgroundColor:
-                                            FlutterFlowTheme.of(context).error,
-                                      ),
-                                    );
-                                  }
-
-                                  _model.batchImported = true;
-                                  safeSetState(() {});
 
                                   safeSetState(() {});
                                 },
