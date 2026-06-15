@@ -34,10 +34,8 @@ class SSCCCheckModel extends FlutterFlowModel<SSCCCheckWidget> {
   String? Function(BuildContext, String?)? textControllerValidator;
   // Stores action output result for [Backend Call - API (CheckPalletStatus)] action in ScannerListenerWidget widget.
   ApiCallResponse? checkPalletStatusResponse;
-  // Stores action output result for [Backend Call - API (SerializationdbSnapshot)] action in Button widget.
-  ApiCallResponse? apiResultk41;
-  // Stores action output result for [Backend Call - API (AgregationdbSnapshot)] action in Button widget.
-  ApiCallResponse? dbSnapshotResopnse;
+  // Stores action output result for [Backend Call - API (AggregatePallet)] action in Button widget.
+  ApiCallResponse? aggregatePalletResponse;
   // Model for footer component.
   late FooterModel footerModel;
 

@@ -193,6 +193,10 @@ class GetBatchInfoCall {
         response,
         r'''$.DateFormat''',
       ));
+  static dynamic gtin(dynamic response) => getJsonField(
+        response,
+        r'''$.gtin''',
+      );
 }
 
 class CartonPalletRelationCall {
@@ -333,7 +337,7 @@ class LoadUsersCall {
           .toList();
 }
 
-class SerializationdbSnapshotCall {
+class AggregatePalletCall {
   static Future<ApiCallResponse> call({
     String? pallets = '',
     List<String>? cartonsList,
@@ -350,7 +354,7 @@ class SerializationdbSnapshotCall {
   "manual": ${manual}
 }''';
     return ApiManager.instance.makeApiCall(
-      callName: 'SerializationdbSnapshot',
+      callName: 'AggregatePallet',
       apiUrl:
           'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/Serialization/UpdateSerializationDBAfterAggregating',
       callType: ApiCallType.POST,
