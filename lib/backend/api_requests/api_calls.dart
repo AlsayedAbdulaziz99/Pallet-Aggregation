@@ -422,7 +422,7 @@ class CheckShipperStatusCall {
     return ApiManager.instance.makeApiCall(
       callName: 'CheckShipperStatus',
       apiUrl:
-          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/Aggregation/CheckShipperStatus',
+          'https://b8ee-156-216-127-115.ngrok-free.app/RemoteAgg/Aggregation/CheckCaseStatus',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -615,6 +615,25 @@ class CartonActionCall {
         response,
         r'''$.status''',
       );
+}
+
+class PrintPalletLabelCall {
+  static Future<ApiCallResponse> call() async {
+    return ApiManager.instance.makeApiCall(
+      callName: 'PrintPalletLabel',
+      apiUrl: 'http://127.0.0.1:8001/RemoteAgg/shared/PrintPalletRequest',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
 }
 
 class ApiPagingParams {

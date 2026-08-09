@@ -28,6 +28,8 @@ class PackPalletEventModel extends FlutterFlowModel<PackPalletEventWidget> {
   void updateScannedSSCCsAtIndex(int index, Function(String) updateFn) =>
       scannedSSCCs[index] = updateFn(scannedSSCCs[index]);
 
+  bool palletPrinted = false;
+
   ///  State fields for stateful widgets in this page.
 
   // Stores action output result for [Backend Call - API (CheckShipperStatus)] action in ScannerListenerWidget widget.
@@ -36,10 +38,8 @@ class PackPalletEventModel extends FlutterFlowModel<PackPalletEventWidget> {
   FocusNode? ssccFocusNode;
   TextEditingController? ssccTextController;
   String? Function(BuildContext, String?)? ssccTextControllerValidator;
-  // Stores action output result for [Backend Call - API (GenerateSSCC)] action in Button widget.
-  ApiCallResponse? generateSSCCResponse;
-  // Stores action output result for [Backend Call - SQLite (Load Generated SSCCs)] action in Button widget.
-  List<LoadGeneratedSSCCsRow>? loadGeneratedSSCCsResponse2;
+  // Stores action output result for [Backend Call - API (PrintPalletLabel)] action in Button widget.
+  ApiCallResponse? printPalletRequestResponse;
   // Stores action output result for [Backend Call - SQLite (Load Generated SSCCs)] action in Button widget.
   List<LoadGeneratedSSCCsRow>? loadGeneratedSSCCsResponse;
   // Model for footer component.
