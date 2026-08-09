@@ -392,32 +392,53 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                 onPackPalletScan: (code) async {
                                   if ((code != '') &&
                                       !_model.scannedSSCCs.contains(code)) {
-                                    _model.checkShipperStatusResponse =
-                                        await CheckShipperStatusCall.call(
-                                      cartonSSCC: code,
-                                      batch: FFAppState().batchNumber,
-                                    );
+                                    if (!_model.palletPrinted) {
+                                      _model.checkShipperStatusResponse =
+                                          await CheckShipperStatusCall.call(
+                                        cartonSSCC: code,
+                                        batch: FFAppState().batchNumber,
+                                      );
 
-                                    if ((_model.checkShipperStatusResponse
-                                            ?.succeeded ??
-                                        true)) {
-                                      if (CheckShipperStatusCall.status(
-                                        (_model.checkShipperStatusResponse
-                                                ?.jsonBody ??
-                                            ''),
-                                      )!) {
-                                        _model.addToScannedSSCCs(code);
-                                        safeSetState(() {});
+                                      if ((_model.checkShipperStatusResponse
+                                              ?.succeeded ??
+                                          true)) {
+                                        if (CheckShipperStatusCall.status(
+                                          (_model.checkShipperStatusResponse
+                                                  ?.jsonBody ??
+                                              ''),
+                                        )!) {
+                                          _model.addToScannedSSCCs(code);
+                                          safeSetState(() {});
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                CheckShipperStatusCall.msg(
+                                                  (_model.checkShipperStatusResponse
+                                                          ?.jsonBody ??
+                                                      ''),
+                                                )!,
+                                                style: TextStyle(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryText,
+                                                ),
+                                              ),
+                                              duration:
+                                                  Duration(milliseconds: 2500),
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                            ),
+                                          );
+                                        }
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           SnackBar(
                                             content: Text(
-                                              CheckShipperStatusCall.msg(
-                                                (_model.checkShipperStatusResponse
-                                                        ?.jsonBody ??
-                                                    ''),
-                                              )!,
+                                              'Server Error Check WIFI Connection!',
                                               style: TextStyle(
                                                 color:
                                                     FlutterFlowTheme.of(context)
@@ -425,7 +446,7 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                               ),
                                             ),
                                             duration:
-                                                Duration(milliseconds: 2500),
+                                                Duration(milliseconds: 2000),
                                             backgroundColor:
                                                 FlutterFlowTheme.of(context)
                                                     .error,
@@ -433,24 +454,9 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                         );
                                       }
                                     } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            'Server Error Check WIFI Connection!',
-                                            style: TextStyle(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                            ),
-                                          ),
-                                          duration:
-                                              Duration(milliseconds: 2000),
-                                          backgroundColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .error,
-                                        ),
-                                      );
+                                      safeSetState(() {
+                                        _model.ssccTextController?.text = code;
+                                      });
                                     }
                                   }
 
@@ -743,105 +749,6 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                     ),
                                   ),
                                 ),
-                                Align(
-                                  alignment: AlignmentDirectional(0.0, 0.0),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        5.0, 10.0, 0.0, 0.0),
-                                    child: FFButtonWidget(
-                                      onPressed: () async {
-                                        _model.generateSSCCResponse =
-                                            await GenerateSSCCCall.call(
-                                          batch: FFAppState().batchNumber,
-                                        );
-
-                                        if ((_model.generateSSCCResponse
-                                                ?.succeeded ??
-                                            true)) {
-                                          _model.palletsscc =
-                                              GenerateSSCCCall.sscc(
-                                            (_model.generateSSCCResponse
-                                                    ?.jsonBody ??
-                                                ''),
-                                          )!;
-                                          safeSetState(() {});
-                                          safeSetState(() {
-                                            _model.ssccTextController?.text =
-                                                GenerateSSCCCall.sscc(
-                                              (_model.generateSSCCResponse
-                                                      ?.jsonBody ??
-                                                  ''),
-                                            )!;
-                                          });
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                'Server Error Check WIFI Connection!',
-                                                style: TextStyle(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryText,
-                                                ),
-                                              ),
-                                              duration:
-                                                  Duration(milliseconds: 2000),
-                                              backgroundColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .error,
-                                            ),
-                                          );
-                                        }
-
-                                        safeSetState(() {});
-                                      },
-                                      text: 'Generate SSCC',
-                                      icon: Icon(
-                                        Icons.downloading_rounded,
-                                        size: 20.0,
-                                      ),
-                                      options: FFButtonOptions(
-                                        width: 150.0,
-                                        height: 40.0,
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0.0, 0.0, 0.0, 0.0),
-                                        iconAlignment: IconAlignment.start,
-                                        iconPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                0.0, 0.0, 0.0, 0.0),
-                                        color: FlutterFlowTheme.of(context)
-                                            .success,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .titleSmall
-                                            .override(
-                                              font: GoogleFonts.readexPro(
-                                                fontWeight: FontWeight.normal,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleSmall
-                                                        .fontStyle,
-                                              ),
-                                              color: Colors.white,
-                                              fontSize: 18.0,
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.normal,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleSmall
-                                                      .fontStyle,
-                                            ),
-                                        elevation: 3.0,
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
                               ],
                             ),
                           ],
@@ -859,67 +766,20 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                   onPressed: (FFAppState().userLevel != 'Admin')
                                       ? null
                                       : () async {
-                                          if ((_model.palletsscc != '') &&
-                                              (FFAppState().PrinterIP !=
-                                                      '') &&
-                                              (FFAppState()
-                                                      .scannedatalist
-                                                      .length !=
-                                                  0)) {
-                                            _model.loadGeneratedSSCCsResponse2 =
-                                                await SQLiteManager.instance
-                                                    .loadGeneratedSSCCs(
-                                              generatedSSCC: _model
-                                                  .ssccTextController.text,
-                                            );
-                                            if (_model
-                                                    .loadGeneratedSSCCsResponse2
-                                                    ?.length ==
-                                                0) {
-                                              ScaffoldMessenger.of(context)
-                                                  .clearSnackBars();
-                                              FFAppState().CartonsToAggregate =
-                                                  _model.scannedSSCCs
-                                                      .toList()
-                                                      .cast<String>();
-                                              FFAppState().verify = true;
-                                              safeSetState(() {});
-                                              await actions.printLable(
-                                                FFAppState().PrinterIP,
-                                                FFAppState().batchNumber,
-                                                FFAppState().recipe,
-                                                FFAppState().gtin,
-                                                FFAppState().MFG,
-                                                FFAppState().EXP,
-                                                FFAppState().Quantity,
-                                                _model.palletsscc,
-                                                FFAppState().DateFormat,
-                                                FFAppState().companyName,
-                                                4,
-                                              );
-                                              _model.scannerActive = false;
-                                              safeSetState(() {});
+                                          if (_model.scannedSSCCs.length != 0) {
+                                            _model.printPalletRequestResponse =
+                                                await PrintPalletLabelCall
+                                                    .call();
 
-                                              context.goNamed(
-                                                SSCCCheckWidget.routeName,
-                                                queryParameters: {
-                                                  'cartonsList': serializeParam(
-                                                    _model.scannedSSCCs,
-                                                    ParamType.String,
-                                                    isList: true,
-                                                  ),
-                                                  'manual': serializeParam(
-                                                    true,
-                                                    ParamType.bool,
-                                                  ),
-                                                }.withoutNulls,
-                                              );
-                                            } else {
+                                            if ((_model
+                                                    .printPalletRequestResponse
+                                                    ?.succeeded ??
+                                                true)) {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                                 SnackBar(
                                                   content: Text(
-                                                    'Pallet SSCC Has Been Used, Generate Another One',
+                                                    'Label Printed!',
                                                     style: TextStyle(
                                                       color:
                                                           FlutterFlowTheme.of(
@@ -928,22 +788,47 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                                     ),
                                                   ),
                                                   duration: Duration(
-                                                      milliseconds: 2500),
+                                                      milliseconds: 1000),
+                                                  backgroundColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondary,
+                                                ),
+                                              );
+                                              _model.palletPrinted = true;
+                                              safeSetState(() {});
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    'Server Error Try Again!',
+                                                    style: TextStyle(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryText,
+                                                    ),
+                                                  ),
+                                                  duration: Duration(
+                                                      milliseconds: 2000),
                                                   backgroundColor:
                                                       FlutterFlowTheme.of(
                                                               context)
                                                           .error,
                                                 ),
                                               );
+                                              _model.palletPrinted = false;
+                                              safeSetState(() {});
                                             }
                                           } else {
                                             await showDialog(
                                               context: context,
                                               builder: (alertDialogContext) {
                                                 return AlertDialog(
-                                                  title: Text('Error'),
+                                                  title: Text('Warning'),
                                                   content: Text(
-                                                      'check sscc and printer ip'),
+                                                      'Please Scan Cases First!'),
                                                   actions: [
                                                     TextButton(
                                                       onPressed: () =>
@@ -959,13 +844,13 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
 
                                           safeSetState(() {});
                                         },
-                                  text: 'Print Partial Pallet',
+                                  text: 'Print Label',
                                   icon: Icon(
                                     Icons.print,
                                     size: 20.0,
                                   ),
                                   options: FFButtonOptions(
-                                    width: 200.0,
+                                    width: 160.0,
                                     height: 40.0,
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         24.0, 0.0, 24.0, 0.0),
@@ -1005,8 +890,9 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                               Align(
                                 alignment: AlignmentDirectional(0.0, 0.0),
                                 child: FFButtonWidget(
-                                  onPressed: (_model.scannedSSCCs.length !=
-                                          _model.maxPalletSize)
+                                  onPressed: ((_model.ssccTextController.text ==
+                                                  '') &&
+                                          !_model.palletPrinted)
                                       ? null
                                       : () async {
                                           var _shouldSetState = false;
@@ -1143,9 +1029,9 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                           if (_shouldSetState)
                                             safeSetState(() {});
                                         },
-                                  text: 'Print Pallet',
+                                  text: 'Aggregate Pallet',
                                   icon: Icon(
-                                    Icons.print,
+                                    Icons.done,
                                     size: 20.0,
                                   ),
                                   options: FFButtonOptions(

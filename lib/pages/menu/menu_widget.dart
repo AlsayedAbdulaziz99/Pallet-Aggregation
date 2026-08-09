@@ -134,10 +134,20 @@ class _MenuWidgetState extends State<MenuWidget> {
                             updateCallback: () => safeSetState(() {}),
                             child: AutoPackWidget(),
                           ),
-                          wrapWithModel(
-                            model: _model.packingModel,
-                            updateCallback: () => safeSetState(() {}),
-                            child: PackingWidget(),
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              context
+                                  .pushNamed(PackPalletEventWidget.routeName);
+                            },
+                            child: wrapWithModel(
+                              model: _model.packingModel,
+                              updateCallback: () => safeSetState(() {}),
+                              child: PackingWidget(),
+                            ),
                           ),
                           wrapWithModel(
                             model: _model.decomissionModel,
@@ -154,7 +164,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                                 ProductActionPageWidget.routeName,
                                 queryParameters: {
                                   'action': serializeParam(
-                                    'sample',
+                                    'Sample',
                                     ParamType.String,
                                   ),
                                 }.withoutNulls,
@@ -176,7 +186,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                                 ProductActionPageWidget.routeName,
                                 queryParameters: {
                                   'action': serializeParam(
-                                    'damaged',
+                                    'Damaged',
                                     ParamType.String,
                                   ),
                                 }.withoutNulls,
