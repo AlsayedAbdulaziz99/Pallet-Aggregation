@@ -625,6 +625,7 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                       controller: _model.ssccTextController,
                                       focusNode: _model.ssccFocusNode,
                                       autofocus: false,
+                                      enabled: true,
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         isDense: true,
@@ -901,7 +902,8 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                       : () async {
                                           _model.aggregatePalletResponse =
                                               await AggregatePalletCall.call(
-                                            pallets: _model.palletsscc,
+                                            pallets:
+                                                _model.ssccTextController.text,
                                             cartonsList: _model.scannedSSCCs,
                                           );
 
