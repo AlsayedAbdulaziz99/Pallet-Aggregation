@@ -699,7 +699,13 @@ class _LoginWidgetState extends State<LoginWidget> {
                                           (_model.getBatchInfoResponse
                                                   ?.jsonBody ??
                                               ''),
-                                        ).toString();
+                                        )!;
+                                        FFAppState().Quantity =
+                                            GetBatchInfoCall.quantity(
+                                          (_model.getBatchInfoResponse
+                                                  ?.jsonBody ??
+                                              ''),
+                                        )!;
                                         safeSetState(() {});
                                       } else {
                                         ScaffoldMessenger.of(context)

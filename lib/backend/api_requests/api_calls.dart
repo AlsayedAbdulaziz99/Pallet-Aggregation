@@ -193,10 +193,14 @@ class GetBatchInfoCall {
         response,
         r'''$.DateFormat''',
       ));
-  static dynamic gtin(dynamic response) => getJsonField(
+  static String? gtin(dynamic response) => castToType<String>(getJsonField(
         response,
         r'''$.gtin''',
-      );
+      ));
+  static String? quantity(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.Quantity''',
+      ));
 }
 
 class CartonPalletRelationCall {
