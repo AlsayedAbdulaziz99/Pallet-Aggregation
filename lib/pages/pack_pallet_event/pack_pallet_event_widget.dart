@@ -1,12 +1,9 @@
 import '/backend/api_requests/api_calls.dart';
-import '/backend/sqlite/sqlite_manager.dart';
 import '/components/footer_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
-import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -292,7 +289,7 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                               Align(
                                 alignment: AlignmentDirectional(0.0, 0.0),
                                 child: Text(
-                                  FFAppState().scannedatalist.length.toString(),
+                                  _model.scannedSSCCs.length.toString(),
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
@@ -325,7 +322,11 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                   child: FFButtonWidget(
                                     onPressed: () async {
                                       _model.scannedSSCCs = [];
+                                      _model.palletPrinted = false;
                                       safeSetState(() {});
+                                      safeSetState(() {
+                                        _model.ssccTextController?.clear();
+                                      });
                                     },
                                     text: 'Clear List',
                                     icon: Icon(
@@ -407,8 +408,11 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                                   ?.jsonBody ??
                                               ''),
                                         )!) {
-                                          _model.addToScannedSSCCs(code);
-                                          safeSetState(() {});
+                                          if (_model.scannedSSCCs.length <
+                                              _model.maxPalletSize) {
+                                            _model.addToScannedSSCCs(code);
+                                            safeSetState(() {});
+                                          }
                                         } else {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
@@ -763,7 +767,7 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                               Align(
                                 alignment: AlignmentDirectional(0.0, 0.0),
                                 child: FFButtonWidget(
-                                  onPressed: (FFAppState().userLevel != 'Admin')
+                                  onPressed: _model.palletPrinted
                                       ? null
                                       : () async {
                                           if (_model.scannedSSCCs.length != 0) {
@@ -895,70 +899,26 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                           !_model.palletPrinted)
                                       ? null
                                       : () async {
-                                          var _shouldSetState = false;
-                                          if ((_model.ssccTextController
-                                                          .text !=
-                                                      '') &&
-                                              (FFAppState().PrinterIP !=
-                                                      '')) {
-                                            _model.loadGeneratedSSCCsResponse =
-                                                await SQLiteManager.instance
-                                                    .loadGeneratedSSCCs(
-                                              generatedSSCC: _model
-                                                  .ssccTextController.text,
-                                            );
-                                            _shouldSetState = true;
-                                            if (_model
-                                                    .loadGeneratedSSCCsResponse
-                                                    ?.length ==
-                                                0) {
-                                              ScaffoldMessenger.of(context)
-                                                  .clearSnackBars();
-                                              _model.loopCounter =
-                                                  FFAppState().scannedListSize -
-                                                      1;
-                                              FFAppState().CartonsToAggregate =
-                                                  FFAppState()
-                                                      .scannedatalist
-                                                      .toList()
-                                                      .cast<String>();
-                                              safeSetState(() {});
-                                              await actions.printLable(
-                                                FFAppState().PrinterIP,
-                                                FFAppState().batchNumber,
-                                                FFAppState().recipe,
-                                                FFAppState().gtin,
-                                                FFAppState().MFG,
-                                                FFAppState().EXP,
-                                                FFAppState().Quantity,
-                                                _model.palletsscc,
-                                                FFAppState().DateFormat,
-                                                FFAppState().companyName,
-                                                4,
-                                              );
-                                              FFAppState().verify = true;
-                                              safeSetState(() {});
+                                          _model.aggregatePalletResponse =
+                                              await AggregatePalletCall.call(
+                                            pallets: _model.palletsscc,
+                                            cartonsList: _model.scannedSSCCs,
+                                          );
 
-                                              context.goNamed(
-                                                SSCCCheckWidget.routeName,
-                                                queryParameters: {
-                                                  'manual': serializeParam(
-                                                    true,
-                                                    ParamType.bool,
-                                                  ),
-                                                  'cartonsList': serializeParam(
-                                                    _model.scannedSSCCs,
-                                                    ParamType.String,
-                                                    isList: true,
-                                                  ),
-                                                }.withoutNulls,
-                                              );
-                                            } else {
+                                          if ((_model.aggregatePalletResponse
+                                                  ?.succeeded ??
+                                              true)) {
+                                            if (AggregatePalletCall.response(
+                                                  (_model.aggregatePalletResponse
+                                                          ?.jsonBody ??
+                                                      ''),
+                                                ) ==
+                                                'Success') {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                                 SnackBar(
                                                   content: Text(
-                                                    'Pallet SSCC Has Been Used, Generate Another One',
+                                                    'Pallet Aggregated',
                                                     style: TextStyle(
                                                       color:
                                                           FlutterFlowTheme.of(
@@ -967,7 +927,35 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                                     ),
                                                   ),
                                                   duration: Duration(
-                                                      milliseconds: 2500),
+                                                      milliseconds: 2000),
+                                                  backgroundColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondary,
+                                                ),
+                                              );
+                                              safeSetState(() {
+                                                _model.ssccTextController
+                                                    ?.clear();
+                                              });
+                                              _model.scannedSSCCs = [];
+                                              _model.palletPrinted = false;
+                                              safeSetState(() {});
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    'Failed To Palletise',
+                                                    style: TextStyle(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryText,
+                                                    ),
+                                                  ),
+                                                  duration: Duration(
+                                                      milliseconds: 3000),
                                                   backgroundColor:
                                                       FlutterFlowTheme.of(
                                                               context)
@@ -976,58 +964,27 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                               );
                                             }
                                           } else {
-                                            if (FFAppState()
-                                                    .scannedatalist
-                                                    .length ==
-                                                0) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    'Please Scan Carton First',
-                                                    style: TextStyle(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primaryText,
-                                                    ),
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'Server Error Check WIFI Connection!',
+                                                  style: TextStyle(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primaryText,
                                                   ),
-                                                  duration: Duration(
-                                                      milliseconds: 4000),
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondary,
                                                 ),
-                                              );
-                                            } else {
-                                              await showDialog(
-                                                context: context,
-                                                builder: (alertDialogContext) {
-                                                  return AlertDialog(
-                                                    title: Text('Error'),
-                                                    content: Text(
-                                                        'check sscc and printer ip'),
-                                                    actions: [
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                alertDialogContext),
-                                                        child: Text('Ok'),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              );
-                                            }
-
-                                            if (_shouldSetState)
-                                              safeSetState(() {});
-                                            return;
+                                                duration: Duration(
+                                                    milliseconds: 2000),
+                                                backgroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .error,
+                                              ),
+                                            );
                                           }
 
-                                          if (_shouldSetState)
-                                            safeSetState(() {});
+                                          safeSetState(() {});
                                         },
                                   text: 'Aggregate Pallet',
                                   icon: Icon(
