@@ -348,7 +348,7 @@ class AggregatePalletCall {
 
     final ffApiRequestBody = '''
 {
-  "Pallets": "${escapeStringForJson(pallets)}",
+  "Pallet": "${escapeStringForJson(pallets)}",
   "Cartons": ${cartons},
   "BatchNumber": "${escapeStringForJson(batchNumber)}",
   "manual": ${manual}
@@ -370,6 +370,11 @@ class AggregatePalletCall {
       alwaysAllowBody: false,
     );
   }
+
+  static String? response(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.Response''',
+      ));
 }
 
 class LoadBatchSerialsCall {

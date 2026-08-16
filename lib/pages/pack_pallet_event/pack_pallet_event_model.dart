@@ -1,8 +1,6 @@
 import '/backend/api_requests/api_calls.dart';
-import '/backend/sqlite/sqlite_manager.dart';
 import '/components/footer_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/index.dart';
 import 'pack_pallet_event_widget.dart' show PackPalletEventWidget;
 import 'package:flutter/material.dart';
 
@@ -40,8 +38,8 @@ class PackPalletEventModel extends FlutterFlowModel<PackPalletEventWidget> {
   String? Function(BuildContext, String?)? ssccTextControllerValidator;
   // Stores action output result for [Backend Call - API (PrintPalletLabel)] action in Button widget.
   ApiCallResponse? printPalletRequestResponse;
-  // Stores action output result for [Backend Call - SQLite (Load Generated SSCCs)] action in Button widget.
-  List<LoadGeneratedSSCCsRow>? loadGeneratedSSCCsResponse;
+  // Stores action output result for [Backend Call - API (AggregatePallet)] action in Button widget.
+  ApiCallResponse? aggregatePalletResponse;
   // Model for footer component.
   late FooterModel footerModel;
 
