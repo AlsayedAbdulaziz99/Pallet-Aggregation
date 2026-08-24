@@ -596,7 +596,7 @@ class CartonActionCall {
 
     final ffApiRequestBody = '''
 {
-  "carton_dm": "<serial>",
+  "carton_dm": "${serials}",
   "batch" : "${escapeStringForJson(batch)}",
   "action": "${escapeStringForJson(action)}"
 }''';
