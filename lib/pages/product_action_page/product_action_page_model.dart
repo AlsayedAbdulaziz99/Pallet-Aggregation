@@ -1,4 +1,5 @@
 import '/backend/api_requests/api_calls.dart';
+import '/backend/schema/structs/index.dart';
 import '/components/footer_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'product_action_page_widget.dart' show ProductActionPageWidget;
@@ -25,6 +26,25 @@ class ProductActionPageModel extends FlutterFlowModel<ProductActionPageWidget> {
 
   String batch = '-';
 
+  List<UnitStruct> scanedUnits = [];
+  void addToScanedUnits(UnitStruct item) => scanedUnits.add(item);
+  void removeFromScanedUnits(UnitStruct item) => scanedUnits.remove(item);
+  void removeAtIndexFromScanedUnits(int index) => scanedUnits.removeAt(index);
+  void insertAtIndexInScanedUnits(int index, UnitStruct item) =>
+      scanedUnits.insert(index, item);
+  void updateScanedUnitsAtIndex(int index, Function(UnitStruct) updateFn) =>
+      scanedUnits[index] = updateFn(scanedUnits[index]);
+
+  List<String> scannedDMString = [];
+  void addToScannedDMString(String item) => scannedDMString.add(item);
+  void removeFromScannedDMString(String item) => scannedDMString.remove(item);
+  void removeAtIndexFromScannedDMString(int index) =>
+      scannedDMString.removeAt(index);
+  void insertAtIndexInScannedDMString(int index, String item) =>
+      scannedDMString.insert(index, item);
+  void updateScannedDMStringAtIndex(int index, Function(String) updateFn) =>
+      scannedDMString[index] = updateFn(scannedDMString[index]);
+
   ///  State fields for stateful widgets in this page.
 
   // Stores action output result for [Custom Action - parseBarcode] action in ScannerListenerWidget widget.
@@ -37,10 +57,6 @@ class ProductActionPageModel extends FlutterFlowModel<ProductActionPageWidget> {
   String? parsedDMexp;
   // Stores action output result for [Custom Action - parseBarcode] action in ScannerListenerWidget widget.
   String? parsedDMgtin;
-  // State field(s) for SSCC widget.
-  FocusNode? ssccFocusNode;
-  TextEditingController? ssccTextController;
-  String? Function(BuildContext, String?)? ssccTextControllerValidator;
   // Stores action output result for [Backend Call - API (cartonAction)] action in Button widget.
   ApiCallResponse? cartonActionResponse;
   // Model for footer component.
@@ -53,9 +69,6 @@ class ProductActionPageModel extends FlutterFlowModel<ProductActionPageWidget> {
 
   @override
   void dispose() {
-    ssccFocusNode?.dispose();
-    ssccTextController?.dispose();
-
     footerModel.dispose();
   }
 }
