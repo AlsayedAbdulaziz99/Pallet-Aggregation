@@ -589,12 +589,14 @@ class GetCartonParentCall {
 class CartonActionCall {
   static Future<ApiCallResponse> call({
     String? action = '',
-    String? serial = '',
+    List<String>? serialsList,
     String? batch = '',
   }) async {
+    final serials = _serializeList(serialsList);
+
     final ffApiRequestBody = '''
 {
-  "carton_dm": "${escapeStringForJson(serial)}",
+  "carton_dm": "<serial>",
   "batch" : "${escapeStringForJson(batch)}",
   "action": "${escapeStringForJson(action)}"
 }''';
