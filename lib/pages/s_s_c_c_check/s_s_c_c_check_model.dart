@@ -32,6 +32,8 @@ class SSCCCheckModel extends FlutterFlowModel<SSCCCheckWidget> {
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
+  // Stores action output result for [Custom Action - parseBarcode] action in ScannerListenerWidget widget.
+  String? scannedPalletSSCC;
   // Stores action output result for [Backend Call - API (CheckPalletStatus)] action in ScannerListenerWidget widget.
   ApiCallResponse? checkPalletStatusResponse;
   // Stores action output result for [Backend Call - API (AggregatePallet)] action in Button widget.

@@ -396,9 +396,14 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                   if ((code != '') &&
                                       !_model.scannedSSCCs.contains(code)) {
                                     if (!_model.palletPrinted) {
+                                      _model.scannedShipperSSCC =
+                                          await actions.parseBarcode(
+                                        code,
+                                        GS1AIs.sscc,
+                                      );
                                       _model.checkShipperStatusResponse =
                                           await CheckShipperStatusCall.call(
-                                        cartonSSCC: code,
+                                        cartonSSCC: _model.scannedShipperSSCC,
                                         batch: FFAppState().batchNumber,
                                       );
 
