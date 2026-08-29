@@ -1,8 +1,10 @@
 import '/backend/api_requests/api_calls.dart';
+import '/backend/schema/enums/enums.dart';
 import '/components/footer_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
@@ -277,9 +279,15 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
                                   onPackBundleScan: (code) async {},
                                   onSSCCVerifyScan: (code) async {
                                     var _shouldSetState = false;
+                                    _model.scannedPalletSSCC =
+                                        await actions.parseBarcode(
+                                      code,
+                                      GS1AIs.sscc,
+                                    );
+                                    _shouldSetState = true;
                                     _model.checkPalletStatusResponse =
                                         await CheckPalletStatusCall.call(
-                                      palletSSCC: code,
+                                      palletSSCC: _model.scannedPalletSSCC,
                                       batch: FFAppState().batchNumber,
                                     );
 
