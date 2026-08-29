@@ -300,9 +300,11 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
                                                 ?.jsonBody ??
                                             ''),
                                       )!) {
-                                        _model.textController?.text = code;
+                                        _model.textController?.text =
+                                            _model.scannedPalletSSCC!;
 
-                                        _model.palletsscc = code;
+                                        _model.palletsscc =
+                                            _model.scannedPalletSSCC!;
                                         safeSetState(() {});
                                       } else {
                                         ScaffoldMessenger.of(context)
