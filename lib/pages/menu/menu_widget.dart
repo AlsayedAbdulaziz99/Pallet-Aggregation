@@ -129,11 +129,12 @@ class _MenuWidgetState extends State<MenuWidget> {
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          wrapWithModel(
-                            model: _model.autoPackModel,
-                            updateCallback: () => safeSetState(() {}),
-                            child: AutoPackWidget(),
-                          ),
+                          if (false)
+                            wrapWithModel(
+                              model: _model.autoPackModel,
+                              updateCallback: () => safeSetState(() {}),
+                              child: AutoPackWidget(),
+                            ),
                           InkWell(
                             splashColor: Colors.transparent,
                             focusColor: Colors.transparent,
