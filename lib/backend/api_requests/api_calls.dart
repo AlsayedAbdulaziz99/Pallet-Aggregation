@@ -360,7 +360,7 @@ class AggregatePalletCall {
     return ApiManager.instance.makeApiCall(
       callName: 'AggregatePallet',
       apiUrl:
-          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/Serialization/UpdateSerializationDBAfterAggregating',
+          'https://c664-156-214-182-41.ngrok-free.app}/RemoteAgg/Serialization/UpdateSerializationDBAfterAggregating',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -431,7 +431,7 @@ class CheckShipperStatusCall {
     return ApiManager.instance.makeApiCall(
       callName: 'CheckShipperStatus',
       apiUrl:
-          'https://b8ee-156-216-127-115.ngrok-free.app/RemoteAgg/Aggregation/CheckCaseStatus',
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/Aggregation/CheckCaseStatus',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -596,7 +596,7 @@ class CartonActionCall {
 
     final ffApiRequestBody = '''
 {
-  "carton_dm": "${serials}",
+  "carton_dm": ${serials},
   "batch" : "${escapeStringForJson(batch)}",
   "action": "${escapeStringForJson(action)}"
 }''';
@@ -632,7 +632,8 @@ class PrintPalletLabelCall {
   static Future<ApiCallResponse> call() async {
     return ApiManager.instance.makeApiCall(
       callName: 'PrintPalletLabel',
-      apiUrl: 'http://127.0.0.1:8001/RemoteAgg/shared/PrintPalletRequest',
+      apiUrl:
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/shared/PrintPalletRequest',
       callType: ApiCallType.POST,
       headers: {},
       params: {},

@@ -32,6 +32,8 @@ class PackPalletEventModel extends FlutterFlowModel<PackPalletEventWidget> {
 
   // Stores action output result for [Backend Call - API (CheckShipperStatus)] action in ScannerListenerWidget widget.
   ApiCallResponse? checkShipperStatusResponse;
+  // Stores action output result for [Custom Action - parseBarcode] action in ScannerListenerWidget widget.
+  String? paresdBarcodeSSCC;
   // State field(s) for SSCC widget.
   FocusNode? ssccFocusNode;
   TextEditingController? ssccTextController;

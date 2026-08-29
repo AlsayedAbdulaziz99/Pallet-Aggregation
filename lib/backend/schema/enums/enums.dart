@@ -6,6 +6,7 @@ enum GS1AIs {
   mfg,
   exp,
   serial,
+  sscc,
 }
 
 extension FFEnumExtensions<T extends Enum> on T {
