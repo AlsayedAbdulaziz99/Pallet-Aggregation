@@ -156,6 +156,7 @@ class _ProductActionPageWidgetState extends State<ProductActionPageWidget> {
                           exp: _model.parsedDMexp,
                           dMString: code,
                         ));
+                        _model.addToScannedDMString(code);
                         safeSetState(() {});
                       }
 
@@ -179,7 +180,7 @@ class _ProductActionPageWidgetState extends State<ProductActionPageWidget> {
                               0.0, 10.0, 0.0, 0.0),
                           child: Container(
                             width: 350.0,
-                            height: 450.0,
+                            height: 400.0,
                             decoration: BoxDecoration(
                               color: FlutterFlowTheme.of(context)
                                   .secondaryBackground,
@@ -552,7 +553,7 @@ class _ProductActionPageWidgetState extends State<ProductActionPageWidget> {
                                   ? null
                                   : () async {
                                       var _shouldSetState = false;
-                                      if (_model.scannedDMString.isNotEmpty) {
+                                      if (_model.scanedUnits.isNotEmpty) {
                                         _model.cartonActionResponse =
                                             await CartonActionCall.call(
                                           action: widget.action,
@@ -665,7 +666,7 @@ class _ProductActionPageWidgetState extends State<ProductActionPageWidget> {
                                 size: 20.0,
                               ),
                               options: FFButtonOptions(
-                                width: 150.0,
+                                width: 250.0,
                                 height: 40.0,
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     24.0, 0.0, 24.0, 0.0),
