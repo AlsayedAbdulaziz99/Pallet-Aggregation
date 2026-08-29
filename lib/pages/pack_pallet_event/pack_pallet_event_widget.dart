@@ -417,7 +417,8 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                         )!) {
                                           if (_model.scannedSSCCs.length <
                                               _model.maxPalletSize) {
-                                            _model.addToScannedSSCCs(code);
+                                            _model.addToScannedSSCCs(
+                                                _model.scannedShipperSSCC!);
                                             safeSetState(() {});
                                           }
                                         } else {
