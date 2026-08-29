@@ -437,6 +437,7 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
                                 size: 25.0,
                               ),
                               options: FFButtonOptions(
+                                width: 300.0,
                                 height: 40.0,
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     16.0, 0.0, 16.0, 0.0),
@@ -464,7 +465,12 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
                                           .fontStyle,
                                     ),
                                 elevation: 0.0,
-                                borderRadius: BorderRadius.circular(8.0),
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20.0),
+                                  topRight: Radius.circular(20.0),
+                                  bottomLeft: Radius.circular(20.0),
+                                  bottomRight: Radius.circular(20.0),
+                                ),
                               ),
                             ),
                           ),

@@ -1,8 +1,10 @@
 import '/backend/api_requests/api_calls.dart';
+import '/backend/schema/enums/enums.dart';
 import '/components/footer_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -458,8 +460,14 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                         );
                                       }
                                     } else {
+                                      _model.paresdBarcodeSSCC =
+                                          await actions.parseBarcode(
+                                        code,
+                                        GS1AIs.sscc,
+                                      );
                                       safeSetState(() {
-                                        _model.ssccTextController?.text = code;
+                                        _model.ssccTextController?.text =
+                                            _model.paresdBarcodeSSCC!;
                                       });
                                     }
                                   }

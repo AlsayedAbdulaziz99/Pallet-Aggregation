@@ -25,6 +25,7 @@ Future<String> parseBarcode(
     final gtin = result.getAIRawData('01');
     final mfg = result.getAIRawData('11');
     final exp = result.getAIRawData('17');
+    final sscc = result.getAIRawData('00');
     final String? output;
     switch (ai) {
       case GS1AIs.gtin:
@@ -45,6 +46,10 @@ Future<String> parseBarcode(
 
       case GS1AIs.serial:
         output = serial;
+        break;
+
+      case GS1AIs.sscc:
+        output = sscc;
         break;
     }
     return output ?? '';
