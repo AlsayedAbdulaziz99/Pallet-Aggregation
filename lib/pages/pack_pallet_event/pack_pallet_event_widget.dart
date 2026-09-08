@@ -393,8 +393,14 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                 currentTabIndex: 0,
                                 isActive: _model.scannerActive,
                                 onPackPalletScan: (code) async {
+                                  _model.firstSSCCPareseCheck =
+                                      await actions.parseBarcode(
+                                    code,
+                                    GS1AIs.sscc,
+                                  );
                                   if ((code != '') &&
-                                      !_model.scannedSSCCs.contains(code)) {
+                                      !_model.scannedSSCCs.contains(
+                                          _model.firstSSCCPareseCheck)) {
                                     if (!_model.palletPrinted) {
                                       _model.scannedShipperSSCC =
                                           await actions.parseBarcode(
