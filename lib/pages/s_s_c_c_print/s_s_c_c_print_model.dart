@@ -21,22 +21,22 @@ class SSCCPrintModel extends FlutterFlowModel<SSCCPrintWidget> {
 
   String gtin = '-';
 
-  String recipe = '-';
+  String batch = '-';
 
   String dateFormat = '-';
 
   ///  State fields for stateful widgets in this page.
 
-  // State field(s) for SSCC widget.
-  FocusNode? ssccFocusNode1;
-  TextEditingController? ssccTextController1;
-  String? Function(BuildContext, String?)? ssccTextController1Validator;
-  // State field(s) for SSCC widget.
-  FocusNode? ssccFocusNode2;
-  TextEditingController? ssccTextController2;
-  String? Function(BuildContext, String?)? ssccTextController2Validator;
-  // Stores action output result for [Backend Call - API (GetCartonParent)] action in IconButton widget.
+  // Stores action output result for [Custom Action - parseBarcode] action in ScannerListenerWidget widget.
+  String? parsedCaseSSCC;
+  // Stores action output result for [Backend Call - API (GetCartonParent)] action in ScannerListenerWidget widget.
   ApiCallResponse? getCartonParentResponse;
+  // State field(s) for SSCC widget.
+  FocusNode? ssccFocusNode;
+  TextEditingController? ssccTextController;
+  String? Function(BuildContext, String?)? ssccTextControllerValidator;
+  // Stores action output result for [Backend Call - API (PrintManualPallet)] action in Button widget.
+  ApiCallResponse? printManualPalletResponse;
   // Model for footer component.
   late FooterModel footerModel;
 
@@ -47,11 +47,8 @@ class SSCCPrintModel extends FlutterFlowModel<SSCCPrintWidget> {
 
   @override
   void dispose() {
-    ssccFocusNode1?.dispose();
-    ssccTextController1?.dispose();
-
-    ssccFocusNode2?.dispose();
-    ssccTextController2?.dispose();
+    ssccFocusNode?.dispose();
+    ssccTextController?.dispose();
 
     footerModel.dispose();
   }

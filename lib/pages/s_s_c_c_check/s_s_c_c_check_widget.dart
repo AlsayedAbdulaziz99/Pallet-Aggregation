@@ -89,7 +89,10 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
             child: Padding(
               padding: EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 0.0, 0.0),
               child: Text(
-                FFAppState().tatmeenButton,
+                valueOrDefault<String>(
+                  FFAppState().tatmeenButton,
+                  'Aggregate Pallet',
+                ),
                 style: FlutterFlowTheme.of(context).headlineMedium.override(
                       font: GoogleFonts.outfit(
                         fontWeight: FlutterFlowTheme.of(context)
