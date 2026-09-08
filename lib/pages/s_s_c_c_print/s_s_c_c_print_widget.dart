@@ -162,6 +162,9 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
                           _model.dateFormat = GetCartonParentCall.dateFormat(
                             (_model.getCartonParentResponse?.jsonBody ?? ''),
                           )!;
+                          _model.gtin = GetCartonParentCall.gtin(
+                            (_model.getCartonParentResponse?.jsonBody ?? ''),
+                          )!;
                           safeSetState(() {});
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
