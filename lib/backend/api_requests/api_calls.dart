@@ -80,7 +80,7 @@ class GetCompanyInfoCall {
     return ApiManager.instance.makeApiCall(
       callName: 'GetCompanyInfo',
       apiUrl:
-          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/Aggregation/GetCompanyInfo',
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/PalletAggregation/GetCompanyInfo',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -126,7 +126,7 @@ class GetGTINCall {
     return ApiManager.instance.makeApiCall(
       callName: 'GetGTIN',
       apiUrl:
-          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/Aggregation/GetGTIN',
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/PalletAggregation/GetGTIN',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -156,7 +156,7 @@ class GetBatchInfoCall {
     return ApiManager.instance.makeApiCall(
       callName: 'GetBatchInfo',
       apiUrl:
-          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/Serialization/GetBatchInfo',
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/PalletAggregation/GetBatchInfo',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -214,7 +214,7 @@ class CartonPalletRelationCall {
     return ApiManager.instance.makeApiCall(
       callName: 'CartonPalletRelation',
       apiUrl:
-          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/Aggregation/GetCartonsPalletsRelation',
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/PalletAggregation/GetCartonsPalletsRelation',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -272,7 +272,7 @@ class AgregationdbSnapshotCall {
     return ApiManager.instance.makeApiCall(
       callName: 'AgregationdbSnapshot',
       apiUrl:
-          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/Aggregation/UpdateOpennedBatchTable',
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/PalletAggregation/UpdateOpennedBatchTable',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -298,7 +298,7 @@ class LoadUsersCall {
     return ApiManager.instance.makeApiCall(
       callName: 'LoadUsers',
       apiUrl:
-          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/Aggregation/LoadUsers',
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/PalletAggregation/LoadUsers',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -360,7 +360,7 @@ class AggregatePalletCall {
     return ApiManager.instance.makeApiCall(
       callName: 'AggregatePallet',
       apiUrl:
-          'https://c664-156-214-182-41.ngrok-free.app}/RemoteAgg/Serialization/UpdateSerializationDBAfterAggregating',
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/PalletAggregation/AggregatePallet',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -392,7 +392,7 @@ class LoadBatchSerialsCall {
     return ApiManager.instance.makeApiCall(
       callName: 'LoadBatchSerials',
       apiUrl:
-          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/Aggregation/LoadBatchSerials',
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/PalletAggregation/LoadBatchSerials',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -431,7 +431,7 @@ class CheckShipperStatusCall {
     return ApiManager.instance.makeApiCall(
       callName: 'CheckShipperStatus',
       apiUrl:
-          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/Aggregation/CheckCaseStatus',
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/PalletAggregation/CheckCaseStatus',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -469,7 +469,7 @@ class CheckPalletStatusCall {
     return ApiManager.instance.makeApiCall(
       callName: 'CheckPalletStatus',
       apiUrl:
-          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/Aggregation/CheckPalletStatus',
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/PalletAggregation/CheckPalletStatus',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -505,7 +505,7 @@ class GenerateSSCCCall {
     return ApiManager.instance.makeApiCall(
       callName: 'GenerateSSCC',
       apiUrl:
-          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/Aggregation/GetPalletSSCCFromPool',
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/PalletAggregation/GetPalletSSCCFromPool',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -528,18 +528,16 @@ class GenerateSSCCCall {
 
 class GetCartonParentCall {
   static Future<ApiCallResponse> call({
-    String? batchNumber = '',
     String? cartonSscc = '',
   }) async {
     final ffApiRequestBody = '''
 {
-  "batch_number": "${escapeStringForJson(batchNumber)}",
   "carton_sscc": "${escapeStringForJson(cartonSscc)}"
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'GetCartonParent',
       apiUrl:
-          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/Aggregation/GetCartonParent',
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/PalletAggregation/GetCaseParent',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -559,9 +557,9 @@ class GetCartonParentCall {
         response,
         r'''$.pallet_sscc''',
       ));
-  static String? recipe(dynamic response) => castToType<String>(getJsonField(
+  static String? batch(dynamic response) => castToType<String>(getJsonField(
         response,
-        r'''$.Recipe''',
+        r'''$.Batch''',
       ));
   static String? gtin(dynamic response) => castToType<String>(getJsonField(
         response,
@@ -603,7 +601,7 @@ class CartonActionCall {
     return ApiManager.instance.makeApiCall(
       callName: 'cartonAction',
       apiUrl:
-          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/Serialization/UpdateCartonStatus',
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/PalletAggregation/UpdateCartonStatus',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -637,6 +635,33 @@ class PrintPalletLabelCall {
       callType: ApiCallType.POST,
       headers: {},
       params: {},
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class PrintManualPalletCall {
+  static Future<ApiCallResponse> call({
+    String? palletSscc = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "sscc" : "${escapeStringForJson(palletSscc)}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'PrintManualPallet',
+      apiUrl:
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/shared/PrintManualPalletRequest',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
       bodyType: BodyType.JSON,
       returnBody: true,
       encodeBodyUtf8: false,
