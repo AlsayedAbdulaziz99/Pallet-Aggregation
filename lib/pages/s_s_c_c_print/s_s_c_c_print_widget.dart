@@ -143,29 +143,49 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
 
                         if ((_model.getCartonParentResponse?.succeeded ??
                             true)) {
-                          _model.quantity =
-                              int.parse((GetCartonParentCall.quantity(
-                            (_model.getCartonParentResponse?.jsonBody ?? ''),
-                          )!));
-                          _model.palletSSCC = GetCartonParentCall.palletsscc(
-                            (_model.getCartonParentResponse?.jsonBody ?? ''),
-                          )!;
-                          _model.mfg = GetCartonParentCall.mfg(
-                            (_model.getCartonParentResponse?.jsonBody ?? ''),
-                          )!;
-                          _model.exp = GetCartonParentCall.exp(
-                            (_model.getCartonParentResponse?.jsonBody ?? ''),
-                          )!;
-                          _model.batch = GetCartonParentCall.batch(
-                            (_model.getCartonParentResponse?.jsonBody ?? ''),
-                          )!;
-                          _model.dateFormat = GetCartonParentCall.dateFormat(
-                            (_model.getCartonParentResponse?.jsonBody ?? ''),
-                          )!;
-                          _model.gtin = GetCartonParentCall.gtin(
-                            (_model.getCartonParentResponse?.jsonBody ?? ''),
-                          )!;
-                          safeSetState(() {});
+                          if (GetCartonParentCall.palletsscc(
+                                    (_model.getCartonParentResponse?.jsonBody ??
+                                        ''),
+                                  ) !=
+                                  null &&
+                              GetCartonParentCall.palletsscc(
+                                    (_model.getCartonParentResponse?.jsonBody ??
+                                        ''),
+                                  ) !=
+                                  '') {
+                            _model.quantity =
+                                int.parse((GetCartonParentCall.quantity(
+                              (_model.getCartonParentResponse?.jsonBody ?? ''),
+                            )!));
+                            _model.palletSSCC = GetCartonParentCall.palletsscc(
+                              (_model.getCartonParentResponse?.jsonBody ?? ''),
+                            )!;
+                            _model.mfg = GetCartonParentCall.mfg(
+                              (_model.getCartonParentResponse?.jsonBody ?? ''),
+                            )!;
+                            _model.exp = GetCartonParentCall.exp(
+                              (_model.getCartonParentResponse?.jsonBody ?? ''),
+                            )!;
+                            _model.batch = GetCartonParentCall.batch(
+                              (_model.getCartonParentResponse?.jsonBody ?? ''),
+                            )!;
+                            _model.dateFormat = GetCartonParentCall.dateFormat(
+                              (_model.getCartonParentResponse?.jsonBody ?? ''),
+                            )!;
+                            _model.gtin = GetCartonParentCall.gtin(
+                              (_model.getCartonParentResponse?.jsonBody ?? ''),
+                            )!;
+                            safeSetState(() {});
+                          } else {
+                            _model.quantity = 0;
+                            _model.palletSSCC = '-';
+                            _model.mfg = '-';
+                            _model.exp = '-';
+                            _model.batch = '-';
+                            _model.dateFormat = '-';
+                            _model.gtin = '-';
+                            safeSetState(() {});
+                          }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
