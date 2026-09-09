@@ -481,6 +481,7 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                           await CheckPalletStatusCall.call(
                                         palletSSCC:
                                             _model.paresdBarcodePalletSSCC,
+                                        batch: FFAppState().batchNumber,
                                       );
 
                                       if ((_model.checkPalletStatusResponse
