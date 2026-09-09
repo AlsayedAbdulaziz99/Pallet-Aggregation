@@ -472,15 +472,73 @@ class _PackPalletEventWidgetState extends State<PackPalletEventWidget> {
                                         );
                                       }
                                     } else {
-                                      _model.paresdBarcodeSSCC =
+                                      _model.paresdBarcodePalletSSCC =
                                           await actions.parseBarcode(
                                         code,
                                         GS1AIs.sscc,
                                       );
-                                      safeSetState(() {
-                                        _model.ssccTextController?.text =
-                                            _model.paresdBarcodeSSCC!;
-                                      });
+                                      _model.checkPalletStatusResponse =
+                                          await CheckPalletStatusCall.call(
+                                        palletSSCC:
+                                            _model.paresdBarcodePalletSSCC,
+                                      );
+
+                                      if ((_model.checkPalletStatusResponse
+                                              ?.succeeded ??
+                                          true)) {
+                                        if (CheckPalletStatusCall.status(
+                                          (_model.checkPalletStatusResponse
+                                                  ?.jsonBody ??
+                                              ''),
+                                        )!) {
+                                          safeSetState(() {
+                                            _model.ssccTextController?.text =
+                                                _model.paresdBarcodePalletSSCC!;
+                                          });
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                CheckPalletStatusCall.msg(
+                                                  (_model.checkPalletStatusResponse
+                                                          ?.jsonBody ??
+                                                      ''),
+                                                )!,
+                                                style: TextStyle(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryText,
+                                                ),
+                                              ),
+                                              duration:
+                                                  Duration(milliseconds: 4000),
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondary,
+                                            ),
+                                          );
+                                        }
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Check WiFi Connection!',
+                                              style: TextStyle(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                              ),
+                                            ),
+                                            duration:
+                                                Duration(milliseconds: 1500),
+                                            backgroundColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .error,
+                                          ),
+                                        );
+                                      }
                                     }
                                   }
 
