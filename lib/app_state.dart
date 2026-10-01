@@ -499,6 +499,48 @@ class FFAppState extends ChangeNotifier {
   set verify(bool value) {
     _verify = value;
   }
+
+  String _SSCCcount = '';
+  String get SSCCcount => _SSCCcount;
+  set SSCCcount(String value) {
+    _SSCCcount = value;
+  }
+
+  List<String> _SSCCLIST = [];
+  List<String> get SSCCLIST => _SSCCLIST;
+  set SSCCLIST(List<String> value) {
+    _SSCCLIST = value;
+  }
+
+  void addToSSCCLIST(String value) {
+    SSCCLIST.add(value);
+  }
+
+  void removeFromSSCCLIST(String value) {
+    SSCCLIST.remove(value);
+  }
+
+  void removeAtIndexFromSSCCLIST(int index) {
+    SSCCLIST.removeAt(index);
+  }
+
+  void updateSSCCLISTAtIndex(
+    int index,
+    String Function(String) updateFn,
+  ) {
+    SSCCLIST[index] = updateFn(_SSCCLIST[index]);
+  }
+
+  void insertAtIndexInSSCCLIST(int index, String value) {
+    SSCCLIST.insert(index, value);
+  }
+
+  /// ssccDecommisionPallet
+  String _ssccDecommisionPallet = '';
+  String get ssccDecommisionPallet => _ssccDecommisionPallet;
+  set ssccDecommisionPallet(String value) {
+    _ssccDecommisionPallet = value;
+  }
 }
 
 void _safeInit(Function() initializeField) {

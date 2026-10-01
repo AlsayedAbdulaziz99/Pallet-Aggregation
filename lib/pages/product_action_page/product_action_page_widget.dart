@@ -154,6 +154,7 @@ class _ProductActionPageWidgetState extends State<ProductActionPageWidget> {
 
                       safeSetState(() {});
                     },
+                    onDecommisionPallet: (code) async {},
                   ),
                 ),
                 Container(

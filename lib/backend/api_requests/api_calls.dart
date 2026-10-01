@@ -19,8 +19,8 @@ class UserloginCall {
 
     final ffApiRequestBody = '''
 {
-  "username": "${username}",
-  "password": "${password}"
+  "username": ${username == null ? 'null' : '"${username}"'},
+  "password": ${password == null ? 'null' : '"${password}"'}
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Userlogin',
@@ -121,7 +121,7 @@ class GetGTINCall {
   }) async {
     final ffApiRequestBody = '''
 {
-  "Recipe_Name": "${escapeStringForJson(recipeName)}"
+  "Recipe_Name": ${recipeName == null ? 'null' : '"${escapeStringForJson(recipeName)}"'}
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'GetGTIN',
@@ -209,7 +209,7 @@ class CartonPalletRelationCall {
   }) async {
     final ffApiRequestBody = '''
 {
-  "BatchNumber": "${escapeStringForJson(btachNumber)}"
+  "BatchNumber": ${btachNumber == null ? 'null' : '"${escapeStringForJson(btachNumber)}"'}
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'CartonPalletRelation',
@@ -262,11 +262,11 @@ class AgregationdbSnapshotCall {
 
     final ffApiRequestBody = '''
 {
-  "Pallets": "${escapeStringForJson(pallet)}",
+  "Pallets": ${pallet == null ? 'null' : '"${escapeStringForJson(pallet)}"'},
   "Cartons": ${cartons},
-  "BatchNumber": "${escapeStringForJson(batchNumber)}",
+  "BatchNumber": ${batchNumber == null ? 'null' : '"${escapeStringForJson(batchNumber)}"'},
   "palletCounter": ${palletCount},
-  "companyName": "${escapeStringForJson(companyName)}",
+  "companyName": ${companyName == null ? 'null' : '"${escapeStringForJson(companyName)}"'},
   "manual": ${manual}
 }''';
     return ApiManager.instance.makeApiCall(
@@ -352,15 +352,15 @@ class AggregatePalletCall {
 
     final ffApiRequestBody = '''
 {
-  "Pallet": "${escapeStringForJson(pallets)}",
+  "Pallet": ${pallets == null ? 'null' : '"${escapeStringForJson(pallets)}"'},
   "Cartons": ${cartons},
-  "BatchNumber": "${escapeStringForJson(batchNumber)}",
+  "BatchNumber": ${batchNumber == null ? 'null' : '"${escapeStringForJson(batchNumber)}"'},
   "manual": ${manual}
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'AggregatePallet',
       apiUrl:
-          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/PalletAggregation/AggregatePallet',
+          'https://cefe-156-216-80-232.ngrok-free.app/RemoteAgg/PalletAggregation/AggregatePallet',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -387,7 +387,7 @@ class LoadBatchSerialsCall {
   }) async {
     final ffApiRequestBody = '''
 {
-  "BatchNumber": "${escapeStringForJson(batchNumber)}"
+  "BatchNumber": ${batchNumber == null ? 'null' : '"${escapeStringForJson(batchNumber)}"'}
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'LoadBatchSerials',
@@ -425,8 +425,8 @@ class CheckShipperStatusCall {
   }) async {
     final ffApiRequestBody = '''
 {
-  "cartonSSCC": "${escapeStringForJson(cartonSSCC)}",
-  "batch": "${escapeStringForJson(batch)}"
+  "cartonSSCC": ${cartonSSCC == null ? 'null' : '"${escapeStringForJson(cartonSSCC)}"'},
+  "batch": ${batch == null ? 'null' : '"${escapeStringForJson(batch)}"'}
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'CheckShipperStatus',
@@ -463,8 +463,8 @@ class CheckPalletStatusCall {
   }) async {
     final ffApiRequestBody = '''
 {
-  "palletSSCC": "${escapeStringForJson(palletSSCC)}",
-  "batch": "${escapeStringForJson(batch)}"
+  "palletSSCC": ${palletSSCC == null ? 'null' : '"${escapeStringForJson(palletSSCC)}"'},
+  "batch": ${batch == null ? 'null' : '"${escapeStringForJson(batch)}"'}
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'CheckPalletStatus',
@@ -500,7 +500,7 @@ class GenerateSSCCCall {
   }) async {
     final ffApiRequestBody = '''
 {
-  "batch": "${escapeStringForJson(batch)}"
+  "batch": ${batch == null ? 'null' : '"${escapeStringForJson(batch)}"'}
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'GenerateSSCC',
@@ -532,7 +532,7 @@ class GetCartonParentCall {
   }) async {
     final ffApiRequestBody = '''
 {
-  "carton_sscc": "${escapeStringForJson(cartonSscc)}"
+  "carton_sscc": ${cartonSscc == null ? 'null' : '"${escapeStringForJson(cartonSscc)}"'}
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'GetCartonParent',
@@ -595,8 +595,8 @@ class CartonActionCall {
     final ffApiRequestBody = '''
 {
   "carton_dm": ${serials},
-  "batch" : "${escapeStringForJson(batch)}",
-  "action": "${escapeStringForJson(action)}"
+  "batch" : ${batch == null ? 'null' : '"${escapeStringForJson(batch)}"'},
+  "action": ${action == null ? 'null' : '"${escapeStringForJson(action)}"'}
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'cartonAction',
@@ -652,7 +652,7 @@ class PrintManualPalletCall {
   }) async {
     final ffApiRequestBody = '''
 {
-  "sscc" : "${escapeStringForJson(palletSscc)}"
+  "sscc" : ${palletSscc == null ? 'null' : '"${escapeStringForJson(palletSscc)}"'}
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'PrintManualPallet',
@@ -671,6 +671,76 @@ class PrintManualPalletCall {
       alwaysAllowBody: false,
     );
   }
+}
+
+class PalletInfoCall {
+  static Future<ApiCallResponse> call({
+    String? palletSSCC = '\"\"',
+    String? batch = '\"\"',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "palletSSCC": ${palletSSCC == null ? 'null' : '"${escapeStringForJson(palletSSCC)}"'},
+  "batch": ${batch == null ? 'null' : '"${escapeStringForJson(batch)}"'}
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'Pallet Info',
+      apiUrl:
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/PalletAggregation/PalletInfo',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  static dynamic ssccCount(dynamic response) => getJsonField(
+        response,
+        r'''$.ssccCount''',
+      );
+  static dynamic ssccList(dynamic response) => getJsonField(
+        response,
+        r'''$.ssccList''',
+      );
+}
+
+class PalletDecommesionCall {
+  static Future<ApiCallResponse> call({
+    String? sSCCCode = '',
+  }) async {
+    final ffApiRequestBody = '''
+{ 
+   "SSCCCode" : ${sSCCCode == null ? 'null' : '"${escapeStringForJson(sSCCCode)}"'}
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'PalletDecommesion',
+      apiUrl:
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/PalletAggregation/PalletDecommesion',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  static dynamic msg(dynamic response) => getJsonField(
+        response,
+        r'''$.MSG''',
+      );
 }
 
 class ApiPagingParams {

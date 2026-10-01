@@ -345,6 +345,7 @@ class _SSCCCheckWidgetState extends State<SSCCCheckWidget> {
                                   },
                                   OnScanCaseScan: (code) async {},
                                   onCartonActionScan: (code) async {},
+                                  onDecommisionPallet: (code) async {},
                                 ),
                               ),
                             ],

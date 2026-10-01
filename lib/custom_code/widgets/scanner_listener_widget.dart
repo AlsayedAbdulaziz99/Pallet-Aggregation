@@ -28,6 +28,7 @@ class ScannerListenerWidget extends StatefulWidget {
     required this.OnScanCaseScan,
     required this.currentTabIndex,
     required this.onCartonActionScan,
+    required this.onDecommisionPallet,
     required this.isActive,
   });
 
@@ -38,6 +39,7 @@ class ScannerListenerWidget extends StatefulWidget {
   final Future Function(String code) onSSCCVerifyScan;
   final Future Function(String code) onCartonActionScan;
   final Future Function(String code) OnScanCaseScan;
+  final Future Function(String code) onDecommisionPallet;
   final int currentTabIndex;
   final bool isActive;
 
@@ -75,6 +77,9 @@ class _ScannerListenerWidgetState extends State<ScannerListenerWidget> {
         break;
       case 4:
         await widget.onCartonActionScan(code);
+        break;
+      case 5:
+        await widget.onDecommisionPallet(code);
         break;
     }
   }

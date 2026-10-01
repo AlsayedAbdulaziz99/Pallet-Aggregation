@@ -207,6 +207,7 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
                       safeSetState(() {});
                     },
                     onCartonActionScan: (code) async {},
+                    onDecommisionPallet: (code) async {},
                   ),
                 ),
                 Container(

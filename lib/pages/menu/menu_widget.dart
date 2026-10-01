@@ -150,10 +150,20 @@ class _MenuWidgetState extends State<MenuWidget> {
                               child: PackingWidget(),
                             ),
                           ),
-                          wrapWithModel(
-                            model: _model.decomissionModel,
-                            updateCallback: () => safeSetState(() {}),
-                            child: DecomissionWidget(),
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              context.pushNamed(
+                                  PalletdecommissionWidget.routeName);
+                            },
+                            child: wrapWithModel(
+                              model: _model.decomissionModel,
+                              updateCallback: () => safeSetState(() {}),
+                              child: DecomissionWidget(),
+                            ),
                           ),
                           InkWell(
                             splashColor: Colors.transparent,
