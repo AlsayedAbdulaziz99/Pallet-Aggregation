@@ -12,6 +12,8 @@ class PalletdecommissionModel
 
   ///  State fields for stateful widgets in this page.
 
+  // Stores action output result for [Custom Action - parseBarcode] action in ScannerListenerWidget widget.
+  String? parsedSSCC;
   // Stores action output result for [Backend Call - API (Pallet Info)] action in ScannerListenerWidget widget.
   ApiCallResponse? apiResultdkx;
   // Stores action output result for [Backend Call - API (PalletDecommesion)] action in Button widget.
