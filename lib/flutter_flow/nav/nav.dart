@@ -179,6 +179,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ParamType.String,
             ),
           ),
+        ),
+        FFRoute(
+          name: PalletdecommissionWidget.routeName,
+          path: PalletdecommissionWidget.routePath,
+          builder: (context, params) => PalletdecommissionWidget(
+            gneratedSSCC: params.getParam(
+              'gneratedSSCC',
+              ParamType.String,
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

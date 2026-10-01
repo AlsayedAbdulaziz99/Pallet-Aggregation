@@ -14,3 +14,5 @@ export '/pages/auto_pack_pallet/auto_pack_pallet_widget.dart'
     show AutoPackPalletWidget;
 export '/pages/product_action_page/product_action_page_widget.dart'
     show ProductActionPageWidget;
+export '/pages/palletdecommission/palletdecommission_widget.dart'
+    show PalletdecommissionWidget;
