@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'palletdecommission_model.dart';
@@ -35,10 +36,22 @@ class _PalletdecommissionWidgetState extends State<PalletdecommissionWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => PalletdecommissionModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.scannerActive = true;
+      safeSetState(() {});
+    });
   }
 
   @override
   void dispose() {
+    // On page dispose action.
+    () async {
+      _model.scannerActive = false;
+      safeSetState(() {});
+    }();
+
     _model.dispose();
 
     super.dispose();
