@@ -143,13 +143,14 @@ class _PalletdecommissionWidgetState extends State<PalletdecommissionWidget> {
                                     OnScanCaseScan: (code) async {},
                                     onCartonActionScan: (code) async {},
                                     onDecommisionPallet: (code) async {
-                                      FFAppState().ssccDecommisionPallet = code;
-                                      safeSetState(() {});
                                       _model.parsedSSCC =
                                           await actions.parseBarcode(
                                         code,
                                         GS1AIs.sscc,
                                       );
+                                      FFAppState().ssccDecommisionPallet =
+                                          _model.parsedSSCC!;
+                                      safeSetState(() {});
                                       _model.apiResultdkx =
                                           await PalletInfoCall.call(
                                         palletSSCC: _model.parsedSSCC,
