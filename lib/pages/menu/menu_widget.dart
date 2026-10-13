@@ -6,6 +6,7 @@ import '/buttons/damaged/damaged_widget.dart';
 import '/buttons/decomission/decomission_widget.dart';
 import '/buttons/packing/packing_widget.dart';
 import '/buttons/print_s_s_c_c/print_s_s_c_c_widget.dart';
+import '/buttons/product_verify/product_verify_widget.dart';
 import '/buttons/sample/sample_widget.dart';
 import '/components/footer_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -208,6 +209,11 @@ class _MenuWidgetState extends State<MenuWidget> {
                               updateCallback: () => safeSetState(() {}),
                               child: DamagedWidget(),
                             ),
+                          ),
+                          wrapWithModel(
+                            model: _model.productVerifyModel,
+                            updateCallback: () => safeSetState(() {}),
+                            child: ProductVerifyWidget(),
                           ),
                           InkWell(
                             splashColor: Colors.transparent,

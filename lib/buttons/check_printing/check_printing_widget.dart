@@ -64,7 +64,7 @@ class _CheckPrintingWidgetState extends State<CheckPrintingWidget> {
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(5.0, 0.0, 0.0, 0.0),
               child: Text(
-                'Verify SSCC Print',
+                'Aggregate Pallet',
                 style: FlutterFlowTheme.of(context).titleLarge.override(
                       font: GoogleFonts.outfit(
                         fontWeight:

@@ -137,42 +137,42 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
                               _model.parsedCaseSSCC!;
                         });
                         _model.getCartonParentResponse =
-                            await GetCartonParentCall.call(
+                            await GetCaseParentCall.call(
                           cartonSscc: _model.parsedCaseSSCC,
                         );
 
                         if ((_model.getCartonParentResponse?.succeeded ??
                             true)) {
-                          if (GetCartonParentCall.palletsscc(
+                          if (GetCaseParentCall.palletsscc(
                                     (_model.getCartonParentResponse?.jsonBody ??
                                         ''),
                                   ) !=
                                   null &&
-                              GetCartonParentCall.palletsscc(
+                              GetCaseParentCall.palletsscc(
                                     (_model.getCartonParentResponse?.jsonBody ??
                                         ''),
                                   ) !=
                                   '') {
                             _model.quantity =
-                                int.parse((GetCartonParentCall.quantity(
+                                int.parse((GetCaseParentCall.quantity(
                               (_model.getCartonParentResponse?.jsonBody ?? ''),
                             )!));
-                            _model.palletSSCC = GetCartonParentCall.palletsscc(
+                            _model.palletSSCC = GetCaseParentCall.palletsscc(
                               (_model.getCartonParentResponse?.jsonBody ?? ''),
                             )!;
-                            _model.mfg = GetCartonParentCall.mfg(
+                            _model.mfg = GetCaseParentCall.mfg(
                               (_model.getCartonParentResponse?.jsonBody ?? ''),
                             )!;
-                            _model.exp = GetCartonParentCall.exp(
+                            _model.exp = GetCaseParentCall.exp(
                               (_model.getCartonParentResponse?.jsonBody ?? ''),
                             )!;
-                            _model.batch = GetCartonParentCall.batch(
+                            _model.batch = GetCaseParentCall.batch(
                               (_model.getCartonParentResponse?.jsonBody ?? ''),
                             )!;
-                            _model.dateFormat = GetCartonParentCall.dateFormat(
+                            _model.dateFormat = GetCaseParentCall.dateFormat(
                               (_model.getCartonParentResponse?.jsonBody ?? ''),
                             )!;
-                            _model.gtin = GetCartonParentCall.gtin(
+                            _model.gtin = GetCaseParentCall.gtin(
                               (_model.getCartonParentResponse?.jsonBody ?? ''),
                             )!;
                             safeSetState(() {});
@@ -208,6 +208,7 @@ class _SSCCPrintWidgetState extends State<SSCCPrintWidget> {
                     },
                     onCartonActionScan: (code) async {},
                     onDecommisionPallet: (code) async {},
+                    onProductVerify: (code) async {},
                   ),
                 ),
                 Container(

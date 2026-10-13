@@ -10,14 +10,25 @@ class PalletdecommissionModel
 
   bool? scannerActive = false;
 
+  List<String> childsSSCCs = [];
+  void addToChildsSSCCs(String item) => childsSSCCs.add(item);
+  void removeFromChildsSSCCs(String item) => childsSSCCs.remove(item);
+  void removeAtIndexFromChildsSSCCs(int index) => childsSSCCs.removeAt(index);
+  void insertAtIndexInChildsSSCCs(int index, String item) =>
+      childsSSCCs.insert(index, item);
+  void updateChildsSSCCsAtIndex(int index, Function(String) updateFn) =>
+      childsSSCCs[index] = updateFn(childsSSCCs[index]);
+
+  String parsedSSCC = '-';
+
   ///  State fields for stateful widgets in this page.
 
   // Stores action output result for [Custom Action - parseBarcode] action in ScannerListenerWidget widget.
-  String? parsedSSCC;
+  String? parsedSSCCOutput;
   // Stores action output result for [Backend Call - API (Pallet Info)] action in ScannerListenerWidget widget.
-  ApiCallResponse? apiResultdkx;
+  ApiCallResponse? palletInfoResponse;
   // Stores action output result for [Backend Call - API (PalletDecommesion)] action in Button widget.
-  ApiCallResponse? apiResultsck;
+  ApiCallResponse? palletDecomissionResponse;
   // Model for footer component.
   late FooterModel footerModel;
 

@@ -12,11 +12,17 @@ class UnitStruct extends BaseStruct {
     String? gtin,
     String? exp,
     String? dMString,
+    String? caseSSCC,
+    String? palletSSCC,
+    String? po,
   })  : _serial = serial,
         _batch = batch,
         _gtin = gtin,
         _exp = exp,
-        _dMString = dMString;
+        _dMString = dMString,
+        _caseSSCC = caseSSCC,
+        _palletSSCC = palletSSCC,
+        _po = po;
 
   // "serial" field.
   String? _serial;
@@ -53,12 +59,36 @@ class UnitStruct extends BaseStruct {
 
   bool hasDMString() => _dMString != null;
 
+  // "caseSSCC" field.
+  String? _caseSSCC;
+  String get caseSSCC => _caseSSCC ?? '';
+  set caseSSCC(String? val) => _caseSSCC = val;
+
+  bool hasCaseSSCC() => _caseSSCC != null;
+
+  // "palletSSCC" field.
+  String? _palletSSCC;
+  String get palletSSCC => _palletSSCC ?? '';
+  set palletSSCC(String? val) => _palletSSCC = val;
+
+  bool hasPalletSSCC() => _palletSSCC != null;
+
+  // "po" field.
+  String? _po;
+  String get po => _po ?? '';
+  set po(String? val) => _po = val;
+
+  bool hasPo() => _po != null;
+
   static UnitStruct fromMap(Map<String, dynamic> data) => UnitStruct(
         serial: data['serial'] as String?,
         batch: data['batch'] as String?,
         gtin: data['gtin'] as String?,
         exp: data['exp'] as String?,
         dMString: data['DMString'] as String?,
+        caseSSCC: data['caseSSCC'] as String?,
+        palletSSCC: data['palletSSCC'] as String?,
+        po: data['po'] as String?,
       );
 
   static UnitStruct? maybeFromMap(dynamic data) =>
@@ -70,6 +100,9 @@ class UnitStruct extends BaseStruct {
         'gtin': _gtin,
         'exp': _exp,
         'DMString': _dMString,
+        'caseSSCC': _caseSSCC,
+        'palletSSCC': _palletSSCC,
+        'po': _po,
       }.withoutNulls;
 
   @override
@@ -92,6 +125,18 @@ class UnitStruct extends BaseStruct {
         ),
         'DMString': serializeParam(
           _dMString,
+          ParamType.String,
+        ),
+        'caseSSCC': serializeParam(
+          _caseSSCC,
+          ParamType.String,
+        ),
+        'palletSSCC': serializeParam(
+          _palletSSCC,
+          ParamType.String,
+        ),
+        'po': serializeParam(
+          _po,
           ParamType.String,
         ),
       }.withoutNulls;
@@ -123,6 +168,21 @@ class UnitStruct extends BaseStruct {
           ParamType.String,
           false,
         ),
+        caseSSCC: deserializeParam(
+          data['caseSSCC'],
+          ParamType.String,
+          false,
+        ),
+        palletSSCC: deserializeParam(
+          data['palletSSCC'],
+          ParamType.String,
+          false,
+        ),
+        po: deserializeParam(
+          data['po'],
+          ParamType.String,
+          false,
+        ),
       );
 
   @override
@@ -135,12 +195,15 @@ class UnitStruct extends BaseStruct {
         batch == other.batch &&
         gtin == other.gtin &&
         exp == other.exp &&
-        dMString == other.dMString;
+        dMString == other.dMString &&
+        caseSSCC == other.caseSSCC &&
+        palletSSCC == other.palletSSCC &&
+        po == other.po;
   }
 
   @override
-  int get hashCode =>
-      const ListEquality().hash([serial, batch, gtin, exp, dMString]);
+  int get hashCode => const ListEquality()
+      .hash([serial, batch, gtin, exp, dMString, caseSSCC, palletSSCC, po]);
 }
 
 UnitStruct createUnitStruct({
@@ -149,6 +212,9 @@ UnitStruct createUnitStruct({
   String? gtin,
   String? exp,
   String? dMString,
+  String? caseSSCC,
+  String? palletSSCC,
+  String? po,
 }) =>
     UnitStruct(
       serial: serial,
@@ -156,4 +222,7 @@ UnitStruct createUnitStruct({
       gtin: gtin,
       exp: exp,
       dMString: dMString,
+      caseSSCC: caseSSCC,
+      palletSSCC: palletSSCC,
+      po: po,
     );

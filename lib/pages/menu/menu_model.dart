@@ -5,6 +5,7 @@ import '/buttons/damaged/damaged_widget.dart';
 import '/buttons/decomission/decomission_widget.dart';
 import '/buttons/packing/packing_widget.dart';
 import '/buttons/print_s_s_c_c/print_s_s_c_c_widget.dart';
+import '/buttons/product_verify/product_verify_widget.dart';
 import '/buttons/sample/sample_widget.dart';
 import '/components/footer_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -29,6 +30,8 @@ class MenuModel extends FlutterFlowModel<MenuWidget> {
   late SampleModel sampleModel;
   // Model for Damaged component.
   late DamagedModel damagedModel;
+  // Model for ProductVerify component.
+  late ProductVerifyModel productVerifyModel;
   // Model for PrintSSCC component.
   late PrintSSCCModel printSSCCModel;
   // Model for CheckPrinting component.
@@ -47,6 +50,7 @@ class MenuModel extends FlutterFlowModel<MenuWidget> {
     decomissionModel = createModel(context, () => DecomissionModel());
     sampleModel = createModel(context, () => SampleModel());
     damagedModel = createModel(context, () => DamagedModel());
+    productVerifyModel = createModel(context, () => ProductVerifyModel());
     printSSCCModel = createModel(context, () => PrintSSCCModel());
     checkPrintingModel = createModel(context, () => CheckPrintingModel());
     footerModel = createModel(context, () => FooterModel());
@@ -59,6 +63,7 @@ class MenuModel extends FlutterFlowModel<MenuWidget> {
     decomissionModel.dispose();
     sampleModel.dispose();
     damagedModel.dispose();
+    productVerifyModel.dispose();
     printSSCCModel.dispose();
     checkPrintingModel.dispose();
     footerModel.dispose();
