@@ -29,7 +29,7 @@ class SSCCPrintModel extends FlutterFlowModel<SSCCPrintWidget> {
 
   // Stores action output result for [Custom Action - parseBarcode] action in ScannerListenerWidget widget.
   String? parsedCaseSSCC;
-  // Stores action output result for [Backend Call - API (GetCartonParent)] action in ScannerListenerWidget widget.
+  // Stores action output result for [Backend Call - API (GetCaseParent)] action in ScannerListenerWidget widget.
   ApiCallResponse? getCartonParentResponse;
   // State field(s) for SSCC widget.
   FocusNode? ssccFocusNode;

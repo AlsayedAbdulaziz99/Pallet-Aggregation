@@ -360,7 +360,7 @@ class AggregatePalletCall {
     return ApiManager.instance.makeApiCall(
       callName: 'AggregatePallet',
       apiUrl:
-          'https://cefe-156-216-80-232.ngrok-free.app/RemoteAgg/PalletAggregation/AggregatePallet',
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/PalletAggregation/AggregatePallet',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -526,7 +526,7 @@ class GenerateSSCCCall {
       ));
 }
 
-class GetCartonParentCall {
+class GetCaseParentCall {
   static Future<ApiCallResponse> call({
     String? cartonSscc = '',
   }) async {
@@ -535,7 +535,7 @@ class GetCartonParentCall {
   "carton_sscc": ${cartonSscc == null ? 'null' : '"${escapeStringForJson(cartonSscc)}"'}
 }''';
     return ApiManager.instance.makeApiCall(
-      callName: 'GetCartonParent',
+      callName: 'GetCaseParent',
       apiUrl:
           'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/PalletAggregation/GetCaseParent',
       callType: ApiCallType.POST,
@@ -581,6 +581,47 @@ class GetCartonParentCall {
       castToType<String>(getJsonField(
         response,
         r'''$.date_format''',
+      ));
+}
+
+class GetCartonParentCall {
+  static Future<ApiCallResponse> call({
+    String? cartonSerial = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "carton_serial": ${cartonSerial == null ? 'null' : '"${escapeStringForJson(cartonSerial)}"'}
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'GetCartonParent',
+      apiUrl:
+          'http://\${FFAppState().apiBaseUrl}:\${FFAppState().serverport}/RemoteAgg/PalletAggregation/GetCartonParent',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  static String? palletSSCC(dynamic response) =>
+      castToType<String>(getJsonField(
+        response,
+        r'''$.pallet_sscc''',
+      ));
+  static String? caseSSCC(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.case_sscc''',
+      ));
+  static String? po(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.production_order''',
       ));
 }
 
@@ -701,14 +742,19 @@ class PalletInfoCall {
     );
   }
 
-  static dynamic ssccCount(dynamic response) => getJsonField(
+  static String? ssccCount(dynamic response) => castToType<String>(getJsonField(
         response,
         r'''$.ssccCount''',
-      );
-  static dynamic ssccList(dynamic response) => getJsonField(
+      ));
+  static List<String>? ssccList(dynamic response) => (getJsonField(
         response,
         r'''$.ssccList''',
-      );
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
 }
 
 class PalletDecommesionCall {
@@ -791,9 +837,6 @@ String? escapeStringForJson(String? input) {
   if (input == null) {
     return null;
   }
-  return input
-      .replaceAll('\\', '\\\\')
-      .replaceAll('"', '\\"')
-      .replaceAll('\n', '\\n')
-      .replaceAll('\t', '\\t');
+  final encoded = jsonEncode(input);
+  return encoded.substring(1, encoded.length - 1);
 }

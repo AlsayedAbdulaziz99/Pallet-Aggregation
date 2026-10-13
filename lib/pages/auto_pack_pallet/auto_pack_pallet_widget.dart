@@ -414,6 +414,7 @@ class _AutoPackPalletWidgetState extends State<AutoPackPalletWidget> {
                                 OnScanCaseScan: (code) async {},
                                 onCartonActionScan: (code) async {},
                                 onDecommisionPallet: (code) async {},
+                                onProductVerify: (code) async {},
                               ),
                             ),
                             Opacity(

@@ -16,3 +16,5 @@ export '/pages/product_action_page/product_action_page_widget.dart'
     show ProductActionPageWidget;
 export '/pages/palletdecommission/palletdecommission_widget.dart'
     show PalletdecommissionWidget;
+export '/pages/product_verify_page/product_verify_page_widget.dart'
+    show ProductVerifyPageWidget;

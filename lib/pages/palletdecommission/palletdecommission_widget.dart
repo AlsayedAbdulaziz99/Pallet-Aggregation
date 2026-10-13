@@ -143,34 +143,29 @@ class _PalletdecommissionWidgetState extends State<PalletdecommissionWidget> {
                                     OnScanCaseScan: (code) async {},
                                     onCartonActionScan: (code) async {},
                                     onDecommisionPallet: (code) async {
-                                      _model.parsedSSCC =
+                                      _model.parsedSSCCOutput =
                                           await actions.parseBarcode(
                                         code,
                                         GS1AIs.sscc,
                                       );
-                                      FFAppState().ssccDecommisionPallet =
-                                          _model.parsedSSCC!;
+                                      _model.parsedSSCC =
+                                          _model.parsedSSCCOutput!;
                                       safeSetState(() {});
-                                      _model.apiResultdkx =
+                                      _model.palletInfoResponse =
                                           await PalletInfoCall.call(
                                         palletSSCC: _model.parsedSSCC,
                                         batch: FFAppState().batchNumber,
                                       );
 
-                                      if ((_model.apiResultdkx?.succeeded ??
+                                      if ((_model
+                                              .palletInfoResponse?.succeeded ??
                                           true)) {
-                                        FFAppState().SSCCcount =
-                                            PalletInfoCall.ssccCount(
-                                          (_model.apiResultdkx?.jsonBody ?? ''),
-                                        ).toString();
-                                        FFAppState().SSCCLIST =
-                                            (PalletInfoCall.ssccList(
-                                          (_model.apiResultdkx?.jsonBody ?? ''),
-                                        ) as List?)!
-                                                .map<String>(
-                                                    (e) => e.toString())
-                                                .toList()
-                                                .cast<String>()
+                                        _model.childsSSCCs =
+                                            PalletInfoCall.ssccList(
+                                          (_model.palletInfoResponse
+                                                  ?.jsonBody ??
+                                              ''),
+                                        )!
                                                 .toList()
                                                 .cast<String>();
                                         safeSetState(() {});
@@ -178,6 +173,7 @@ class _PalletdecommissionWidgetState extends State<PalletdecommissionWidget> {
 
                                       safeSetState(() {});
                                     },
+                                    onProductVerify: (code) async {},
                                   ),
                                 ),
                                 Opacity(
@@ -228,7 +224,7 @@ class _PalletdecommissionWidgetState extends State<PalletdecommissionWidget> {
                                   ),
                                   alignment: AlignmentDirectional(0.0, 0.0),
                                   child: Text(
-                                    FFAppState().ssccDecommisionPallet,
+                                    _model.parsedSSCC,
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
@@ -307,7 +303,8 @@ class _PalletdecommissionWidgetState extends State<PalletdecommissionWidget> {
                                                     ),
                                               ),
                                               Text(
-                                                FFAppState().SSCCcount,
+                                                _model.childsSSCCs.length
+                                                    .toString(),
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .bodyMedium
@@ -356,7 +353,7 @@ class _PalletdecommissionWidgetState extends State<PalletdecommissionWidget> {
                                   child: Builder(
                                     builder: (context) {
                                       final barcodelistvar =
-                                          FFAppState().SSCCLIST.toList();
+                                          _model.childsSSCCs.toList();
 
                                       return ListView.separated(
                                         padding: EdgeInsets.zero,
@@ -441,11 +438,19 @@ class _PalletdecommissionWidgetState extends State<PalletdecommissionWidget> {
                                     5.0, 15.0, 0.0, 0.0),
                                 child: FFButtonWidget(
                                   onPressed: () async {
-                                    _model.apiResultsck =
+                                    _model.palletDecomissionResponse =
                                         await PalletDecommesionCall.call(
                                       sSCCCode:
                                           FFAppState().ssccDecommisionPallet,
                                     );
+
+                                    if ((_model.palletDecomissionResponse
+                                            ?.succeeded ??
+                                        true)) {
+                                      _model.childsSSCCs = [];
+                                      _model.parsedSSCC = '-';
+                                      safeSetState(() {});
+                                    }
 
                                     safeSetState(() {});
                                   },

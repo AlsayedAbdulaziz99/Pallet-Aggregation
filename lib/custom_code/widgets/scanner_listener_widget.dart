@@ -1,6 +1,7 @@
 // Automatic FlutterFlow imports
 import '/backend/schema/structs/index.dart';
 import '/backend/schema/enums/enums.dart';
+import '/flutter_flow/ff_builtin_enums.dart';
 import '/backend/sqlite/sqlite_manager.dart';
 import '/actions/actions.dart' as action_blocks;
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -8,7 +9,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/widgets/index.dart'; // Imports other custom widgets
 import '/custom_code/actions/index.dart'; // Imports custom actions
 import '/flutter_flow/custom_functions.dart'; // Imports custom functions
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide RepeatMode;
 // Begin custom widget code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
@@ -29,6 +30,7 @@ class ScannerListenerWidget extends StatefulWidget {
     required this.currentTabIndex,
     required this.onCartonActionScan,
     required this.onDecommisionPallet,
+    required this.onProductVerify,
     required this.isActive,
   });
 
@@ -40,6 +42,7 @@ class ScannerListenerWidget extends StatefulWidget {
   final Future Function(String code) onCartonActionScan;
   final Future Function(String code) OnScanCaseScan;
   final Future Function(String code) onDecommisionPallet;
+  final Future Function(String code) onProductVerify;
   final int currentTabIndex;
   final bool isActive;
 
@@ -80,6 +83,9 @@ class _ScannerListenerWidgetState extends State<ScannerListenerWidget> {
         break;
       case 5:
         await widget.onDecommisionPallet(code);
+        break;
+      case 6:
+        await widget.onProductVerify(code);
         break;
     }
   }
