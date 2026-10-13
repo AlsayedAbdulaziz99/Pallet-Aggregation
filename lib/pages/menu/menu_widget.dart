@@ -210,10 +210,20 @@ class _MenuWidgetState extends State<MenuWidget> {
                               child: DamagedWidget(),
                             ),
                           ),
-                          wrapWithModel(
-                            model: _model.productVerifyModel,
-                            updateCallback: () => safeSetState(() {}),
-                            child: ProductVerifyWidget(),
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              context
+                                  .pushNamed(ProductVerifyPageWidget.routeName);
+                            },
+                            child: wrapWithModel(
+                              model: _model.productVerifyModel,
+                              updateCallback: () => safeSetState(() {}),
+                              child: ProductVerifyWidget(),
+                            ),
                           ),
                           InkWell(
                             splashColor: Colors.transparent,
