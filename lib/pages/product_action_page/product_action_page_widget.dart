@@ -605,6 +605,8 @@ class _ProductActionPageWidgetState extends State<ProductActionPageWidget> {
                                                         .secondary,
                                               ),
                                             );
+                                            _model.scanedUnits = [];
+                                            safeSetState(() {});
                                           } else {
                                             await showDialog(
                                               context: context,
