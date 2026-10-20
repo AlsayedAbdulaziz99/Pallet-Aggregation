@@ -440,8 +440,7 @@ class _PalletdecommissionWidgetState extends State<PalletdecommissionWidget> {
                                   onPressed: () async {
                                     _model.palletDecomissionResponse =
                                         await PalletDecommesionCall.call(
-                                      sSCCCode:
-                                          FFAppState().ssccDecommisionPallet,
+                                      sSCCCode: _model.parsedSSCC,
                                     );
 
                                     if ((_model.palletDecomissionResponse

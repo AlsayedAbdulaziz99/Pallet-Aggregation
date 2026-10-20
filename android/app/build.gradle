@@ -43,6 +43,18 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8
     }
 
+    packaging {
+    resources {
+        excludes += [
+            "META-INF/DEPENDENCIES",
+            "META-INF/LICENSE",
+            "META-INF/LICENSE.txt",
+            "META-INF/NOTICE",
+            "META-INF/NOTICE.txt"
+        ]
+    }
+}
+
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
