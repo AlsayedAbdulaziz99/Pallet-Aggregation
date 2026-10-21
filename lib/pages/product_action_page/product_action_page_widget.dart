@@ -12,6 +12,7 @@ import '/custom_code/widgets/index.dart' as custom_widgets;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'product_action_page_model.dart';
 export 'product_action_page_model.dart';
 
@@ -64,6 +65,8 @@ class _ProductActionPageWidgetState extends State<ProductActionPageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -141,7 +144,8 @@ class _ProductActionPageWidgetState extends State<ProductActionPageWidget> {
                         code,
                         GS1AIs.gtin,
                       );
-                      if (!_model.scannedDMString.contains(code)) {
+                      if ((_model.parsedDMgtin == FFAppState().gtin) &&
+                          !_model.scannedDMString.contains(code)) {
                         _model.addToScanedUnits(UnitStruct(
                           serial: _model.parsedDMSerial,
                           batch: _model.parsedDMbatch,
