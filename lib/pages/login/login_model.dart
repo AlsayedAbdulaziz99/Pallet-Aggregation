@@ -21,6 +21,7 @@ class LoginModel extends FlutterFlowModel<LoginWidget> {
   TextEditingController? usernameTextController;
   String? Function(BuildContext, String?)? usernameTextControllerValidator;
   // State field(s) for Password widget.
+  late FocusNode passwordPasswordVisibilityFocusNode;
   FocusNode? passwordFocusNode;
   TextEditingController? passwordTextController;
   late bool passwordVisibility;
@@ -34,6 +35,7 @@ class LoginModel extends FlutterFlowModel<LoginWidget> {
 
   @override
   void initState(BuildContext context) {
+    passwordPasswordVisibilityFocusNode = FocusNode();
     passwordVisibility = false;
     footerModel = createModel(context, () => FooterModel());
   }
@@ -45,7 +47,7 @@ class LoginModel extends FlutterFlowModel<LoginWidget> {
 
     passwordFocusNode?.dispose();
     passwordTextController?.dispose();
-
+    passwordPasswordVisibilityFocusNode.dispose();
     footerModel.dispose();
   }
 }
